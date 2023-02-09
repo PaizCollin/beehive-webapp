@@ -2,34 +2,37 @@ const asyncHandler = require("express-async-handler");
 const Organization = require("../models/organization.model.js");
 const User = require("../models/user.model.js");
 
+// @status  WORKING
 // @desc    Get orgs
 // @route   GET /api/orgs
 // @access  Private
-// if owner then something
-// if member1-5 then something else
 const getOrgs = asyncHandler(async (req, res) => {
-  const orgs = await Organization.find(/*{ owner: req.user.id } */);
+  const orgs = await Organization.find({ owner: req.user.id });
 
   res.status(200).json(orgs);
 });
 
-// @desc    Set goal
-// @route   POST /api/goals
+// @status  WORKING
+// @desc    Set orgs
+// @route   POST /api/orgs
 // @access  Private
 const setOrg = asyncHandler(async (req, res) => {
-  if (!req.body.text) {
+  const { name, location } = req.body;
+  if (!name || !location) {
     res.status(400);
-    throw new Error("Please add a text field");
+    throw new Error("Please include all required fields.");
   }
 
   const org = await Organization.create({
-    name: req.body.text,
+    name: name,
+    location: location,
     owner: req.user.id,
   });
 
   res.status(200).json(org);
 });
 
+// @status  WORKING
 // @desc    Update Org
 // @route   PUT /api/orgs/:id
 // @access  Private
@@ -38,16 +41,16 @@ const updateOrg = asyncHandler(async (req, res) => {
 
   if (!org) {
     res.status(400);
-    throw new Error("Organization not found");
+    throw new Error("Organization not found.");
   }
 
   // Check for user
-  if (!req.owner) {
+  if (!req.user) {
     res.status(401);
-    throw new Error("Owner not found");
+    throw new Error("Owner not found.");
   }
 
-  // Make sure the logged in user matches the Org user
+  // Make sure the logged in user matches the Org owner
   if (org.owner.toString() !== req.user.id) {
     res.status(401);
     throw new Error(
@@ -66,6 +69,7 @@ const updateOrg = asyncHandler(async (req, res) => {
   res.status(200).json(updatedOrg);
 });
 
+// @status  NOT WORKING
 // @desc    Delete Org
 // @route   DELETE /api/orgs/:id
 // @access  Private
@@ -74,19 +78,19 @@ const deleteOrg = asyncHandler(async (req, res) => {
 
   if (!org) {
     res.status(400);
-    throw new Error("Org not found");
+    throw new Error("Org not found.");
   }
 
   // Check for user
   if (!req.owner) {
     res.status(401);
-    throw new Error("Owner not found");
+    throw new Error("Owner not found.");
   }
 
   // Make sure the logged in user matches the Org user
   if (org.owner.toString() !== req.user.id) {
     res.status(401);
-    throw new Error("User not authorized");
+    throw new Error("User not authorized.");
   }
 
   await Organization.remove();

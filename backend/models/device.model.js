@@ -16,9 +16,6 @@ const deviceSchema = new mongoose.Schema(
       required: [true, "Please add an orgnization"],
       ref: "Organization",
     },
-    location: {
-      type: String,
-    },
     remote: {
       type: String,
       required: [true, "Please add a remote.it URL"],

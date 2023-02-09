@@ -7,9 +7,11 @@ const {
 } = require("../controllers/organization.controller.js");
 let User = require("../models/user.model.js");
 
-router.get("/", getOrgs);
-router.post("/", setOrg);
-router.put("/:id", updateOrg);
-router.delete("/:id", deleteOrg);
+const { protect } = require("../middleware/auth.middleware");
+
+router.get("/", protect, getOrgs);
+router.post("/", protect, setOrg);
+router.put("/:id", protect, updateOrg);
+router.delete("/:id", protect, deleteOrg);
 
 module.exports = router;
