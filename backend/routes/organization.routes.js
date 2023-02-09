@@ -11,7 +11,7 @@ const { protect } = require("../middleware/auth.middleware");
 
 router.get("/", protect, getOrgs);
 router.post("/", protect, setOrg);
-router.put("/:id", protect, updateOrg);
-router.delete("/:id", protect, deleteOrg);
+router.put("/:org_id", protect, updateOrg);
+router.delete("/:org_id", protect, deleteOrg);
 
 module.exports = router;

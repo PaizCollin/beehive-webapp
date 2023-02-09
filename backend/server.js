@@ -4,6 +4,7 @@ const colors = require("colors");
 const dotenv = require("dotenv");
 dotenv.config({ path: __dirname + "/.env" });
 const connectDB = require("./config/db");
+const { errorHandler } = require("./middleware/error.middleware");
 const port = process.env.PORT || 5000;
 
 connectDB();
@@ -22,6 +23,8 @@ app.use("/users", usersRouter);
 app.use("/organizations", organizationsRouter);
 //app.use("/devices", devicesRouter);
 //app.use("/activity", activityRouter);
+
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);

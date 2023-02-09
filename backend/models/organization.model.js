@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const GeoSchema = mongoose.Schema({
+const geoSchema = mongoose.Schema({
   type: {
     type: String,
     default: "Point",
@@ -11,6 +11,18 @@ const GeoSchema = mongoose.Schema({
   },
 });
 
+const memberSchema = mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: [true, "Please add an owner"],
+    ref: "User",
+  },
+  isOwner: {
+    type: Boolean,
+    required: [false, "Please specify if owner"],
+  },
+});
+
 const organizationSchema = new mongoose.Schema(
   {
     name: {
@@ -18,18 +30,15 @@ const organizationSchema = new mongoose.Schema(
       required: [true, "Please add a name"],
     },
     location: {
-      type: GeoSchema,
+      type: geoSchema,
       required: [true, "Please add a location"],
     },
-    owner: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: [true, "Please add an owner"],
-      ref: "User",
-    },
-    member1: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
+    members: [
+      {
+        type: memberSchema,
+        required: [true, "Please add a member"],
+      },
+    ],
   },
   {
     timestamps: true,

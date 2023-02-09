@@ -5,9 +5,9 @@ const User = require("../models/user.model.js");
 // @status  WORKING
 // @desc    Get orgs
 // @route   GET /api/orgs
-// @access  Private
+// @access  Private; all users
 const getOrgs = asyncHandler(async (req, res) => {
-  const orgs = await Organization.find({ owner: req.user.id });
+  const orgs = await Organization.find({ members: req.user.id });
 
   res.status(200).json(orgs);
 });
@@ -15,7 +15,7 @@ const getOrgs = asyncHandler(async (req, res) => {
 // @status  WORKING
 // @desc    Set orgs
 // @route   POST /api/orgs
-// @access  Private
+// @access  Private; all users
 const setOrg = asyncHandler(async (req, res) => {
   const { name, location } = req.body;
   if (!name || !location) {
@@ -23,10 +23,14 @@ const setOrg = asyncHandler(async (req, res) => {
     throw new Error("Please include all required fields.");
   }
 
-  const org = await Organization.create({
+  let org = await Organization.create({
     name: name,
     location: location,
-    owner: req.user.id,
+  });
+
+  org.members.push({
+    user: req.user.id,
+    isOwner: true,
   });
 
   res.status(200).json(org);
@@ -35,9 +39,9 @@ const setOrg = asyncHandler(async (req, res) => {
 // @status  WORKING
 // @desc    Update Org
 // @route   PUT /api/orgs/:id
-// @access  Private
+// @access  Private; owners only
 const updateOrg = asyncHandler(async (req, res) => {
-  const org = await Organization.findById(req.params.id);
+  const org = await Organization.findById(req.params.org_id);
 
   if (!org) {
     res.status(400);
@@ -59,7 +63,7 @@ const updateOrg = asyncHandler(async (req, res) => {
   }
 
   const updatedOrg = await Organization.findByIdAndUpdate(
-    req.params.id,
+    req.params.org_id,
     req.body,
     {
       new: true,
@@ -72,9 +76,9 @@ const updateOrg = asyncHandler(async (req, res) => {
 // @status  NOT WORKING
 // @desc    Delete Org
 // @route   DELETE /api/orgs/:id
-// @access  Private
+// @access  Private; owners only
 const deleteOrg = asyncHandler(async (req, res) => {
-  const org = await Organization.findById(req.params.id);
+  const org = await Organization.findById(req.params.org_id);
 
   if (!org) {
     res.status(400);
@@ -88,14 +92,14 @@ const deleteOrg = asyncHandler(async (req, res) => {
   }
 
   // Make sure the logged in user matches the Org user
-  if (org.owner.toString() !== req.user.id) {
+  if (org.owner.toString() !== req.user.org_id) {
     res.status(401);
     throw new Error("User not authorized.");
   }
 
   await Organization.remove();
 
-  res.status(200).json({ id: req.params.id });
+  res.status(200).json({ id: req.params.org_id });
 });
 
 module.exports = {
