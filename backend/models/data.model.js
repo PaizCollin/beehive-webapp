@@ -10,14 +10,12 @@ const dataSchema = mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "Device",
       },
-      location: String,
     },
   },
   {
     timeseries: {
       timeField: "time",
-      metaField: "metadata",
-      granularity: "hours",
+      granularity: "minutes",
     },
   }
 );

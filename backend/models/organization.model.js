@@ -28,6 +28,7 @@ const organizationSchema = new mongoose.Schema(
     name: {
       type: String,
       required: [true, "Please add a name"],
+      unique: true,
     },
     location: {
       type: geoSchema,

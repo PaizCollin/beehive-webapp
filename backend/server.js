@@ -16,12 +16,12 @@ app.use(express.urlencoded({ extended: false }));
 
 const usersRouter = require("./routes/user.routes.js");
 const organizationsRouter = require("./routes/organization.routes.js");
-//const devicesRouter = require("./routes/device.routes.js");
+const devicesRouter = require("./routes/device.routes.js");
 //const activityRouter = require("./routes/activity.routes.js");
 
-app.use("/users", usersRouter);
-app.use("/organizations", organizationsRouter);
-//app.use("/devices", devicesRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/organizations", organizationsRouter);
+app.use("/api/devices", devicesRouter);
 //app.use("/activity", activityRouter);
 
 app.use(errorHandler);

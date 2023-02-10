@@ -1,99 +1,149 @@
 const asyncHandler = require("express-async-handler");
 const Device = require("../models/device.model.js");
-const Organization = require("../models/organization.model.js");
 const User = require("../models/user.model.js");
+const ObjectId = require("mongodb").ObjectId;
 
+// @status  IN PROGRESS
 // @desc    Get devices
-// @route   GET /api/devices
-// @access  Private
+// @route   GET /api/devices/:org_id
+// @access  Private; all members of org
 const getDevices = asyncHandler(async (req, res) => {
+  // Check if user (from protect) is a member of the organizatio param
+
   const devices = await Device.find({
-    organization: req.organization.id,
+    members: {
+      $elemMatch: {
+        user: req.user.id,
+      },
+    },
   });
 
-  res.status(200).json(devices);
+  console.log(req.user.id);
+
+  res.status(200).json(orgs);
 });
 
-// @desc    Set devices
-// @route   POST /api/devices
-// @access  Private
+// @status  IN PROGRESS
+// @desc    Set device
+// @route   POST /api/devices/:org_id
+// @access  Private; owners of org only
 const setDevice = asyncHandler(async (req, res) => {
-  const { serial, name, organization, remote } = req.body;
-  if (!serial || !name || !organization || !remote) {
+  const { name, location } = req.body;
+  if (!name || !location) {
     res.status(400);
-    throw new Error("Please include all required fields");
+    throw new Error("Please include all required fields.");
   }
 
-  const device = await Device.create({
-    serial: serial,
+  // Check if org exists
+  const orgExists = await Organization.findOne({ name });
+
+  if (orgExists) {
+    res.status(400);
+    throw new Error("Organization already exists");
+  }
+
+  // Create organization
+  const org = await Organization.create({
     name: name,
-    organization: req.organization.id,
-    remote: remote,
+    location: location,
+    members: {
+      user: req.user.id,
+      isOwner: true,
+    },
   });
 
   res.status(200).json(org);
 });
 
+// @status  IN PROGRESS
 // @desc    Update device
-// @route   PUT /api/device/:id
-// @access  Private
+// @route   PUT /api/devices/:org_id/:device_id
+// @access  Private; owners of org only
 const updateDevice = asyncHandler(async (req, res) => {
-  const device = await Device.findById(req.params.id);
+  const org = await Organization.findById(req.params.org_id);
 
-  if (!device) {
+  if (!org) {
     res.status(400);
-    throw new Error("Device not found.");
-  }
-
-  // Check for org
-  if (!req.organization) {
-    res.status(401);
     throw new Error("Organization not found.");
   }
 
-  // Make sure the device's organization matches the current organization
-  if (device.organization.toString() !== req.organization.id) {
+  // Check for user (logged in essentially, from protect)
+  if (!req.user) {
     res.status(401);
-    throw new Error("Organization not authorized to update this device.");
+    throw new Error("User not found.");
   }
 
-  const updatedDevice = await Device.findByIdAndUpdate(
-    req.params.id,
+  // Make sure the logged in user matches a member of this org and isOwner
+  var curUserID;
+  var owner;
+  org.members.forEach((member) => {
+    if (member.user.toString() === req.user.id) {
+      curUserID = member.user;
+      owner = member.isOwner;
+      return;
+    }
+  });
+
+  // If not the owner or not the currently logged in user, unauthorized
+  if (!owner || curUserID.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error(
+      "User not authorized. Must be an owner of the organization to update the organization."
+    );
+  }
+
+  // Update the organization accordingly
+  const updatedOrg = await Organization.findByIdAndUpdate(
+    req.params.org_id,
     req.body,
     {
       new: true,
     }
   );
 
-  res.status(200).json(updatedDevice);
+  res.status(200).json(updatedOrg);
 });
 
+// @status  IN PROGRESS
 // @desc    Delete device
-// @route   DELETE /api/device/:id
-// @access  Private
+// @route   DELETE /api/devices/:org_id/:device_id
+// @access  Private; owners of org only
 const deleteDevice = asyncHandler(async (req, res) => {
-  const device = await Device.findById(req.params.id);
+  const org = await Organization.findById(req.params.org_id);
 
-  if (!device) {
+  if (!org) {
     res.status(400);
-    throw new Error("Device not found.");
-  }
-
-  // Check for org
-  if (!req.organization) {
-    res.status(401);
     throw new Error("Organization not found.");
   }
 
-  // Make sure the device's organization matches the current organization
-  if (device.organization.toString() !== req.organization.id) {
+  // Check for user
+  if (!req.user) {
     res.status(401);
-    throw new Error("Organization not authorized to update this device.");
+    throw new Error("User not found.");
   }
 
-  await Device.remove();
+  // Make sure the logged in user matches a member of this org and isOwner
+  var curUserID;
+  var owner;
+  org.members.forEach((member) => {
+    if (member.user.toString() === req.user.id) {
+      curUserID = member.user;
+      owner = member.isOwner;
+      return;
+    }
+  });
 
-  res.status(200).json({ id: req.params.id });
+  // If not the owner or not the currently logged in user, unauthorized
+  if (!owner || curUserID.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error(
+      "User not authorized. Must be an owner of the organization to update the organization."
+    );
+  }
+
+  await Organization.remove();
+
+  res.status(200).json({ id: req.params.org_id });
 });
 
 module.exports = {

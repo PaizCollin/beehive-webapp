@@ -10,9 +10,9 @@ let Org = require("../models/organization.model.js");
 
 const { protect } = require("../middleware/auth.middleware");
 
-router.get("/", protect, getDevices);
-router.post("/", protect, setDevice);
-router.put("/:id", protect, updateDevice);
-router.delete("/:id", protect, deleteDevice);
+router.get("/:org_id", protect, getDevices);
+router.post("/:org_id", protect, setDevice);
+router.put("/:org_id/:device_id", protect, updateDevice);
+router.delete("/:org_id/:device_id", protect, deleteDevice);
 
 module.exports = router;
