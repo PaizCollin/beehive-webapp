@@ -1,14 +1,11 @@
 const asyncHandler = require("express-async-handler");
 const Device = require("../models/device.model.js");
 const Organization = require("../models/organization.model.js");
-const User = require("../models/user.model.js");
-const ObjectId = require("mongodb").ObjectId;
 
 // @status  WORKING
-// @desc    Get devices
-// @route   GET /api/devices/:org_id
-// @access  Private; all members of org
-const getDevices = asyncHandler(async (req, res) => {
+// @desc    Check that user is part of organization
+// @return  Returns a user_id and isOwner
+async function checkUserToOrg(req, res) {
   // Find org from param :org_id
   const org = await Organization.findById(req.params.org_id);
 
@@ -18,17 +15,35 @@ const getDevices = asyncHandler(async (req, res) => {
     throw new Error("Organization not found.");
   }
 
-  // Check if user (from protect) is a member of the organization param
-  var curUserID;
+  // Check for user (logged in essentially, from protect)
+  if (!req.user) {
+    res.status(401);
+    throw new Error("User not found.");
+  }
+
+  // Make sure the logged in user matches a member of this org and isOwner
+  var user;
+  var isOwner;
   org.members.forEach((member) => {
     if (member.user.toString() === req.user.id) {
-      curUserID = member.user;
+      user = member.user;
+      isOwner = member.isOwner;
       return;
     }
   });
 
-  // If not a member, unauthorized
-  if (curUserID.toString() !== req.user.id) {
+  return { user, isOwner, org };
+}
+
+// @status  WORKING
+// @desc    Get devices
+// @route   GET /api/devices/:org_id
+// @access  Private; all members of org
+const getDevices = asyncHandler(async (req, res) => {
+  const { user } = await checkUserToOrg(req, res);
+
+  // If not the owner or not the currently logged in user, unauthorized
+  if (user.toString() !== req.user.id) {
     res.status(401);
     throw new Error(
       "User not authorized. Must be an owner of the organization to update the organization."
@@ -48,26 +63,10 @@ const getDevices = asyncHandler(async (req, res) => {
 // @route   GET /api/devices/:org_id&:device_id
 // @access  Private; all members of org
 const getData = asyncHandler(async (req, res) => {
-  // Find org from param :org_id
-  const org = await Organization.findById(req.params.org_id);
+  const { user } = await checkUserToOrg(req, res);
 
-  // If org not found, error
-  if (!org) {
-    res.status(400);
-    throw new Error("Organization not found.");
-  }
-
-  // Check if user (from protect) is a member of the organization param
-  var curUserID;
-  org.members.forEach((member) => {
-    if (member.user.toString() === req.user.id) {
-      curUserID = member.user;
-      return;
-    }
-  });
-
-  // If not a member, unauthorized
-  if (curUserID.toString() !== req.user.id) {
+  // If not the owner or not the currently logged in user, unauthorized
+  if (user.toString() !== req.user.id) {
     res.status(401);
     throw new Error(
       "User not authorized. Must be an owner of the organization to update the organization."
@@ -88,34 +87,10 @@ const getData = asyncHandler(async (req, res) => {
 // @route   POST /api/devices/:org_id
 // @access  Private; owners of org only
 const setDevice = asyncHandler(async (req, res) => {
-  // Find org from param :org_id
-  const org = await Organization.findById(req.params.org_id);
-
-  // If org not found, error
-  if (!org) {
-    res.status(400);
-    throw new Error("Organization not found.");
-  }
-
-  // Check for user (logged in essentially, from protect)
-  if (!req.user) {
-    res.status(401);
-    throw new Error("User not found.");
-  }
-
-  // Make sure the logged in user matches a member of this org and isOwner
-  var curUserID;
-  var owner;
-  org.members.forEach((member) => {
-    if (member.user.toString() === req.user.id) {
-      curUserID = member.user;
-      owner = member.isOwner;
-      return;
-    }
-  });
+  const { user, isOwner } = await checkUserToOrg(req, res);
 
   // If not the owner or not the currently logged in user, unauthorized
-  if (!owner || curUserID.toString() !== req.user.id) {
+  if (!isOwner || user.toString() !== req.user.id) {
     res.status(401);
     throw new Error(
       "User not authorized. Must be an owner of the organization to update the organization."
@@ -157,34 +132,10 @@ const setDevice = asyncHandler(async (req, res) => {
 // @route   PUT /api/devices/:org_id&:device_id
 // @access  Private; owners of org only
 const updateDevice = asyncHandler(async (req, res) => {
-  // Find org from param :org_id
-  const org = await Organization.findById(req.params.org_id);
-
-  // If org not found, error
-  if (!org) {
-    res.status(400);
-    throw new Error("Organization not found.");
-  }
-
-  // Check for user (logged in essentially, from protect)
-  if (!req.user) {
-    res.status(401);
-    throw new Error("User not found.");
-  }
-
-  // Make sure the logged in user matches a member of this org and isOwner
-  var curUserID;
-  var owner;
-  org.members.forEach((member) => {
-    if (member.user.toString() === req.user.id) {
-      curUserID = member.user;
-      owner = member.isOwner;
-      return;
-    }
-  });
+  const { user, isOwner } = await checkUserToOrg(req, res);
 
   // If not the owner or not the currently logged in user, unauthorized
-  if (!owner || curUserID.toString() !== req.user.id) {
+  if (!isOwner || user.toString() !== req.user.id) {
     res.status(401);
     throw new Error(
       "User not authorized. Must be an owner of the organization to update the organization."
@@ -208,34 +159,10 @@ const updateDevice = asyncHandler(async (req, res) => {
 // @route   DELETE /api/devices/:org_id&:device_id
 // @access  Private; owners of org only
 const deleteDevice = asyncHandler(async (req, res) => {
-  // Find org from param :org_id
-  const org = await Organization.findById(req.params.org_id);
-
-  // If org not found, error
-  if (!org) {
-    res.status(400);
-    throw new Error("Organization not found.");
-  }
-
-  // Check for user (logged in essentially, from protect)
-  if (!req.user) {
-    res.status(401);
-    throw new Error("User not found.");
-  }
-
-  // Make sure the logged in user matches a member of this org and isOwner
-  var curUserID;
-  var owner;
-  org.members.forEach((member) => {
-    if (member.user.toString() === req.user.id) {
-      curUserID = member.user;
-      owner = member.isOwner;
-      return;
-    }
-  });
+  const { user, isOwner } = await checkUserToOrg(req, res);
 
   // If not the owner or not the currently logged in user, unauthorized
-  if (!owner || curUserID.toString() !== req.user.id) {
+  if (!isOwner || user.toString() !== req.user.id) {
     res.status(401);
     throw new Error(
       "User not authorized. Must be an owner of the organization to update the organization."
