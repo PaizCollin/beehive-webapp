@@ -1,13 +1,13 @@
 const asyncHandler = require("express-async-handler");
 const Organization = require("../models/organization.model.js");
-const User = require("../models/user.model.js");
-const ObjectId = require("mongodb").ObjectId;
+const Device = require("../models/device.model.js");
 
 // @status  WORKING
 // @desc    Get orgs
-// @route   GET /organizations
+// @route   GET /api/organizations
 // @access  Private; all users
 const getOrgs = asyncHandler(async (req, res) => {
+  //Find orgs where current user (from protect) is a member
   const orgs = await Organization.find({
     members: {
       $elemMatch: {
@@ -16,17 +16,18 @@ const getOrgs = asyncHandler(async (req, res) => {
     },
   });
 
-  console.log(req.user.id);
-
   res.status(200).json(orgs);
 });
 
 // @status  WORKING
 // @desc    Set org
-// @route   POST /organizations
+// @route   POST /api/organizations
 // @access  Private; all users
 const setOrg = asyncHandler(async (req, res) => {
+  // Get info from body
   const { name, location } = req.body;
+
+  // If missing any req   fields, error
   if (!name || !location) {
     res.status(400);
     throw new Error("Please include all required fields.");
@@ -35,6 +36,7 @@ const setOrg = asyncHandler(async (req, res) => {
   // Check if org exists
   const orgExists = await Organization.findOne({ name });
 
+  // If orgExists, error
   if (orgExists) {
     res.status(400);
     throw new Error("Organization already exists");
@@ -55,11 +57,13 @@ const setOrg = asyncHandler(async (req, res) => {
 
 // @status  WORKING
 // @desc    Update org
-// @route   PUT /organizations/:org_id
+// @route   PUT /api/organizations/:org_id
 // @access  Private; owners of org only
 const updateOrg = asyncHandler(async (req, res) => {
+  // Find org from param :org_id
   const org = await Organization.findById(req.params.org_id);
 
+  // If org not found, error
   if (!org) {
     res.status(400);
     throw new Error("Organization not found.");
@@ -104,11 +108,13 @@ const updateOrg = asyncHandler(async (req, res) => {
 
 // @status  WORKING
 // @desc    Delete org
-// @route   DELETE /organizations/:org_id
+// @route   DELETE /api/organizations/:org_id
 // @access  Private; owners of org only
 const deleteOrg = asyncHandler(async (req, res) => {
+  // Find org from param :org_id
   const org = await Organization.findById(req.params.org_id);
 
+  // If org not found, error
   if (!org) {
     res.status(400);
     throw new Error("Organization not found.");
@@ -139,7 +145,14 @@ const deleteOrg = asyncHandler(async (req, res) => {
     );
   }
 
-  await Organization.remove();
+  // Get associated devices
+  // Delete associated devices
+  await Device.deleteMany({
+    organization: req.params.org_id,
+  });
+
+  // Delete organization
+  await org.remove();
 
   res.status(200).json({ id: req.params.org_id });
 });

@@ -5,7 +5,6 @@ const {
   updateOrg,
   deleteOrg,
 } = require("../controllers/organization.controller.js");
-let User = require("../models/user.model.js");
 
 const { protect } = require("../middleware/auth.middleware");
 

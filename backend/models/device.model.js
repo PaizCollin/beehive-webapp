@@ -1,5 +1,19 @@
 const mongoose = require("mongoose");
 
+const dataSchema = mongoose.Schema(
+  {
+    time: Date,
+    intake: Number,
+    outtake: Number,
+  },
+  {
+    timeseries: {
+      timeField: "time",
+      granularity: "minutes",
+    },
+  }
+);
+
 const deviceSchema = new mongoose.Schema(
   {
     serial: {
@@ -20,6 +34,9 @@ const deviceSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please add a remote.it URL"],
       unique: true,
+    },
+    data: {
+      type: dataSchema,
     },
   },
   {
