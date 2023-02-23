@@ -18,10 +18,17 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useTheme, ThemeProvider } from "@mui/material/styles";
 import { tokens } from "../theme.js";
+import { Fade, Grow } from "@mui/material";
 
 const Login = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const [trans, setTrans] = useState(true);
+
+  const handleTrans = () => {
+    setTrans((prev) => !prev);
+  };
 
   const [formData, setFormData] = useState({
     email: "",
@@ -74,93 +81,109 @@ const Login = () => {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <Grid
-            container
-            spacing={0}
-            alignItems="center"
-            justify="center"
-            style={{ minHeight: "80vh" }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-
-                // position: "absolute",
-                // left: "50%",
-                // top: "40%",
-                // transform: "translate(-50%, -50%)",
-              }}
+        <Grow in={trans}>
+          <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Grid
+              container
+              spacing={0}
+              alignItems="center"
+              justify="center"
+              style={{ minHeight: "80vh" }}
             >
-              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h9" color={"neutral.light"}>
-                Sign in
-              </Typography>
               <Box
-                component="form"
-                onSubmit={onSubmit}
-                noValidate
-                sx={{ mt: 1 }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  bgcolor: "primary.dark",
+                  p: 4,
+                  borderRadius: `24px`,
+                }}
               >
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  value={email}
-                  autoFocus
-                  onChange={onChange}
-                  variant={"filled"}
-                />
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  value={password}
-                  onChange={onChange}
-                  variant={"filled"}
-                />
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
-                />
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2, bgcolor: "secondary.main" }}
+                <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                  <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h9" color={"neutral.light"}>
+                  Sign in
+                </Typography>
+                <Box
+                  component="form"
+                  onSubmit={onSubmit}
+                  noValidate
+                  sx={{ mt: 1 }}
                 >
-                  Sign In
-                </Button>
-                <Grid container>
-                  <Grid item xs>
-                    <Link href="#" variant="body2">
-                      Forgot password?
-                    </Link>
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    value={email}
+                    autoFocus
+                    onChange={onChange}
+                    variant={"filled"}
+                    InputLabelProps={{
+                      style: { color: colors.primary[100] },
+                    }}
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={onChange}
+                    variant={"filled"}
+                    InputLabelProps={{
+                      style: { color: colors.primary[100] },
+                    }}
+                  />
+                  <FormControlLabel
+                    control={<Checkbox value="remember" color="primary" />}
+                    label="Remember me"
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2, bgcolor: "secondary.main" }}
+                  >
+                    Sign In
+                  </Button>
+                  <Grid container>
+                    <Grid item xs>
+                      <Link
+                        href="#"
+                        variant="body2"
+                        color={"primary.light"}
+                        onClick={handleTrans}
+                      >
+                        Forgot password?
+                      </Link>
+                    </Grid>
+                    <Grid item>
+                      <Link
+                        href="/register"
+                        variant="body2"
+                        color={"primary.light"}
+                        onClick={handleTrans}
+                      >
+                        {"Don't have an account? Sign Up"}
+                      </Link>
+                    </Grid>
                   </Grid>
-                  <Grid item>
-                    <Link href="/register" variant="body2">
-                      {"Don't have an account? Sign Up"}
-                    </Link>
-                  </Grid>
-                </Grid>
+                </Box>
               </Box>
-            </Box>
-          </Grid>
-        </Container>
+            </Grid>
+          </Container>
+        </Grow>
       </ThemeProvider>
     </>
   );

@@ -5,6 +5,17 @@ import { createTheme } from "@mui/material/styles";
 export const tokens = (mode) => ({
   ...(mode === "dark"
     ? {
+        indigo: {
+          100: "#dbdbdf",
+          200: "#b6b7bf",
+          300: "#92939e",
+          400: "#6d6f7e",
+          500: "#494b5e",
+          600: "#3a3c4b",
+          700: "#2c2d38",
+          800: "#1d1e26",
+          900: "#0f0f13",
+        },
         grey: {
           100: "#e0e0e0",
           200: "#c2c2c2",
@@ -17,15 +28,15 @@ export const tokens = (mode) => ({
           900: "#141414",
         },
         primary: {
-          100: "#d0d1d5",
-          200: "#a1a4ab",
-          300: "#727681",
-          400: "#1F2A40",
-          500: "#141b2d",
-          600: "#101624",
-          700: "#0c101b",
-          800: "#080b12",
-          900: "#040509",
+          100: "#dbdbdf",
+          200: "#b6b7bf",
+          300: "#92939e",
+          400: "#6d6f7e",
+          500: "#494b5e",
+          600: "#3a3c4b",
+          700: "#2c2d38",
+          800: "#1d1e26",
+          900: "#0f0f13",
         },
         yellowAccent: {
           100: "#faf6d8",
@@ -63,15 +74,15 @@ export const tokens = (mode) => ({
           900: "#e0e0e0",
         },
         primary: {
-          100: "#040509",
-          200: "#080b12",
-          300: "#0c101b",
-          400: "#f2f0f0",
-          500: "#141b2d",
-          600: "#1F2A40",
-          700: "#727681",
-          800: "#a1a4ab",
-          900: "#d0d1d5",
+          100: "#0f0f13",
+          200: "#1d1e26",
+          300: "#2c2d38",
+          400: "#3a3c4b",
+          500: "#494b5e",
+          600: "#6d6f7e",
+          700: "#92939e",
+          800: "#b6b7bf",
+          900: "#dbdbdf",
         },
         yellowAccent: {
           100: "#2e2a0c",
@@ -108,7 +119,9 @@ export const themeSettings = (mode) => {
       ...(mode === "dark"
         ? {
             primary: {
-              main: colors.primary[100],
+              main: colors.primary[500],
+              light: colors.primary[100],
+              dark: colors.primary[700],
             },
             secondary: {
               main: colors.yellowAccent[500],
@@ -119,12 +132,14 @@ export const themeSettings = (mode) => {
               light: colors.grey[100],
             },
             background: {
-              default: colors.primary[600],
+              default: colors.primary[800],
             },
           }
         : {
             primary: {
-              main: colors.primary[100],
+              main: colors.primary[500],
+              light: colors.primary[100],
+              dark: colors.primary[900],
             },
             secondary: {
               main: colors.yellowAccent[500],
@@ -135,9 +150,39 @@ export const themeSettings = (mode) => {
               light: colors.grey[100],
             },
             background: {
-              default: "#fcfcfc",
+              default: "#fafafa",
             },
           }),
+    },
+    link: {
+      fontFamily: ["Poppins", "sans-serif"].join(","),
+      fontSize: 12,
+      h1: {
+        fontFamily: ["Poppins", "sans-serif"].join(","),
+        fontSize: 40,
+        fontWeight: 600,
+      },
+      h2: {
+        fontFamily: ["Poppins", "sans-serif"].join(","),
+        fontSize: 32,
+        fontWeight: 500,
+      },
+      h3: {
+        fontFamily: ["Poppins", "sans-serif"].join(","),
+        fontSize: 24,
+      },
+      h4: {
+        fontFamily: ["Poppins", "sans-serif"].join(","),
+        fontSize: 20,
+      },
+      h5: {
+        fontFamily: ["Poppins", "sans-serif"].join(","),
+        fontSize: 16,
+      },
+      h6: {
+        fontFamily: ["Poppins", "sans-serif"].join(","),
+        fontSize: 14,
+      },
     },
     typography: {
       fontFamily: ["Poppins", "sans-serif"].join(","),
@@ -188,8 +233,38 @@ export const themeSettings = (mode) => {
           },
           root: {
             borderRadius: `6px`,
+            "& .MuiFilledInput-input": {
+              backgroundColor: "primary.main",
+              border: "transparent",
+            },
           },
         },
+      },
+    },
+    transitions: {
+      duration: {
+        shortest: 150,
+        shorter: 200,
+        short: 250,
+        // most basic recommended timing
+        standard: 300,
+        // this is to be used in complex animations
+        complex: 375,
+        // recommended when something is entering screen
+        enteringScreen: 225,
+        // recommended when something is leaving screen
+        leavingScreen: 195,
+      },
+      easing: {
+        // This is the most common easing curve.
+        easeInOut: "cubic-bezier(0.4, 0, 0.2, 1)",
+        // Objects enter the screen at full velocity from off-screen and
+        // slowly decelerate to a resting point.
+        easeOut: "cubic-bezier(0.0, 0, 0.2, 1)",
+        // Objects leave the screen at full velocity. They do not decelerate when off-screen.
+        easeIn: "cubic-bezier(0.4, 0, 1, 1)",
+        // The sharp curve is used by objects that may return to the screen at any time.
+        sharp: "cubic-bezier(0.4, 0, 0.6, 1)",
       },
     },
   };
