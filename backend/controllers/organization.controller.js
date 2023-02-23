@@ -12,13 +12,13 @@ async function checkUserToOrg(req, res) {
   // If org not found, error
   if (!org) {
     res.status(400);
-    throw new Error("Organization not found.");
+    throw new Error("Organization not found");
   }
 
   // Check for user (logged in essentially, from protect)
   if (!req.user) {
     res.status(401);
-    throw new Error("User not found.");
+    throw new Error("User not found");
   }
 
   // Make sure the logged in user matches a member of this org and isOwner
@@ -63,7 +63,7 @@ const setOrg = asyncHandler(async (req, res) => {
   // If missing any req   fields, error
   if (!name || !location) {
     res.status(400);
-    throw new Error("Please include all required fields.");
+    throw new Error("Please include all required fields");
   }
 
   // Check if org exists
@@ -99,7 +99,7 @@ const updateOrg = asyncHandler(async (req, res) => {
   if (!isOwner || user.toString() !== req.user.id) {
     res.status(401);
     throw new Error(
-      "User not authorized. Must be an owner of the organization to update the organization."
+      "User not authorized. User must be an owner of the organization to update it"
     );
   }
 
@@ -126,7 +126,7 @@ const deleteOrg = asyncHandler(async (req, res) => {
   if (!isOwner || user.toString() !== req.user.id) {
     res.status(401);
     throw new Error(
-      "User not authorized. Must be an owner of the organization to update the organization."
+      "User not authorized. User must be an owner of the organization to update it"
     );
   }
 
@@ -153,7 +153,7 @@ const updateMembers = asyncHandler(async (req, res) => {
   if (!isOwner || user.toString() !== req.user.id) {
     res.status(401);
     throw new Error(
-      "User not authorized. Must be an owner of the organization to update the organization."
+      "User not authorized. User must be an owner of the organization to update it"
     );
   }
 

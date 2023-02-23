@@ -55,6 +55,11 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
+  if (!email || !password) {
+    res.status(400);
+    throw new Error("Please include all required fields");
+  }
+
   // Check that user exists by email
   const user = await User.findOne({ email });
 
@@ -67,7 +72,7 @@ const loginUser = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(400);
-    throw new Error("Invalid credentials");
+    throw new Error("Invalid user credentials");
   }
 });
 

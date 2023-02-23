@@ -108,7 +108,7 @@ export const themeSettings = (mode) => {
       ...(mode === "dark"
         ? {
             primary: {
-              main: colors.primary[500],
+              main: colors.primary[100],
             },
             secondary: {
               main: colors.yellowAccent[500],
@@ -167,6 +167,29 @@ export const themeSettings = (mode) => {
       h6: {
         fontFamily: ["Poppins", "sans-serif"].join(","),
         fontSize: 14,
+      },
+    },
+    components: {
+      MuiFilledInput: {
+        styleOverrides: {
+          underline: {
+            "&:before": {
+              borderBottomColor: "transparent",
+            },
+            "&:after": {
+              borderBottomColor: "transparent",
+            },
+            "&:hover:not(.Mui-disabled)::before": {
+              borderBottomColor: "transparent",
+            },
+            "&:hover:not(.Mui-disabled)::after": {
+              borderBottomColor: "transparent",
+            },
+          },
+          root: {
+            borderRadius: `6px`,
+          },
+        },
       },
     },
   };

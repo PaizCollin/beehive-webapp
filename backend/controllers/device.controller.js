@@ -12,13 +12,13 @@ async function checkUserToOrg(req, res) {
   // If org not found, error
   if (!org) {
     res.status(400);
-    throw new Error("Organization not found.");
+    throw new Error("Organization not found");
   }
 
   // Check for user (logged in essentially, from protect)
   if (!req.user) {
     res.status(401);
-    throw new Error("User not found.");
+    throw new Error("User not found");
   }
 
   // Make sure the logged in user matches a member of this org and isOwner
@@ -46,7 +46,7 @@ const getDevices = asyncHandler(async (req, res) => {
   if (user.toString() !== req.user.id) {
     res.status(401);
     throw new Error(
-      "User not authorized. Must be an owner of the organization to update the organization."
+      "User not authorized. User must be a member of the organization to view its devices"
     );
   }
 
@@ -69,7 +69,7 @@ const getData = asyncHandler(async (req, res) => {
   if (user.toString() !== req.user.id) {
     res.status(401);
     throw new Error(
-      "User not authorized. Must be an owner of the organization to update the organization."
+      "User not authorized. User must be a member of the organization to view its data"
     );
   }
 
@@ -93,7 +93,7 @@ const setDevice = asyncHandler(async (req, res) => {
   if (!isOwner || user.toString() !== req.user.id) {
     res.status(401);
     throw new Error(
-      "User not authorized. Must be an owner of the organization to update the organization."
+      "User not authorized. User must be an owner of the organization to set its devices"
     );
   }
 
@@ -138,7 +138,7 @@ const updateDevice = asyncHandler(async (req, res) => {
   if (!isOwner || user.toString() !== req.user.id) {
     res.status(401);
     throw new Error(
-      "User not authorized. Must be an owner of the organization to update the organization."
+      "User not authorized. User must be an owner of the organization to update its devices"
     );
   }
 
@@ -165,7 +165,7 @@ const deleteDevice = asyncHandler(async (req, res) => {
   if (!isOwner || user.toString() !== req.user.id) {
     res.status(401);
     throw new Error(
-      "User not authorized. Must be an owner of the organization to update the organization."
+      "User not authorized. User must be an owner of the organization to delete its devices"
     );
   }
 

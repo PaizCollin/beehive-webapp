@@ -3,10 +3,12 @@ import { useState } from "react";
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Topbar from "./global/Topbar";
+import Topbar from "./components/Topbar";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -21,7 +23,6 @@ function App() {
             <div className="app">
               {/* <Sidebar isSidebar={isSidebar} /> */}
               <main className="content">
-                <Topbar />
                 <Routes>
                   <Route path="/" element={<Dashboard />} />
                   <Route path="/login" element={<Login />} />
@@ -29,6 +30,7 @@ function App() {
                 </Routes>
               </main>
             </div>
+            <ToastContainer />
           </ThemeProvider>
         </ColorModeContext.Provider>
       </Router>
