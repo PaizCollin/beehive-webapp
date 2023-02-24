@@ -199,10 +199,6 @@ const Register = () => {
                       style: { color: colors.primary[100] },
                     }}
                   />
-                  <FormControlLabel
-                    control={<Checkbox value="remember" color="primary" />}
-                    label="Remember me"
-                  />
                   <Button
                     type="submit"
                     fullWidth
@@ -212,16 +208,6 @@ const Register = () => {
                     Sign In
                   </Button>
                   <Grid container>
-                    <Grid item xs>
-                      <Link
-                        href="#"
-                        variant="body2"
-                        color={"primary.light"}
-                        onClick={handleTrans}
-                      >
-                        Forgot password?
-                      </Link>
-                    </Grid>
                     <Grid item>
                       <Link
                         href="/login"

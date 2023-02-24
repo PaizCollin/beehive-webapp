@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, setState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -33,9 +33,10 @@ const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    isChecked: true,
   });
 
-  const { email, password } = formData;
+  const { email, password, isChecked } = formData;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -60,6 +61,7 @@ const Login = () => {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
+      isChecked: e.target.checked,
     }));
   };
 
@@ -69,6 +71,7 @@ const Login = () => {
     const userData = {
       email,
       password,
+      isChecked,
     };
 
     dispatch(login(userData));
@@ -146,8 +149,10 @@ const Login = () => {
                     }}
                   />
                   <FormControlLabel
-                    control={<Checkbox value="remember" color="primary" />}
+                    control={<Checkbox value="remember" color="secondary" />}
                     label="Remember me"
+                    onChange={onChange}
+                    checked={isChecked}
                   />
                   <Button
                     type="submit"

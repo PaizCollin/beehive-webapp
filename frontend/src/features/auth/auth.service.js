@@ -16,9 +16,10 @@ const register = async (userData) => {
 // Login user
 const login = async (userData) => {
   const response = await axios.post(API_URL + "login", userData);
-
-  if (response.data) {
+  console.log(userData.isChecked);
+  if (response.data && userData.isChecked) {
     localStorage.setItem("user", JSON.stringify(response.data));
+    localStorage.checkbox = userData.isChecked;
   }
 
   return response.data;
