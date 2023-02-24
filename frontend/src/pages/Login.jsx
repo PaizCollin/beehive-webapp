@@ -47,7 +47,11 @@ const Login = () => {
 
   useEffect(() => {
     if (isError) {
-      toast.error(message);
+      toast.error(message, {
+        toastID: "loginError",
+        hideProgressBar: true,
+        theme: "colored",
+      });
     }
 
     if (isSuccess || user) {

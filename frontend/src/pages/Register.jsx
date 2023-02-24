@@ -56,6 +56,8 @@ const Register = () => {
     if (isError) {
       toast.error(message, {
         toastID: "registerError",
+        hideProgressBar: true,
+        theme: "colored",
       });
     }
 
@@ -82,6 +84,8 @@ const Register = () => {
     if (password !== password2) {
       toast.error("Passwords do not match", {
         toastID: "passwordError",
+        hideProgressBar: true,
+        theme: "colored",
       });
     } else {
       const userData = {
