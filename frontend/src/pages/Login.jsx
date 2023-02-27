@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { login, reset } from "../features/auth/auth.slice.js";
-import Spinner from "../components/Spinner";
+import Loading from "../components/Loading";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -18,7 +18,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useTheme, ThemeProvider } from "@mui/material/styles";
 import { tokens } from "../theme.js";
-import { Fade, Grow } from "@mui/material";
+import { Grow, Fade } from "@mui/material";
+import Backdrop from "@mui/material/Backdrop";
 
 const Login = () => {
   const theme = useTheme();
@@ -82,118 +83,141 @@ const Login = () => {
   };
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <Fade in={isLoading}>
+        <Backdrop
+          sx={{
+            color: "secondary.main",
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+          }}
+        >
+          <Loading />
+        </Backdrop>
+      </Fade>
+    );
   }
 
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <Grow in={trans}>
-          <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <Grid
-              container
-              spacing={0}
-              alignItems="center"
-              justify="center"
-              style={{ minHeight: "80vh" }}
+      <Grow in={trans}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Grid
+            container
+            spacing={0}
+            alignItems="center"
+            justify="center"
+            style={{ minHeight: "80vh" }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                bgcolor: "primary.dark",
+                p: 4,
+                borderRadius: `24px`,
+              }}
             >
-              <Box
+              <Avatar
                 sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  bgcolor: "primary.dark",
-                  p: 4,
-                  borderRadius: `24px`,
+                  m: 1,
+                  color: "onSecondary.main",
+                  bgcolor: "secondary.main",
                 }}
               >
-                <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                  <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h9" color={"neutral.light"}>
-                  Sign in
-                </Typography>
-                <Box
-                  component="form"
-                  onSubmit={onSubmit}
-                  noValidate
-                  sx={{ mt: 1 }}
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h9" color={"primary.light"}>
+                Sign in
+              </Typography>
+              <Box
+                component="form"
+                onSubmit={onSubmit}
+                noValidate
+                sx={{ mt: 1 }}
+              >
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  value={email}
+                  autoFocus
+                  onChange={onChange}
+                  variant={"filled"}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={onChange}
+                  variant={"filled"}
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value="remember"
+                      color="secondary"
+                      bgcolor="onSecondary.main"
+                    />
+                  }
+                  label="Remember me"
+                  onChange={onChange}
+                  checked={isChecked}
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{
+                    mt: 3,
+                    mb: 2,
+                    color: "onSecondary.main",
+                    bgcolor: "secondary.main",
+                    ":hover": {
+                      color: "primary.light",
+                    },
+                  }}
                 >
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                    value={email}
-                    autoFocus
-                    onChange={onChange}
-                    variant={"filled"}
-                    InputLabelProps={{
-                      style: { color: colors.primary[100] },
-                    }}
-                  />
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    value={password}
-                    onChange={onChange}
-                    variant={"filled"}
-                    InputLabelProps={{
-                      style: { color: colors.primary[100] },
-                    }}
-                  />
-                  <FormControlLabel
-                    control={<Checkbox value="remember" color="secondary" />}
-                    label="Remember me"
-                    onChange={onChange}
-                    checked={isChecked}
-                  />
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2, bgcolor: "secondary.main" }}
-                  >
-                    Sign In
-                  </Button>
-                  <Grid container>
-                    <Grid item xs>
-                      <Link
-                        href="#"
-                        variant="body2"
-                        color={"primary.light"}
-                        onClick={handleTrans}
-                      >
-                        Forgot password?
-                      </Link>
-                    </Grid>
-                    <Grid item>
-                      <Link
-                        href="/register"
-                        variant="body2"
-                        color={"primary.light"}
-                        onClick={handleTrans}
-                      >
-                        {"Don't have an account? Sign Up"}
-                      </Link>
-                    </Grid>
+                  Sign In
+                </Button>
+                <Grid container>
+                  <Grid item xs>
+                    <Link
+                      href="#"
+                      variant="body2"
+                      color={"primary.light"}
+                      onClick={handleTrans}
+                    >
+                      Forgot password?
+                    </Link>
                   </Grid>
-                </Box>
+                  <Grid item>
+                    <Link
+                      href="/register"
+                      variant="body2"
+                      color={"primary.light"}
+                      onClick={handleTrans}
+                    >
+                      {"Don't have an account? Sign up"}
+                    </Link>
+                  </Grid>
+                </Grid>
               </Box>
-            </Grid>
-          </Container>
-        </Grow>
-      </ThemeProvider>
+            </Box>
+          </Grid>
+        </Container>
+      </Grow>
     </>
   );
 };

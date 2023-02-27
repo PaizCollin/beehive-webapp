@@ -30,7 +30,7 @@ const Topbar = () => {
       <Box display="flex">
         <Typography
           variant="h1"
-          color={colors.yellowAccent[500]}
+          color="primary.light"
           sx={{ m: "15px 0 5px 20px" }}
         >
           Beehive Monitor Dashboard
@@ -38,21 +38,24 @@ const Topbar = () => {
       </Box>
 
       <Box display="flex" justifyContent="left">
-        {/* <IconButton onClick={colorMode.toggleColorMode}>
+        <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? (
-            <LightModeOutlinedIcon />
+            <LightModeOutlinedIcon sx={{ color: "primary.light" }} />
           ) : (
-            <DarkModeOutlinedIcon />
+            <DarkModeOutlinedIcon sx={{ color: "primary.light" }} />
           )}
-        </IconButton> */}
-        <IconButton>
-          <NotificationsOutlinedIcon />
         </IconButton>
         <IconButton>
-          <SettingsOutlinedIcon />
+          <NotificationsOutlinedIcon sx={{ color: "primary.light" }} />
         </IconButton>
         <IconButton>
-          <LogoutOutlinedIcon onClick={onLogout} />
+          <SettingsOutlinedIcon sx={{ color: "primary.light" }} />
+        </IconButton>
+        <IconButton>
+          <LogoutOutlinedIcon
+            onClick={onLogout}
+            sx={{ color: "primary.light" }}
+          />
         </IconButton>
       </Box>
     </Box>

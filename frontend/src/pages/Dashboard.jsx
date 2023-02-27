@@ -1,11 +1,7 @@
 import Topbar from "../components/Topbar";
 
 function Dashboard() {
-  return (
-    <>
-      <Topbar />
-    </>
-  );
+  return <></>;
 }
 
 export default Dashboard;

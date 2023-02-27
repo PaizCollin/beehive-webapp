@@ -3,7 +3,8 @@ import { useState } from "react";
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Topbar from "./components/Topbar";
+import Topbar from "./components/Topbar.jsx";
+import Sidebar from "./components/Sidebar.jsx";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -20,16 +21,49 @@ function App() {
         <ColorModeContext.Provider value={colorMode}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <div className="app">
-              {/* <Sidebar isSidebar={isSidebar} /> */}
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
-                </Routes>
-              </main>
-            </div>
+
+            <Routes>
+              <Route
+                exact
+                path="/"
+                element={
+                  <>
+                    <div className="app">
+                      <Sidebar isSidebar={isSidebar} />
+                      <main className="content">
+                        <Topbar />
+                        <Dashboard />
+                      </main>
+                    </div>
+                  </>
+                }
+              />
+              <Route
+                path="/login"
+                element={
+                  <>
+                    <div className="app">
+                      <main className="content">
+                        <Login />
+                      </main>
+                    </div>
+                  </>
+                }
+              />
+              <Route
+                path="/register"
+                element={
+                  <>
+                    <div className="app">
+                      <main className="content">
+                        <Register />
+                      </main>
+                    </div>
+                  </>
+                }
+              />
+            </Routes>
+
             <ToastContainer />
           </ThemeProvider>
         </ColorModeContext.Provider>

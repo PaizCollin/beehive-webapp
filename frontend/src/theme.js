@@ -38,17 +38,6 @@ export const tokens = (mode) => ({
           800: "#5c5418",
           900: "#2e2a0c",
         },
-        blueAccent: {
-          100: "#e1e2fe",
-          200: "#c3c6fd",
-          300: "#a4a9fc",
-          400: "#868dfb",
-          500: "#6870fa",
-          600: "#535ac8",
-          700: "#3e4396",
-          800: "#2a2d64",
-          900: "#151632",
-        },
       }
     : {
         grey: {
@@ -84,17 +73,6 @@ export const tokens = (mode) => ({
           800: "#f5edb1",
           900: "#faf6d8",
         },
-        blueAccent: {
-          100: "#151632",
-          200: "#2a2d64",
-          300: "#3e4396",
-          400: "#535ac8",
-          500: "#6870fa",
-          600: "#868dfb",
-          700: "#a4a9fc",
-          800: "#c3c6fd",
-          900: "#e1e2fe",
-        },
       }),
 });
 
@@ -114,6 +92,11 @@ export const themeSettings = (mode) => {
             },
             secondary: {
               main: colors.yellowAccent[500],
+              light: colors.yellowAccent[300],
+              dark: colors.yellowAccent[700],
+            },
+            onSecondary: {
+              main: colors.grey[700],
             },
             neutral: {
               dark: colors.grey[700],
@@ -128,10 +111,15 @@ export const themeSettings = (mode) => {
             primary: {
               main: colors.primary[500],
               light: colors.primary[100],
-              dark: colors.primary[900],
+              dark: "#eeeeee",
             },
             secondary: {
               main: colors.yellowAccent[500],
+              light: colors.yellowAccent[300],
+              dark: colors.yellowAccent[700],
+            },
+            onSecondary: {
+              main: colors.grey[100],
             },
             neutral: {
               dark: colors.grey[700],
@@ -139,7 +127,7 @@ export const themeSettings = (mode) => {
               light: colors.grey[100],
             },
             background: {
-              default: "#fafafa",
+              default: colors.primary[900],
             },
           }),
     },
@@ -204,8 +192,31 @@ export const themeSettings = (mode) => {
       },
     },
     components: {
+      MuiInputLabel: {
+        styleOverrides: {
+          root: {
+            "&.Mui-focused": {
+              color: colors.primary[100],
+            },
+          },
+        },
+      },
       MuiFilledInput: {
         styleOverrides: {
+          root: {
+            borderRadius: `6px`,
+            backgroundColor: "primary.main",
+            border: "transparent",
+            color: colors.primary[100],
+            "&.Mui-focused": {
+              color: colors.primary[100],
+            },
+          },
+          label: {
+            "&.Mui-focused": {
+              color: "yellow",
+            },
+          },
           underline: {
             "&:before": {
               borderBottomColor: "transparent",
@@ -218,13 +229,6 @@ export const themeSettings = (mode) => {
             },
             "&:hover:not(.Mui-disabled)::after": {
               borderBottomColor: "transparent",
-            },
-          },
-          root: {
-            borderRadius: `6px`,
-            "& .MuiFilledInput-input": {
-              backgroundColor: "primary.main",
-              border: "transparent",
             },
           },
         },
