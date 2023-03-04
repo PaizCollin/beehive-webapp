@@ -1,14 +1,5 @@
 import { useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import {
-  ProSidebar,
-  Menu,
-  MenuItem,
-  SubMenu,
-  SidebarHeader,
-  SidebarFooter,
-  SidebarContent,
-} from "react-pro-sidebar";
+import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import {
   Box,
   IconButton,
@@ -16,6 +7,7 @@ import {
   useTheme,
   createTheme,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -24,14 +16,8 @@ import TimelineIcon from "@mui/icons-material/Timeline";
 import AddIcon from "@mui/icons-material/Add";
 import SettingsIcon from "@mui/icons-material/Settings";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import HiveOutlinedIcon from "@mui/icons-material/HiveOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import Avatar from "@mui/material/Avatar";
-import { useDispatch, useSelector } from "react-redux";
 
-const apiaries = [];
-
-const MyItem = ({ title, to, icon, selected, setSelected }) => {
+const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
@@ -41,19 +27,7 @@ const MyItem = ({ title, to, icon, selected, setSelected }) => {
         color: "primary.light",
       }}
       onClick={() => setSelected(title)}
-      icon={
-        <Avatar
-          sx={{
-            width: 36,
-            height: 36,
-            m: 1,
-            color: "onSecondary.main",
-            bgcolor: "secondary.main",
-          }}
-        >
-          {icon}
-        </Avatar>
-      }
+      icon={icon}
     >
       <Typography color="primary.light">{title}</Typography>
       <Link to={to} />
@@ -61,33 +35,21 @@ const MyItem = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
-const MySubMenu = ({ title, icon }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  return (
-    <SubMenu
-      sx={{
-        color: "primary.light",
-      }}
-      icon={icon}
-      title={<Typography color="primary.light">{title}</Typography>}
-    ></SubMenu>
-  );
-};
-
 const Sidebar = () => {
-  const navitage = useNavigate();
-  const dispath = useDispatch();
-
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selected, setSelected] = useState("Home");
-
-  const { user } = useSelector((state) => state.auth);
-  const { goals, isLoading, isError, message } = useSelector(
-    (state) => state.orgs
-  );
+  const [disabledSubMenu, setdisabledSubMenu] = useState(false);
+  const handleSidebar = () => {
+    if (isCollapsed) {
+      setIsCollapsed(!isCollapsed);
+      setdisabledSubMenu(true);
+    } else {
+      setIsCollapsed(!isCollapsed);
+      setdisabledSubMenu(false);
+    }
+  };
+  const [selected, setSelected] = useState("Dashboard");
 
   return (
     <Box
@@ -99,16 +61,7 @@ const Sidebar = () => {
           backgroundColor: "transparent !important",
         },
         "& .pro-inner-item": {
-          padding: "12px 35px 12px 20px !important",
-        },
-        "& .pro-sidebar-submenu": {
-          backgroundColor: "primary.dark",
-        },
-        "& .pro-inner-item:hover": {
-          color: "#000000 !important",
-        },
-        "& .pro-menu-item.active": {
-          color: "#000000 !important",
+          padding: "5px 35px 5px 20px !important",
         },
       }}
     >
@@ -117,12 +70,12 @@ const Sidebar = () => {
         collapsed={isCollapsed}
         breakPoint="xs"
         collapsedWidth={80}
-        width={240}
+        width={250}
       >
-        <Menu iconShape="circle">
+        <Menu iconShape="square">
           {/* Header and Button */}
           <MenuItem
-            onClick={() => setIsCollapsed(!isCollapsed)}
+            onClick={() => handleSidebar()}
             icon={
               isCollapsed ? (
                 <MenuOutlinedIcon sx={{ color: "primary.light" }} />
@@ -142,51 +95,71 @@ const Sidebar = () => {
               >
                 <Typography color={"primary.light"}>Menu</Typography>
                 <IconButton>
-                  <MenuOutlinedIcon />
+                  <MenuOutlinedIcon sx={{ color: "primary.light" }} />
                 </IconButton>
               </Box>
             )}
           </MenuItem>
-        </Menu>
 
-        <SidebarContent>
-          <Menu iconShape="circle">
-            <MyItem
+          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+            <Item
               title="Home"
               to="/"
-              icon={<HomeOutlinedIcon />}
+              icon={<HomeOutlinedIcon sx={{ color: "primary.light" }} />}
               selected={selected}
               setSelected={setSelected}
             />
+
             <SubMenu
               title={
                 <Typography variant="h6" color={"primary.light"}>
                   Organizations
                 </Typography>
               }
-              icon={
-                <Avatar
-                  sx={{
-                    width: 36,
-                    height: 36,
-                    m: 1,
-                    color: "onSecondary.main",
-                    bgcolor: "secondary.main",
-                  }}
-                >
-                  <HiveOutlinedIcon />{" "}
-                </Avatar>
-              }
-            ></SubMenu>
-            <MyItem
-              title="FAQ"
-              to="/faq"
-              icon={<HelpOutlineOutlinedIcon />}
+              icon={<AddIcon sx={{ color: "primary.light" }} />}
+              disabled={disabledSubMenu}
+            >
+              <SubMenu
+                title={
+                  <Typography variant="h6" color={"primary.light"}>
+                    Organizations
+                  </Typography>
+                }
+                icon={<AddIcon sx={{ color: "primary.light" }} />}
+                disabled={disabledSubMenu}
+              >
+                <Item
+                  title="list orgs here"
+                  to="/add"
+                  icon={<AddIcon sx={{ color: "primary.light" }} />}
+                  selected={selected}
+                  setSelected={setSelected}
+                />
+              </SubMenu>
+            </SubMenu>
+            <Item
+              title="list devices here"
+              to="/settings"
+              icon={<SettingsIcon sx={{ color: "primary.light" }} />}
               selected={selected}
               setSelected={setSelected}
             />
-          </Menu>
-        </SidebarContent>
+            <Item
+              title="orgs"
+              to="/settings"
+              icon={<SettingsIcon sx={{ color: "primary.light" }} />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="devices"
+              to="/settings"
+              icon={<SettingsIcon sx={{ color: "primary.light" }} />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          </Box>
+        </Menu>
       </ProSidebar>
     </Box>
   );

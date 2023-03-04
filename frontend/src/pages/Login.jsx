@@ -121,6 +121,8 @@ const Login = () => {
             >
               <Avatar
                 sx={{
+                  width: 36,
+                  height: 36,
                   m: 1,
                   color: "onSecondary.main",
                   bgcolor: "secondary.main",

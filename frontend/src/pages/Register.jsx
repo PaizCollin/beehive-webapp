@@ -81,11 +81,11 @@ const Register = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if(password.length() < 8) {
+    if (password.length() < 8) {
       toast.error("Password must be at least 8 characters", {
         toastID: "lengthError",
         hideProgressBar: true,
-        theme: "colored"
+        theme: "colored",
       });
     } else if (password !== password2) {
       toast.error("Passwords do not match", {
@@ -145,6 +145,8 @@ const Register = () => {
             >
               <Avatar
                 sx={{
+                  width: 36,
+                  height: 36,
                   m: 1,
                   color: "onSecondary.main",
                   bgcolor: "secondary.main",
