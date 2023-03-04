@@ -1,18 +1,18 @@
 const asyncHandler = require("express-async-handler");
 const Device = require("../models/device.model.js");
-const Organization = require("../models/organization.model.js");
+const Apiary = require("../models/apiary.model.js");
 
 // @status  WORKING
-// @desc    Check that user is part of organization
+// @desc    Check that user is part of apiary
 // @return  Returns a user_id and isOwner
-async function checkUserToOrg(req, res) {
-  // Find org from param :org_id
-  const org = await Organization.findById(req.params.org_id);
+async function checkUserToApiary(req, res) {
+  // Find apiary from param :apiary_id
+  const apiary = await Apiary.findById(req.params.apiary_id);
 
-  // If org not found, error
-  if (!org) {
+  // If apiary not found, error
+  if (!apiary) {
     res.status(400);
-    throw new Error("Organization not found");
+    throw new Error("Apiary not found");
   }
 
   // Check for user (logged in essentially, from protect)
@@ -21,10 +21,10 @@ async function checkUserToOrg(req, res) {
     throw new Error("User not found");
   }
 
-  // Make sure the logged in user matches a member of this org and isOwner
+  // Make sure the logged in user matches a member of this apiary and isOwner
   var user;
   var isOwner;
-  org.members.forEach((member) => {
+  apiary.members.forEach((member) => {
     if (member.user.toString() === req.user.id) {
       user = member.user;
       isOwner = member.isOwner;
@@ -32,27 +32,27 @@ async function checkUserToOrg(req, res) {
     }
   });
 
-  return { user, isOwner, org };
+  return { user, isOwner, apiary };
 }
 
 // @status  WORKING
 // @desc    Get devices
-// @route   GET /api/devices/:org_id
-// @access  Private; all members of org
+// @route   GET /api/devices/:apiary_id
+// @access  Private; all members of apiary
 const getDevices = asyncHandler(async (req, res) => {
-  const { user } = await checkUserToOrg(req, res);
+  const { user } = await checkUserToApiary(req, res);
 
   // If not the owner or not the currently logged in user, unauthorized
   if (user.toString() !== req.user.id) {
     res.status(401);
     throw new Error(
-      "User not authorized. User must be a member of the organization to view its devices"
+      "User not authorized. User must be a member of the apiary to view its devices"
     );
   }
 
-  // Find devices in the organization :org_id
+  // Find devices in the apiary :apiary_id
   const devices = await Device.find({
-    organization: req.params.org_id,
+    apiary: req.params.apiary_id,
   });
 
   res.status(200).json(devices);
@@ -60,23 +60,23 @@ const getDevices = asyncHandler(async (req, res) => {
 
 // @status  WORKING
 // @desc    Get data
-// @route   GET /api/devices/:org_id&:device_id
-// @access  Private; all members of org
+// @route   GET /api/devices/:apiary_id&:device_id
+// @access  Private; all members of apiary
 const getData = asyncHandler(async (req, res) => {
-  const { user } = await checkUserToOrg(req, res);
+  const { user } = await checkUserToApiary(req, res);
 
   // If not the owner or not the currently logged in user, unauthorized
   if (user.toString() !== req.user.id) {
     res.status(401);
     throw new Error(
-      "User not authorized. User must be a member of the organization to view its data"
+      "User not authorized. User must be a member of the apiary to view its data"
     );
   }
 
-  // Find device in the organization :org_id by device :device_id
+  // Find device in the apiary :apiary_id by device :device_id
   const device = await Device.find({
     _id: req.params.device_id,
-    organization: req.params.org_id,
+    apiary: req.params.apiary_id,
   });
 
   res.status(200).json(device.data);
@@ -84,16 +84,16 @@ const getData = asyncHandler(async (req, res) => {
 
 // @status  WORKING
 // @desc    Set device
-// @route   POST /api/devices/:org_id
-// @access  Private; owners of org only
+// @route   POST /api/devices/:apiary_id
+// @access  Private; owners of apiary only
 const setDevice = asyncHandler(async (req, res) => {
-  const { user, isOwner } = await checkUserToOrg(req, res);
+  const { user, isOwner } = await checkUserToApiary(req, res);
 
   // If not the owner or not the currently logged in user, unauthorized
   if (!isOwner || user.toString() !== req.user.id) {
     res.status(401);
     throw new Error(
-      "User not authorized. User must be an owner of the organization to set its devices"
+      "User not authorized. User must be an owner of the apiary to set its devices"
     );
   }
 
@@ -119,7 +119,7 @@ const setDevice = asyncHandler(async (req, res) => {
   const device = await Device.create({
     serial: serial,
     name: name,
-    organization: req.params.org_id,
+    apiary: req.params.apiary_id,
     remote: remote,
     data: null,
   });
@@ -129,20 +129,20 @@ const setDevice = asyncHandler(async (req, res) => {
 
 // @status  WORKING
 // @desc    Update device
-// @route   PUT /api/devices/:org_id&:device_id
-// @access  Private; owners of org only
+// @route   PUT /api/devices/:apiary_id&:device_id
+// @access  Private; owners of apiary only
 const updateDevice = asyncHandler(async (req, res) => {
-  const { user, isOwner } = await checkUserToOrg(req, res);
+  const { user, isOwner } = await checkUserToApiary(req, res);
 
   // If not the owner or not the currently logged in user, unauthorized
   if (!isOwner || user.toString() !== req.user.id) {
     res.status(401);
     throw new Error(
-      "User not authorized. User must be an owner of the organization to update its devices"
+      "User not authorized. User must be an owner of the apiary to update its devices"
     );
   }
 
-  // Update the organization accordingly
+  // Update the apiary accordingly
   const updateDevice = await Device.findByIdAndUpdate(
     req.params.device_id,
     req.body,
@@ -156,16 +156,16 @@ const updateDevice = asyncHandler(async (req, res) => {
 
 // @status  WORKING
 // @desc    Delete device
-// @route   DELETE /api/devices/:org_id&:device_id
-// @access  Private; owners of org only
+// @route   DELETE /api/devices/:apiary_id&:device_id
+// @access  Private; owners of apiary only
 const deleteDevice = asyncHandler(async (req, res) => {
-  const { user, isOwner } = await checkUserToOrg(req, res);
+  const { user, isOwner } = await checkUserToApiary(req, res);
 
   // If not the owner or not the currently logged in user, unauthorized
   if (!isOwner || user.toString() !== req.user.id) {
     res.status(401);
     throw new Error(
-      "User not authorized. User must be an owner of the organization to delete its devices"
+      "User not authorized. User must be an owner of the apiary to delete its devices"
     );
   }
 

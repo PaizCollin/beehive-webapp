@@ -23,7 +23,7 @@ const memberSchema = mongoose.Schema({
   },
 });
 
-const organizationSchema = new mongoose.Schema(
+const apiarySchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -46,4 +46,4 @@ const organizationSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Organization", organizationSchema);
+module.exports = mongoose.model("Apiary", apiarySchema);

@@ -25,10 +25,10 @@ const deviceSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please add a name"],
     },
-    organization: {
+    apiary: {
       type: mongoose.Schema.Types.ObjectId,
-      required: [true, "Please add an orgnization"],
-      ref: "Organization",
+      required: [true, "Please add an apiary"],
+      ref: "Apiary",
     },
     remote: {
       type: String,

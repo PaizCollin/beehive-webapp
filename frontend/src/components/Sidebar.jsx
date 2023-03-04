@@ -84,10 +84,10 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Home");
 
-  const { user } = useSelector((state) => state.auth);
-  const { goals, isLoading, isError, message } = useSelector(
-    (state) => state.orgs
-  );
+  // const { user } = useSelector((state) => state.auth);
+  // const { goals, isLoading, isError, message } = useSelector(
+  //   (state) => state.apiaries
+  // );
 
   return (
     <Box
@@ -161,7 +161,7 @@ const Sidebar = () => {
             <SubMenu
               title={
                 <Typography variant="h6" color={"primary.light"}>
-                  Organizations
+                  Apiaries
                 </Typography>
               }
               icon={
