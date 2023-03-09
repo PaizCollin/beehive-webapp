@@ -89,6 +89,7 @@ export const themeSettings = (mode) => {
               main: colors.primary[500],
               light: colors.primary[100],
               dark: colors.primary[700],
+              darker: colors.primary[800],
             },
             secondary: {
               main: colors.yellowAccent[500],
@@ -97,6 +98,10 @@ export const themeSettings = (mode) => {
             },
             onSecondary: {
               main: colors.grey[700],
+            },
+            selected: {
+              main: colors.yellowAccent[300],
+              light: colors.yellowAccent[100],
             },
             neutral: {
               dark: colors.grey[700],
@@ -112,6 +117,7 @@ export const themeSettings = (mode) => {
               main: colors.primary[500],
               light: colors.primary[100],
               dark: "#eeeeee",
+              darker: "#aeaeae",
             },
             secondary: {
               main: colors.yellowAccent[500],
@@ -120,6 +126,10 @@ export const themeSettings = (mode) => {
             },
             onSecondary: {
               main: colors.grey[100],
+            },
+            selected: {
+              main: colors.yellowAccent[300],
+              light: colors.yellowAccent[100],
             },
             neutral: {
               dark: colors.grey[700],

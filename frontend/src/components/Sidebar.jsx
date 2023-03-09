@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   ProSidebar,
@@ -8,6 +8,7 @@ import {
   SidebarHeader,
   SidebarFooter,
   SidebarContent,
+  Sidebar as sb,
 } from "react-pro-sidebar";
 import {
   Box,
@@ -16,7 +17,9 @@ import {
   useTheme,
   createTheme,
 } from "@mui/material";
-import "react-pro-sidebar/dist/css/styles.css";
+
+//import "react-pro-sidebar/dist/css/styles.css";
+import "../custom.scss";
 import { tokens } from "../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import CloudIcon from "@mui/icons-material/Cloud";
@@ -28,10 +31,16 @@ import HiveOutlinedIcon from "@mui/icons-material/HiveOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import Avatar from "@mui/material/Avatar";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  getApiaries,
+  reset as apiaryReset,
+} from "../features/apiary/apiary.slice";
+import {
+  getDevices,
+  reset as deviceReset,
+} from "../features/device/device.slice";
 
-const apiaries = [];
-
-const MyItem = ({ title, to, icon, selected, setSelected }) => {
+const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
@@ -55,39 +64,104 @@ const MyItem = ({ title, to, icon, selected, setSelected }) => {
         </Avatar>
       }
     >
-      <Typography color="primary.light">{title}</Typography>
+      <Typography>{title}</Typography>
       <Link to={to} />
     </MenuItem>
   );
 };
 
-const MySubMenu = ({ title, icon }) => {
+const DeviceItem = ({ apiary, to, selected, setSelected }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const { devices, isLoading, isError, message } = useSelector(
+    (state) => state.device
+  );
+
+  useEffect(() => {
+    if (isError) {
+      console.log(message);
+    }
+    dispatch(getDevices(apiary._id));
+    return () => {
+      dispatch(deviceReset());
+    };
+  }, [apiary._id, navigate, isError, message, dispatch]);
+
+  return (
+    <>
+      {devices.length > 0 ? (
+        <div className="devices">
+          {devices.map((device) => (
+            <MenuItem
+              active={selected === device.name}
+              sx={{
+                color: "primary.light",
+              }}
+              onClick={() => setSelected(device.name)}
+            >
+              <Typography color="primary.light">{device.name}</Typography>
+              <Link to={to} />
+            </MenuItem>
+          ))}
+        </div>
+      ) : (
+        <Typography color="primary.light">Please add a device</Typography>
+      )}
+    </>
+  );
+};
+
+const ApiaryMenu = ({ apiary, selected, setSelected }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   return (
     <SubMenu
-      sx={{
+      rootStyles={{
         color: "primary.light",
+        backgroundColor: "primary.dark",
       }}
-      icon={icon}
-      title={<Typography color="primary.light">{title}</Typography>}
-    ></SubMenu>
+      title={<Typography color="primary.light">{apiary.name}</Typography>}
+    >
+      <DeviceItem
+        apiary={apiary}
+        selected={selected}
+        setSelected={setSelected}
+      />
+    </SubMenu>
   );
 };
 
 const Sidebar = () => {
-  const navitage = useNavigate();
-  const dispath = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Home");
 
-  // const { user } = useSelector((state) => state.auth);
-  // const { goals, isLoading, isError, message } = useSelector(
-  //   (state) => state.apiaries
-  // );
+  const { user } = useSelector((state) => state.auth);
+  const { apiaries, isLoading, isError, message } = useSelector(
+    (state) => state.apiary
+  );
+
+  useEffect(() => {
+    if (isError) {
+      console.log(message);
+    }
+    if (!user) {
+      navigate("/login");
+    }
+    dispatch(getApiaries());
+    return () => {
+      dispatch(apiaryReset());
+    };
+  }, [user, navigate, isError, message, dispatch]);
 
   return (
     <Box
@@ -101,14 +175,17 @@ const Sidebar = () => {
         "& .pro-inner-item": {
           padding: "12px 35px 12px 20px !important",
         },
-        "& .pro-sidebar-submenu": {
+        "& .pro-sub-menu": {
           backgroundColor: "primary.dark",
         },
         "& .pro-inner-item:hover": {
-          color: "#000000 !important",
+          color: "selected.light",
         },
         "& .pro-menu-item.active": {
-          color: "#000000 !important",
+          color: "selected.main",
+        },
+        "& .pro-menu-item": {
+          color: "primary.light",
         },
       }}
     >
@@ -118,6 +195,7 @@ const Sidebar = () => {
         breakPoint="xs"
         collapsedWidth={80}
         width={240}
+        backgroundColor={"primary.dark"}
       >
         <Menu iconShape="circle">
           {/* Header and Button */}
@@ -150,42 +228,63 @@ const Sidebar = () => {
         </Menu>
 
         <SidebarContent>
-          <Menu iconShape="circle">
-            <MyItem
-              title="Home"
-              to="/"
-              icon={<HomeOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <SubMenu
-              title={
-                <Typography variant="h6" color={"primary.light"}>
-                  Apiaries
-                </Typography>
-              }
-              icon={
-                <Avatar
-                  sx={{
-                    width: 36,
-                    height: 36,
-                    m: 1,
-                    color: "onSecondary.main",
-                    bgcolor: "secondary.main",
-                  }}
-                >
-                  <HiveOutlinedIcon />{" "}
-                </Avatar>
-              }
-            ></SubMenu>
-            <MyItem
-              title="FAQ"
-              to="/faq"
-              icon={<HelpOutlineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-          </Menu>
+          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+            <Menu iconShape="circle">
+              <Item
+                title="Home"
+                to="/"
+                icon={<HomeOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+              <SubMenu
+                rootStyles={{
+                  backgroundColor: "primary.dark",
+                }}
+                title={
+                  <Typography variant="h6" color={"primary.light"}>
+                    Apiaries
+                  </Typography>
+                }
+                icon={
+                  <Avatar
+                    sx={{
+                      width: 36,
+                      height: 36,
+                      m: 1,
+                      color: "onSecondary.main",
+                      bgcolor: "secondary.main",
+                    }}
+                  >
+                    <HiveOutlinedIcon />{" "}
+                  </Avatar>
+                }
+              >
+                {apiaries.length > 0 ? (
+                  <div className="apiaries">
+                    {apiaries.map((apiary) => (
+                      <ApiaryMenu
+                        apiary={apiary}
+                        selected={selected}
+                        setSelected={setSelected}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <Typography color="primary.light">
+                    Please create an apiary
+                  </Typography>
+                )}
+              </SubMenu>
+              <Item
+                title="FAQ"
+                to="/faq"
+                icon={<HelpOutlineOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            </Menu>
+          </Box>
         </SidebarContent>
       </ProSidebar>
     </Box>

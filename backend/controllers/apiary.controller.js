@@ -144,7 +144,7 @@ const deleteApiary = asyncHandler(async (req, res) => {
 
 // @status  WORKING
 // @desc    Update members to apiary
-// @route   PUT /api/apiaries/:apiary_id&:user_id
+// @route   PUT /api/apiaries/:apiary_id&:user_id&setOwner
 // @access  Private; owners of apiary only
 const updateMembers = asyncHandler(async (req, res) => {
   const { user, isOwner, apiary } = await checkUserToApiary(req, res);
@@ -158,7 +158,7 @@ const updateMembers = asyncHandler(async (req, res) => {
   }
 
   var setOwner = false;
-  if (req.params.isOwner !== 0) {
+  if (req.params.setOwner !== 0) {
     setOwner = true;
   }
 
@@ -181,10 +181,34 @@ const updateMembers = asyncHandler(async (req, res) => {
   res.status(200).json(apiary.members);
 });
 
+// @status  IN TEST
+// @desc    Delete member from apiary
+// @route   PUT /api/apiaries/:apiary_id&:user_id
+// @access  Private; owners of apiary only
+const deleteMember = asyncHandler(async (req, res) => {
+  const { user, isOwner, apiary } = await checkUserToApiary(req, res);
+
+  // If not the owner or not the currently logged in user, unauthorized
+  if (!isOwner || user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error(
+      "User not authorized. User must be an owner of the apiary to update it"
+    );
+  }
+
+  // Pull the member :user_id from the apiary :apiary_id
+  apiary.members.pull({
+    user: req.params.user_id,
+  });
+
+  res.status(200).json(apiary.members);
+});
+
 module.exports = {
   getApiaries,
   setApiary,
   updateApiary,
   deleteApiary,
   updateMembers,
+  deleteMember,
 };
