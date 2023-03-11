@@ -16,11 +16,9 @@ app.use(express.urlencoded({ extended: false }));
 
 const userRouter = require("./routes/user.routes.js");
 const apiaryRouter = require("./routes/apiary.routes.js");
-const deviceRouter = require("./routes/device.routes.js");
 
 app.use("/api/users", userRouter);
 app.use("/api/apiaries", apiaryRouter);
-app.use("/api/devices", deviceRouter);
 
 // Serve frontend
 if (process.env.NODE_ENV === "production") {

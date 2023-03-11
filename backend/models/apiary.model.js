@@ -23,6 +23,51 @@ const memberSchema = mongoose.Schema({
   },
 });
 
+const dataSchema = mongoose.Schema(
+  {
+    time: Date,
+    intake: Number,
+    outtake: Number,
+  },
+  {
+    timeseries: {
+      timeField: "time",
+      granularity: "minutes",
+    },
+  }
+);
+
+const deviceSchema = new mongoose.Schema(
+  {
+    serial: {
+      type: String,
+      required: [true, "Please add a serial number"],
+      unique: true,
+      partialFilterExpression: { serial: { $type: "string" } },
+    },
+    name: {
+      type: String,
+      required: [true, "Please add a name"],
+    },
+    remote: {
+      type: String,
+      required: [true, "Please add a remote.it URL"],
+      unique: true,
+      partialFilterExpression: { remote: { $type: "string" } },
+    },
+    data: {
+      type: dataSchema,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+function arrayLimit(val) {
+  return val.length <= 10;
+}
+
 const apiarySchema = new mongoose.Schema(
   {
     name: {
@@ -38,6 +83,12 @@ const apiarySchema = new mongoose.Schema(
       {
         type: memberSchema,
         required: [true, "Please add a member"],
+        validate: [arrayLimit, "Members exceeds the limit of 10"],
+      },
+    ],
+    devices: [
+      {
+        type: deviceSchema,
       },
     ],
   },

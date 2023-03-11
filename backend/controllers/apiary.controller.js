@@ -1,6 +1,5 @@
 const asyncHandler = require("express-async-handler");
 const Apiary = require("../models/apiary.model.js");
-const Device = require("../models/device.model.js");
 
 // @status  WORKING
 // @desc    Check that user is part of apiary
@@ -83,6 +82,7 @@ const setApiary = asyncHandler(async (req, res) => {
       user: req.user.id,
       isOwner: true,
     },
+    devices: [],
   });
 
   res.status(200).json(apiary);
@@ -103,10 +103,16 @@ const updateApiary = asyncHandler(async (req, res) => {
     );
   }
 
-  // Update the apiary accordingly
+  // Update the apiary accordingly (only update name, location)
+  // Cannot update arrays directly (prevent overwriting array)
   const updatedApiary = await Apiary.findByIdAndUpdate(
-    req.params.apiary_id,
-    req.body,
+    { _id: req.params.apiary_id },
+    {
+      $set: {
+        name: req.body.name,
+        location: req.body.location,
+      },
+    },
     {
       new: true,
     }
@@ -130,12 +136,6 @@ const deleteApiary = asyncHandler(async (req, res) => {
     );
   }
 
-  // Get associated devices
-  // Delete associated devices
-  await Device.deleteMany({
-    apiary: req.params.apiary_id,
-  });
-
   // Delete apiary
   await apiary.remove();
 
@@ -143,10 +143,131 @@ const deleteApiary = asyncHandler(async (req, res) => {
 });
 
 // @status  WORKING
-// @desc    Update members to apiary
-// @route   PUT /api/apiaries/:apiary_id&:user_id&setOwner
+// @desc    Set device
+// @route   PUT /api/apiaries/device/:apiary_id
 // @access  Private; owners of apiary only
-const updateMembers = asyncHandler(async (req, res) => {
+const setDevice = asyncHandler(async (req, res) => {
+  const { user, isOwner, apiary } = await checkUserToApiary(req, res);
+  const { serial, name, remote } = req.body;
+
+  // If not the owner or not the currently logged in user, unauthorized
+  if (!isOwner || user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error(
+      "User not authorized. User must be an owner of the apiary to update it"
+    );
+  }
+
+  // Check if device exists
+  const deviceExists = await Apiary.findOne({
+    devices: {
+      $elemMatch: {
+        serial: req.body.serial,
+      },
+    },
+  });
+
+  // If deviceExists, error
+  if (deviceExists) {
+    res.status(401);
+    throw new Error("Device already exists");
+  }
+
+  const updatedApiary = await Apiary.findByIdAndUpdate(
+    { _id: req.params.apiary_id },
+    {
+      $push: {
+        devices: {
+          serial: serial,
+          name: name,
+          remote: remote,
+          data: {},
+        },
+      },
+    }
+  );
+
+  res.status(200).json(updatedApiary);
+});
+
+// @status  WORKING
+// @desc    Update device
+// @route   PUT /api/apiaries/device/:apiary_id&:device_id
+// @access  Private; owners of apiary only
+const updateDevice = asyncHandler(async (req, res) => {
+  const { user, isOwner, apiary } = await checkUserToApiary(req, res);
+  const { serial, name, remote } = req.body;
+
+  // If not the owner or not the currently logged in user, unauthorized
+  if (!isOwner || user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error(
+      "User not authorized. User must be an owner of the apiary to update it"
+    );
+  }
+
+  const updatedApiary = await Apiary.findOneAndUpdate(
+    { _id: req.params.apiary_id, "devices._id": req.params.device_id },
+    {
+      $set: {
+        "devices.$.serial": serial,
+        "devices.$.name": name,
+        "devices.$.remote": remote,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+
+  if (!updatedApiary) {
+    res.status(401);
+    throw new Error("Device was not found");
+  }
+
+  res.status(200).json(updatedApiary.devices);
+});
+
+// @status  WORKING
+// @desc    Delete device
+// @route   DELETE /api/apiaries/device/:apiary_id&:device_id
+// @access  Private; owners of apiary only
+const deleteDevice = asyncHandler(async (req, res) => {
+  const { user, isOwner, apiary } = await checkUserToApiary(req, res);
+  const { serial, name, remote } = req.body;
+
+  // If not the owner or not the currently logged in user, unauthorized
+  if (!isOwner || user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error(
+      "User not authorized. User must be an owner of the apiary to update it"
+    );
+  }
+
+  const updatedApiary = await Apiary.findByIdAndUpdate(
+    { _id: req.params.apiary_id },
+    {
+      $pull: {
+        devices: {
+          _id: req.params.device_id,
+        },
+      },
+    }
+  );
+
+  if (!updatedApiary) {
+    res.status(401);
+    throw new Error("Device was not found");
+  }
+
+  res.status(200).json(updatedApiary.devices);
+});
+
+// @status  WORKING
+// @desc    Update members to apiary
+// @route   PUT /api/apiaries/member/:apiary_id&:user_id&setOwner
+// @access  Private; owners of apiary only
+const setMember = asyncHandler(async (req, res) => {
   const { user, isOwner, apiary } = await checkUserToApiary(req, res);
 
   // If not the owner or not the currently logged in user, unauthorized
@@ -157,33 +278,83 @@ const updateMembers = asyncHandler(async (req, res) => {
     );
   }
 
-  var setOwner = false;
-  if (req.params.setOwner !== 0) {
-    setOwner = true;
+  var found = false;
+  apiary.members.forEach((member) => {
+    if (member.user.toString() === req.body.user) {
+      found = true;
+      res.status(401);
+      throw new Error("User is already a member of this apiary");
+    }
+  });
+
+  var updatedApiary;
+
+  if (!found) {
+    // Push the new member :user_id to the apiary :apiary_id
+    updatedApiary = await Apiary.findByIdAndUpdate(
+      { _id: req.params.apiary_id },
+      {
+        $push: {
+          members: {
+            user: req.body.user,
+            isOwner: req.body.isOwner,
+          },
+        },
+      }
+    );
+  }
+
+  res.status(200).json(updatedApiary.members);
+});
+
+// @status  WORKING
+// @desc    Update members to apiary
+// @route   PUT /api/apiaries/member/:apiary_id&:user_id&setOwner
+// @access  Private; owners of apiary only
+const updateMember = asyncHandler(async (req, res) => {
+  const { user, isOwner, apiary } = await checkUserToApiary(req, res);
+
+  // If not the owner or not the currently logged in user, unauthorized
+  if (!isOwner || user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error(
+      "User not authorized. User must be an owner of the apiary to update it"
+    );
   }
 
   var found = false;
   apiary.members.forEach((member) => {
     if (member.user.toString() === req.params.user_id) {
-      member.isOwner = setOwner;
       found = true;
       return;
     }
   });
 
-  if (!found) {
-    // Push the new member :user_id to the apiary :apiary_id
-    apiary.members.push({
-      user: req.params.user_id,
-      isOwner: setOwner,
-    });
+  var updatedApiary;
+
+  if (found) {
+    updatedApiary = await Apiary.findOneAndUpdate(
+      { _id: req.params.apiary_id, "members.user": req.params.user_id },
+      {
+        $set: {
+          "members.$.isOwner": req.body.isOwner,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+  } else {
+    res.status(401);
+    throw new Error("User not found");
   }
-  res.status(200).json(apiary.members);
+
+  res.status(200).json(updatedApiary.members);
 });
 
-// @status  IN TEST
+// @status  WORKING
 // @desc    Delete member from apiary
-// @route   PUT /api/apiaries/:apiary_id&:user_id
+// @route   PUT /api/apiaries/member/:apiary_id&:user_id
 // @access  Private; owners of apiary only
 const deleteMember = asyncHandler(async (req, res) => {
   const { user, isOwner, apiary } = await checkUserToApiary(req, res);
@@ -196,12 +367,23 @@ const deleteMember = asyncHandler(async (req, res) => {
     );
   }
 
-  // Pull the member :user_id from the apiary :apiary_id
-  apiary.members.pull({
-    user: req.params.user_id,
-  });
+  const updatedApiary = await Apiary.findByIdAndUpdate(
+    { _id: req.params.apiary_id },
+    {
+      $pull: {
+        members: {
+          user: req.params.user_id,
+        },
+      },
+    }
+  );
 
-  res.status(200).json(apiary.members);
+  if (!updatedApiary) {
+    res.status(401);
+    throw new Error("Member was not found");
+  }
+
+  res.status(200).json(updatedApiary.members);
 });
 
 module.exports = {
@@ -209,6 +391,10 @@ module.exports = {
   setApiary,
   updateApiary,
   deleteApiary,
-  updateMembers,
+  setDevice,
+  updateDevice,
+  deleteDevice,
+  setMember,
+  updateMember,
   deleteMember,
 };

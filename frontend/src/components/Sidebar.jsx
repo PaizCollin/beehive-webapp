@@ -29,16 +29,13 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import HiveOutlinedIcon from "@mui/icons-material/HiveOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import Avatar from "@mui/material/Avatar";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getApiaries,
   reset as apiaryReset,
 } from "../features/apiary/apiary.slice";
-import {
-  getDevices,
-  reset as deviceReset,
-} from "../features/device/device.slice";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -70,48 +67,21 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
-const DeviceItem = ({ apiary, to, selected, setSelected }) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
+const DeviceItem = ({ device, to, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const { devices, isLoading, isError, message } = useSelector(
-    (state) => state.device
-  );
-
-  useEffect(() => {
-    if (isError) {
-      console.log(message);
-    }
-    dispatch(getDevices(apiary._id));
-    return () => {
-      dispatch(deviceReset());
-    };
-  }, [apiary._id, navigate, isError, message, dispatch]);
-
   return (
-    <>
-      {devices.length > 0 ? (
-        <div className="devices">
-          {devices.map((device) => (
-            <MenuItem
-              active={selected === device.name}
-              sx={{
-                color: "primary.light",
-              }}
-              onClick={() => setSelected(device.name)}
-            >
-              <Typography color="primary.light">{device.name}</Typography>
-              <Link to={to} />
-            </MenuItem>
-          ))}
-        </div>
-      ) : (
-        <Typography color="primary.light">Please add a device</Typography>
-      )}
-    </>
+    <MenuItem
+      active={selected === device.name}
+      sx={{
+        color: "primary.light",
+      }}
+      onClick={() => setSelected(device.name)}
+    >
+      <Typography color="primary.light">{device.name}</Typography>
+      <Link to={to} />
+    </MenuItem>
   );
 };
 
@@ -127,11 +97,19 @@ const ApiaryMenu = ({ apiary, selected, setSelected }) => {
       }}
       title={<Typography color="primary.light">{apiary.name}</Typography>}
     >
-      <DeviceItem
-        apiary={apiary}
-        selected={selected}
-        setSelected={setSelected}
-      />
+      {apiary.devices.length > 0 ? (
+        <div className="devices">
+          {apiary.devices.map((device) => (
+            <DeviceItem
+              device={device}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          ))}
+        </div>
+      ) : (
+        <Typography color="primary.light">Please add a device</Typography>
+      )}
     </SubMenu>
   );
 };
@@ -276,6 +254,13 @@ const Sidebar = () => {
                   </Typography>
                 )}
               </SubMenu>
+              <Item
+                title="Manage"
+                to="/manage"
+                icon={<SettingsOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
               <Item
                 title="FAQ"
                 to="/faq"
