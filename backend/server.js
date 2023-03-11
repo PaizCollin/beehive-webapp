@@ -14,13 +14,11 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-const usersRouter = require("./routes/user.routes.js");
-const organizationsRouter = require("./routes/organization.routes.js");
-const devicesRouter = require("./routes/device.routes.js");
+const userRouter = require("./routes/user.routes.js");
+const apiaryRouter = require("./routes/apiary.routes.js");
 
-app.use("/api/users", usersRouter);
-app.use("/api/organizations", organizationsRouter);
-app.use("/api/devices", devicesRouter);
+app.use("/api/users", userRouter);
+app.use("/api/apiaries", apiaryRouter);
 
 // Serve frontend
 if (process.env.NODE_ENV === "production") {

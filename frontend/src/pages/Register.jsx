@@ -2,13 +2,11 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { register, reset } from "../features/auth/auth.slice.js";
-import Spinner from "../components/Spinner";
+import Loading from "../components/Loading";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -17,9 +15,11 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useTheme, ThemeProvider } from "@mui/material/styles";
 import { tokens } from "../theme.js";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Fade, Grow } from "@mui/material";
+import { Grow, Fade } from "@mui/material";
+import Backdrop from "@mui/material/Backdrop";
+import FilledInput from "@mui/material/FilledInput";
 
 const Register = () => {
   // mui themes
@@ -81,9 +81,15 @@ const Register = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if (password !== password2) {
+    if (password.length() < 8) {
+      toast.error("Password must be at least 8 characters", {
+        toastID: "lengthError",
+        hideProgressBar: true,
+        theme: "colored",
+      });
+    } else if (password !== password2) {
       toast.error("Passwords do not match", {
-        toastID: "passwordError",
+        toastID: "matchError",
         hideProgressBar: true,
         theme: "colored",
       });
@@ -100,135 +106,148 @@ const Register = () => {
 
   // if loading -> spin
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <Fade in={isLoading}>
+        <Backdrop
+          sx={{
+            color: "secondary.main",
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+          }}
+        >
+          <Loading />
+        </Backdrop>
+      </Fade>
+    );
   }
 
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <Grow in={trans}>
-          <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <Grid
-              container
-              spacing={0}
-              alignItems="center"
-              justify="center"
-              style={{ minHeight: "80vh" }}
+      <Grow in={trans}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Grid
+            container
+            spacing={0}
+            alignItems="center"
+            justify="center"
+            style={{ minHeight: "80vh" }}
+          >
+            <Box
+              sx={{
+                marginTop: 8,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                bgcolor: "primary.dark",
+                p: 4,
+                borderRadius: `24px`,
+              }}
             >
-              <Box
+              <Avatar
                 sx={{
-                  marginTop: 8,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  bgcolor: "primary.dark",
-                  p: 4,
-                  borderRadius: `24px`,
+                  width: 36,
+                  height: 36,
+                  m: 1,
+                  color: "onSecondary.main",
+                  bgcolor: "secondary.main",
                 }}
               >
-                <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                  <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h9" color={"neutral.light"}>
-                  Sign Up
-                </Typography>
-                <Box
-                  component="form"
-                  onSubmit={onSubmit}
-                  noValidate
-                  sx={{ mt: 1 }}
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h9" color={"neutral.light"}>
+                Sign Up
+              </Typography>
+              <Box
+                component="form"
+                onSubmit={onSubmit}
+                noValidate
+                sx={{ mt: 1 }}
+              >
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="name"
+                  label="Name"
+                  type="name"
+                  id="name"
+                  autoComplete="name"
+                  value={name}
+                  onChange={onChange}
+                  autoFocus
+                  variant={"filled"}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={onChange}
+                  variant={"filled"}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={onChange}
+                  variant={"filled"}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password2"
+                  label="Confirm Password"
+                  type="password"
+                  id="password2"
+                  autoComplete="current-password"
+                  value={password2}
+                  onChange={onChange}
+                  variant={"filled"}
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{
+                    mt: 3,
+                    mb: 2,
+                    color: "onSecondary.main",
+                    bgcolor: "secondary.main",
+                    ":hover": {
+                      color: "primary.light",
+                    },
+                  }}
                 >
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="name"
-                    label="Name"
-                    type="name"
-                    id="name"
-                    autoComplete="name"
-                    value={name}
-                    onChange={onChange}
-                    autoFocus
-                    variant={"filled"}
-                    InputLabelProps={{
-                      style: { color: colors.primary[100] },
-                    }}
-                  />
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                    value={email}
-                    onChange={onChange}
-                    variant={"filled"}
-                    InputLabelProps={{
-                      style: { color: colors.primary[100] },
-                    }}
-                  />
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    value={password}
-                    onChange={onChange}
-                    variant={"filled"}
-                    InputLabelProps={{
-                      style: { color: colors.primary[100] },
-                    }}
-                  />
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password2"
-                    label="Confirm Password"
-                    type="password"
-                    id="password2"
-                    autoComplete="current-password"
-                    value={password2}
-                    onChange={onChange}
-                    variant={"filled"}
-                    InputLabelProps={{
-                      style: { color: colors.primary[100] },
-                    }}
-                  />
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2, bgcolor: "secondary.main" }}
-                  >
-                    Sign In
-                  </Button>
-                  <Grid container>
-                    <Grid item>
-                      <Link
-                        href="/login"
-                        variant="body2"
-                        color={"primary.light"}
-                        onClick={handleTrans}
-                      >
-                        {"Already have an account? Sign In"}
-                      </Link>
-                    </Grid>
+                  Sign Up
+                </Button>
+                <Grid container>
+                  <Grid item>
+                    <Link
+                      href="/login"
+                      variant="body2"
+                      color={"primary.light"}
+                      onClick={handleTrans}
+                    >
+                      {"Already have an account? Sign in"}
+                    </Link>
                   </Grid>
-                </Box>
+                </Grid>
               </Box>
-            </Grid>
-          </Container>
-        </Grow>
-      </ThemeProvider>
+            </Box>
+          </Grid>
+        </Container>
+      </Grow>
     </>
   );
 };
