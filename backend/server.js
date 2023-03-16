@@ -16,9 +16,13 @@ app.use(express.urlencoded({ extended: false }));
 
 const userRouter = require("./routes/user.routes.js");
 const apiaryRouter = require("./routes/apiary.routes.js");
+const dataRouter = require("./routes/data.routes.js");
+
 
 app.use("/api/users", userRouter);
 app.use("/api/apiaries", apiaryRouter);
+app.use("/api/data", dataRouter);
+
 
 // Serve frontend
 if (process.env.NODE_ENV === "production") {
