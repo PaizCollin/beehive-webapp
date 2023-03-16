@@ -22,7 +22,7 @@ const getData = asyncHandler(async (req, res) => {
     if (dataPoints.length < datapointNumLimit) {
       res.status(204).send();
     } else {
-      res.status(200).json(dataPoints);
+      res.status(200).JSON(dataPoints);
     }
   } catch (err) {
     console.error(err);
