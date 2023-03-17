@@ -1,6 +1,5 @@
 const asyncHandler = require("express-async-handler");
 const Organization = require("../models/apiary.model.js");
-const DataPoint = require("../models/data.model.js");
 
 // @status  WIP
 // @desc    Upload data point
@@ -13,9 +12,9 @@ const getData = asyncHandler(async (req, res) => {
   const datapointNumLimit =
     req.params["limit"] !== undefined ? req.params["limit"] : 100;
   try {
-    const dataPoints = await DataPoint.find()
+    const dataPoints = await Organization.find()
       // TODO: filter data according to apiary_id and device_id
-      // perhaps make only one apiary id and device id
+      // Gets data for each apiary and device the data is linked to
       .sort({ time: "desc" })
       .limit(datapointNumLimit)
       .exec();
@@ -36,15 +35,12 @@ const getData = asyncHandler(async (req, res) => {
 // @access  public at this point
 
 const postData = asyncHandler(async (req, res) => {
-  // const { raw_activity, type, x, y, weather, type,  temp, humidity, windspeed } = req.body;
+  // will just make datapoints for each apiary_id and device_id
 
-  // TODO: update data according to apiary_id and device_id
-  // will just make datapoints for one organization id and device id
-
-  const dataPoint = await DataPoint.create(req.body);
+  const dataPoint = await Organization.create(req.body);
   if (dataPoint) {
-    console.log("TESTING JSON OBJECT PRINTING AND UPLOAD TO MONGODB\n");
-    console.log(JSON.stringify(dataPoint) + "\n");
+    // console.log("TESTING JSON OBJECT PRINTING AND UPLOAD TO MONGODB\n");
+    // console.log(JSON.stringify(dataPoint) + "\n");
     res.status(201).JSON(dataPoint);
   } else {
     console.error(err);

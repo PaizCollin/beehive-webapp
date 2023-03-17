@@ -23,19 +23,26 @@ const memberSchema = mongoose.Schema({
   },
 });
 
-const dataSchema = mongoose.Schema(
-  {
-    time: Date,
-    intake: Number,
-    outtake: Number,
+const dataSchema = mongoose.Schema({
+  time: { type: Date, default: Date.now },
+  raw_activity: {
+    x: { type: Number, required: true },
+    y: { type: Number, required: true },
   },
-  {
-    timeseries: {
-      timeField: "time",
-      granularity: "minutes",
-    },
-  }
-);
+  weather: {
+    temp: { type: Number, required: true },
+    humidity: { type: Number, required: true },
+    windspeed: { type: Number, required: true },
+  },
+  prediction_activity: {
+    x: { type: Number, required: true },
+    y: { type: Number, required: true },
+  },
+  last_prediction_deviation: {
+    type: Number,
+    required: false,
+  },
+});
 
 const deviceSchema = new mongoose.Schema(
   {
