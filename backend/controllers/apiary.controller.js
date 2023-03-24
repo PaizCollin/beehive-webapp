@@ -46,7 +46,7 @@ const getApiaries = asyncHandler(async (req, res) => {
         user: req.user.id,
       },
     },
-  });
+  }).populate("members.user");
 
   res.status(200).json(apiaries);
 });
@@ -110,13 +110,13 @@ const updateApiary = asyncHandler(async (req, res) => {
     {
       $set: {
         name: req.body.name,
-        location: req.body.location,
+        //location: req.body.location,
       },
     },
     {
       new: true,
     }
-  );
+  ).populate("members.user");
 
   res.status(200).json(updatedApiary);
 });
@@ -260,7 +260,7 @@ const deleteDevice = asyncHandler(async (req, res) => {
     throw new Error("Device was not found");
   }
 
-  res.status(200).json(updatedApiary.devices);
+  res.status(200).json(updatedApiary);
 });
 
 // @status  WORKING
@@ -304,7 +304,7 @@ const setMember = asyncHandler(async (req, res) => {
     );
   }
 
-  res.status(200).json(updatedApiary.members);
+  res.status(200).json(updatedApiary);
 });
 
 // @status  WORKING
@@ -313,7 +313,6 @@ const setMember = asyncHandler(async (req, res) => {
 // @access  Private; owners of apiary only
 const updateMember = asyncHandler(async (req, res) => {
   const { user, isOwner, apiary } = await checkUserToApiary(req, res);
-
   // If not the owner or not the currently logged in user, unauthorized
   if (!isOwner || user.toString() !== req.user.id) {
     res.status(401);
@@ -343,13 +342,12 @@ const updateMember = asyncHandler(async (req, res) => {
       {
         new: true,
       }
-    );
+    ).populate("members.user");
+    res.status(200).json(updatedApiary);
   } else {
     res.status(401);
     throw new Error("User not found");
   }
-
-  res.status(200).json(updatedApiary.members);
 });
 
 // @status  WORKING
@@ -383,7 +381,7 @@ const deleteMember = asyncHandler(async (req, res) => {
     throw new Error("Member was not found");
   }
 
-  res.status(200).json(updatedApiary.members);
+  res.status(200).json(updatedApiary);
 });
 
 module.exports = {

@@ -54,11 +54,11 @@ export const setApiary = createAsyncThunk(
 // Update apiary
 export const updateApiary = createAsyncThunk(
   "apiary/updateApiary",
-  async (apiaryData, apiaryID, thunkAPI) => {
+  async (apiaryData, thunkAPI) => {
     if (!thunkAPI.getState().auth.user) return;
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await apiaryService.updateApiary(apiaryData, apiaryID, token);
+      return await apiaryService.updateApiary(apiaryData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -180,16 +180,11 @@ export const setMember = createAsyncThunk(
 // Update member
 export const updateMember = createAsyncThunk(
   "apiary/updateMember",
-  async (userData, apiaryID, userID, thunkAPI) => {
+  async (apiaryData, thunkAPI) => {
     if (!thunkAPI.getState().auth.user) return;
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await apiaryService.updateMember(
-        userData,
-        apiaryID,
-        userID,
-        token
-      );
+      return await apiaryService.updateMember(apiaryData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -264,12 +259,15 @@ export const apiarySlice = createSlice({
       .addCase(updateApiary.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.apiaries = action.payload;
+        const index = state.apiaries.findIndex(
+          (apiary) => apiary._id === action.payload._id
+        );
+        state.apiaries.fill(action.payload, index, index + 1);
       })
       .addCase(updateApiary.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.message = action.payload;
+        state.apiaries = action.payload;
       })
 
       .addCase(deleteApiary.pending, (state) => {
@@ -279,7 +277,7 @@ export const apiarySlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.apiaries = state.apiaries.filter(
-          (apiary) => apiary._id !== action.payload.id
+          (apiary) => apiary._id !== action.payload._id
         );
       })
       .addCase(deleteApiary.rejected, (state, action) => {
@@ -350,7 +348,10 @@ export const apiarySlice = createSlice({
       .addCase(updateMember.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.apiaries = action.payload;
+        const index = state.apiaries.findIndex(
+          (apiary) => apiary._id === action.payload._id
+        );
+        state.apiaries.fill(action.payload, index, index + 1);
       })
       .addCase(updateMember.rejected, (state, action) => {
         state.isLoading = false;

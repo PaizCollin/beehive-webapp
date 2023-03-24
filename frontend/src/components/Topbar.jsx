@@ -1,4 +1,4 @@
-import { Box, IconButton, useTheme, Typography } from "@mui/material";
+import { Box, IconButton, useTheme, Typography, Avatar } from "@mui/material";
 import { useContext } from "react";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
@@ -40,22 +40,69 @@ const Topbar = () => {
       <Box display="flex" justifyContent="left">
         <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? (
-            <LightModeOutlinedIcon sx={{ color: "primary.light" }} />
+            <Avatar
+              sx={{
+                width: 36,
+                height: 36,
+                color: "onSecondary.main",
+                bgcolor: "secondary.main",
+                alignSelf: "center",
+              }}
+            >
+              <LightModeOutlinedIcon />
+            </Avatar>
           ) : (
-            <DarkModeOutlinedIcon sx={{ color: "primary.light" }} />
+            <Avatar
+              sx={{
+                width: 36,
+                height: 36,
+                color: "onSecondary.main",
+                bgcolor: "secondary.main",
+                alignSelf: "center",
+              }}
+            >
+              <DarkModeOutlinedIcon />
+            </Avatar>
           )}
         </IconButton>
         <IconButton>
-          <NotificationsOutlinedIcon sx={{ color: "primary.light" }} />
+          <Avatar
+            sx={{
+              width: 36,
+              height: 36,
+              color: "onSecondary.main",
+              bgcolor: "secondary.main",
+              alignSelf: "center",
+            }}
+          >
+            <NotificationsOutlinedIcon />
+          </Avatar>
         </IconButton>
         <IconButton>
-          <SettingsOutlinedIcon sx={{ color: "primary.light" }} />
+          <Avatar
+            sx={{
+              width: 36,
+              height: 36,
+              color: "onSecondary.main",
+              bgcolor: "secondary.main",
+              alignSelf: "center",
+            }}
+          >
+            <SettingsOutlinedIcon />
+          </Avatar>
         </IconButton>
-        <IconButton>
-          <LogoutOutlinedIcon
-            onClick={onLogout}
-            sx={{ color: "primary.light" }}
-          />
+        <IconButton onClick={onLogout}>
+          <Avatar
+            sx={{
+              width: 36,
+              height: 36,
+              color: "onSecondary.main",
+              bgcolor: "secondary.main",
+              alignSelf: "center",
+            }}
+          >
+            <LogoutOutlinedIcon />
+          </Avatar>
         </IconButton>
       </Box>
     </Box>

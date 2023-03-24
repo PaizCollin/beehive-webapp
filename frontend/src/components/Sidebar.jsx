@@ -91,7 +91,7 @@ const ApiaryMenu = ({ apiary, selected, setSelected }) => {
 
   return (
     <SubMenu
-      rootStyles={{
+      sx={{
         color: "primary.light",
         backgroundColor: "primary.dark",
       }}
@@ -101,6 +101,7 @@ const ApiaryMenu = ({ apiary, selected, setSelected }) => {
         <div className="devices">
           {apiary.devices.map((device) => (
             <DeviceItem
+              key={device._id}
               device={device}
               selected={selected}
               setSelected={setSelected}
@@ -132,12 +133,16 @@ const Sidebar = () => {
     if (isError) {
       console.log(message);
     }
+
     if (!user) {
       navigate("/login");
     }
+
     dispatch(getApiaries());
+
     return () => {
       dispatch(apiaryReset());
+      navigate("/manage");
     };
   }, [user, navigate, isError, message, dispatch]);
 
@@ -168,12 +173,11 @@ const Sidebar = () => {
       }}
     >
       <ProSidebar
-        defaultCollapsed={false}
         collapsed={isCollapsed}
         breakPoint="xs"
         collapsedWidth={80}
         width={240}
-        backgroundColor={"primary.dark"}
+        position="fixed"
       >
         <Menu iconShape="circle">
           {/* Header and Button */}
@@ -216,7 +220,7 @@ const Sidebar = () => {
                 setSelected={setSelected}
               />
               <SubMenu
-                rootStyles={{
+                sx={{
                   backgroundColor: "primary.dark",
                 }}
                 title={
@@ -242,6 +246,7 @@ const Sidebar = () => {
                   <div className="apiaries">
                     {apiaries.map((apiary) => (
                       <ApiaryMenu
+                        key={apiary._id}
                         apiary={apiary}
                         selected={selected}
                         setSelected={setSelected}

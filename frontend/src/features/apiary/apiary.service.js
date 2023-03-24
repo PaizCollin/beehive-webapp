@@ -29,16 +29,18 @@ const setApiary = async (apiaryData, token) => {
 };
 
 // Update apiary
-const updateApiary = async (apiaryData, apiaryID, token) => {
+const updateApiary = async (apiaryData, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
 
+  const { name, location } = apiaryData;
+
   const response = await axios.put(
-    API_URL + "apiary/" + apiaryID,
-    apiaryData,
+    API_URL + "apiary/" + apiaryData.apiaryID,
+    { name, location },
     config
   );
 
@@ -126,16 +128,23 @@ const setMember = async (userData, apiaryID, token) => {
 };
 
 // Update member
-const updateMember = async (userData, apiaryID, userID, token) => {
+const updateMember = async (apiaryData, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
 
+  const { isOwner } = apiaryData;
+
   const response = await axios.put(
-    API_URL + "apiary/" + apiaryID + "/user/" + userID + "/updatemember",
-    userData,
+    API_URL +
+      "apiary/" +
+      apiaryData.apiaryID +
+      "/user/" +
+      apiaryData.userID +
+      "/updatemember",
+    { isOwner },
     config
   );
 
