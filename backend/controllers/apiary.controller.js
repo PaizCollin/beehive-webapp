@@ -85,6 +85,8 @@ const setApiary = asyncHandler(async (req, res) => {
     devices: [],
   });
 
+  apiary.populate("members.user");
+
   res.status(200).json(apiary);
 });
 
@@ -139,7 +141,7 @@ const deleteApiary = asyncHandler(async (req, res) => {
   // Delete apiary
   await apiary.remove();
 
-  res.status(200).json({ id: req.params.apiary_id });
+  res.status(200).json({ _id: req.params.apiary_id });
 });
 
 // @status  WORKING
@@ -184,8 +186,11 @@ const setDevice = asyncHandler(async (req, res) => {
           data: {},
         },
       },
+    },
+    {
+      new: true,
     }
-  );
+  ).populate("members.user");
 
   res.status(200).json(updatedApiary);
 });
@@ -218,14 +223,14 @@ const updateDevice = asyncHandler(async (req, res) => {
     {
       new: true,
     }
-  );
+  ).populate("members.user");
 
   if (!updatedApiary) {
     res.status(401);
     throw new Error("Device was not found");
   }
 
-  res.status(200).json(updatedApiary.devices);
+  res.status(200).json(updatedApiary);
 });
 
 // @status  WORKING
@@ -252,8 +257,11 @@ const deleteDevice = asyncHandler(async (req, res) => {
           _id: req.params.device_id,
         },
       },
+    },
+    {
+      new: true,
     }
-  );
+  ).populate("members.user");
 
   if (!updatedApiary) {
     res.status(401);

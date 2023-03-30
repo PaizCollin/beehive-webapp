@@ -48,20 +48,23 @@ const updateApiary = async (apiaryData, token) => {
 };
 
 // Delete user apiary
-const deleteApiary = async (apiaryID, token) => {
+const deleteApiary = async (apiaryData, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
 
-  const response = await axios.delete(API_URL + "apiary/" + apiaryID, config);
+  const response = await axios.delete(
+    API_URL + "apiary/" + apiaryData.apiaryID,
+    config
+  );
 
   return response.data;
 };
 
 // Set device
-const setDevice = async (deviceData, apiaryID, token) => {
+const setDevice = async (apiaryData, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -69,8 +72,8 @@ const setDevice = async (deviceData, apiaryID, token) => {
   };
 
   const response = await axios.put(
-    API_URL + "apiary/" + apiaryID + "/setdevice",
-    deviceData,
+    API_URL + "apiary/" + apiaryData.apiaryID + "/setdevice",
+    apiaryData.deviceData,
     config
   );
 
@@ -95,7 +98,7 @@ const updateDevice = async (deviceData, apiaryID, deviceID, token) => {
 };
 
 // Delete device
-const deleteDevice = async (apiaryID, deviceID, token) => {
+const deleteDevice = async (apiaryData, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -103,7 +106,13 @@ const deleteDevice = async (apiaryID, deviceID, token) => {
   };
 
   const response = await axios.put(
-    API_URL + "apiary/" + apiaryID + "/device/" + deviceID + "/deletedevice",
+    API_URL +
+      "apiary/" +
+      apiaryData.apiaryID +
+      "/device/" +
+      apiaryData.deviceID +
+      "/deletedevice",
+    {},
     config
   );
 

@@ -22,7 +22,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { useState } from "react";
 import { tokens } from "../theme";
 import { useDispatch, useSelector } from "react-redux";
-import { updateMember } from "../features/apiary/apiary.slice";
+import { updateMember, deleteMember } from "../features/apiary/apiary.slice";
 
 const checkUser = async (apiary, user) => {
   var isOwner = false;
@@ -73,6 +73,16 @@ const UserCard = ({ user, apiary }) => {
     };
 
     dispatch(updateMember(apiaryData));
+  };
+
+  const onDelete = async (e) => {
+    e.preventDefault();
+
+    const data = {
+      apiaryID: apiary._id,
+    };
+
+    dispatch(deleteMember(data));
   };
 
   return (
@@ -126,16 +136,26 @@ const UserCard = ({ user, apiary }) => {
           </CardActions>
         }
       />
-      <Collapse in={expand}>
+      <Collapse
+        in={expand}
+        sx={{
+          alignSelf: "center",
+          px: 4,
+          width: "100%",
+        }}
+      >
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
+            justifyContent: "center",
             borderRadius: `24px`,
+            maxWidth: "320px",
+            marginLeft: "auto",
+            marginRight: "auto",
           }}
         >
-          <Box component="form" onSubmit={onSubmit} noValidate>
+          <Box component="form" onSubmit={onSubmit} noValidate fullWidth>
             <FormControlLabel
               control={
                 <Checkbox
@@ -144,17 +164,19 @@ const UserCard = ({ user, apiary }) => {
                   bgcolor="onSecondary.main"
                 />
               }
-              label="Owner?"
+              label="Owner"
               onChange={onChange}
               checked={isChecked}
+              fullWidth
             />
+
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{
-                mt: 3,
-                mb: 2,
+                mt: 2,
+                mb: 3,
                 color: "onSecondary.main",
                 bgcolor: "secondary.main",
                 ":hover": {
@@ -164,6 +186,24 @@ const UserCard = ({ user, apiary }) => {
               disabled={!isOwner}
             >
               Save Changes
+            </Button>
+          </Box>
+          <Box component="form" onSubmit={onDelete} noValidate fullWidth>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{
+                mb: 4,
+                color: "onSecondary.main",
+                bgcolor: "err.main",
+                ":hover": {
+                  color: "err.main",
+                },
+              }}
+              disabled={!isOwner}
+            >
+              Delete Device
             </Button>
           </Box>
         </Box>

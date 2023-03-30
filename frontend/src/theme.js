@@ -111,6 +111,9 @@ export const themeSettings = (mode) => {
             background: {
               default: colors.primary[800],
             },
+            err: {
+              main: "#e74c3c",
+            },
           }
         : {
             primary: {
@@ -138,6 +141,9 @@ export const themeSettings = (mode) => {
             },
             background: {
               default: colors.primary[900],
+            },
+            err: {
+              main: "#e74c3c",
             },
           }),
     },

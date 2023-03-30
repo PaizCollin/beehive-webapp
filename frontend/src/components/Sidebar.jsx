@@ -121,7 +121,7 @@ const Sidebar = () => {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [selected, setSelected] = useState("Home");
 
   const { user } = useSelector((state) => state.auth);
@@ -142,7 +142,7 @@ const Sidebar = () => {
 
     return () => {
       dispatch(apiaryReset());
-      navigate("/manage");
+      //navigate("/");
     };
   }, [user, navigate, isError, message, dispatch]);
 

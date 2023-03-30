@@ -50,9 +50,7 @@ function App() {
                         <Sidebar isSidebar={isSidebar} />
 
                         <main className="content">
-                          <Sticky>
                             <Topbar />
-                          </Sticky>
                           <Manage />
                         </main>
                       </div>

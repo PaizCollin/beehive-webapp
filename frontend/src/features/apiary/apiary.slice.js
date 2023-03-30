@@ -74,12 +74,12 @@ export const updateApiary = createAsyncThunk(
 // Delete apiary
 export const deleteApiary = createAsyncThunk(
   "apiary/deleteApiary",
-  async (apiaryID, thunkAPI) => {
+  async (apiaryData, thunkAPI) => {
     if (!thunkAPI.getState().auth.user) return;
     try {
       const token = thunkAPI.getState().auth.user.token;
       if (!token) return;
-      return await apiaryService.deleteApiary(apiaryID, token);
+      return await apiaryService.deleteApiary(apiaryData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -95,11 +95,11 @@ export const deleteApiary = createAsyncThunk(
 // Set new device
 export const setDevice = createAsyncThunk(
   "apiary/setDevice",
-  async (deviceData, apiaryID, thunkAPI) => {
+  async (apiaryData, thunkAPI) => {
     if (!thunkAPI.getState().auth.user) return;
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await apiaryService.setDevice(deviceData, apiaryID, token);
+      return await apiaryService.setDevice(apiaryData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -140,11 +140,11 @@ export const updateDevice = createAsyncThunk(
 // Delete device
 export const deleteDevice = createAsyncThunk(
   "apiary/deleteDevice",
-  async (apiaryID, deviceID, thunkAPI) => {
+  async (apiaryData, thunkAPI) => {
     if (!thunkAPI.getState().auth.user) return;
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await apiaryService.deleteDevice(apiaryID, deviceID, token);
+      return await apiaryService.deleteDevice(apiaryData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -292,7 +292,10 @@ export const apiarySlice = createSlice({
       .addCase(setDevice.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.apiaries = action.payload;
+        const index = state.apiaries.findIndex(
+          (apiary) => apiary._id === action.payload._id
+        );
+        state.apiaries.fill(action.payload, index, index + 1);
       })
       .addCase(setDevice.rejected, (state, action) => {
         state.isLoading = false;
@@ -306,7 +309,10 @@ export const apiarySlice = createSlice({
       .addCase(updateDevice.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.apiaries = action.payload;
+        const index = state.apiaries.findIndex(
+          (apiary) => apiary._id === action.payload._id
+        );
+        state.apiaries.fill(action.payload, index, index + 1);
       })
       .addCase(updateDevice.rejected, (state, action) => {
         state.isLoading = false;
@@ -320,7 +326,10 @@ export const apiarySlice = createSlice({
       .addCase(deleteDevice.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.apiaries = action.payload;
+        const index = state.apiaries.findIndex(
+          (apiary) => apiary._id === action.payload._id
+        );
+        state.apiaries.fill(action.payload, index, index + 1);
       })
       .addCase(deleteDevice.rejected, (state, action) => {
         state.isLoading = false;
@@ -334,7 +343,10 @@ export const apiarySlice = createSlice({
       .addCase(setMember.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.apiaries = action.payload;
+        const index = state.apiaries.findIndex(
+          (apiary) => apiary._id === action.payload._id
+        );
+        state.apiaries.fill(action.payload, index, index + 1);
       })
       .addCase(setMember.rejected, (state, action) => {
         state.isLoading = false;
@@ -365,7 +377,10 @@ export const apiarySlice = createSlice({
       .addCase(deleteMember.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.apiaries = action.payload;
+        const index = state.apiaries.findIndex(
+          (apiary) => apiary._id === action.payload._id
+        );
+        state.apiaries.fill(action.payload, index, index + 1);
       })
       .addCase(deleteMember.rejected, (state, action) => {
         state.isLoading = false;

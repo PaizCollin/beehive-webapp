@@ -18,7 +18,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { tokens } from "../theme";
-import { updateApiary } from "../features/apiary/apiary.slice";
+import { deleteApiary, updateApiary } from "../features/apiary/apiary.slice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getApiaries,
@@ -27,6 +27,7 @@ import {
 import { toast } from "react-toastify";
 import DeviceCard from "./DeviceCard";
 import UserCard from "./UserCard";
+import AddDeviceCard from "./AddDeviceCard";
 
 const checkUser = async (apiary, user) => {
   var isOwner = false;
@@ -78,6 +79,16 @@ const ApiaryCard = ({ apiary }) => {
     };
 
     dispatch(updateApiary(apiaryData));
+  };
+
+  const onDelete = async (e) => {
+    e.preventDefault();
+
+    const data = {
+      apiaryID: apiary._id,
+    };
+
+    dispatch(deleteApiary(data));
   };
 
   return (
@@ -132,29 +143,37 @@ const ApiaryCard = ({ apiary }) => {
           </CardActions>
         }
       />
-      <Collapse in={expand}>
+      <Collapse in={expand} sx={{ alignSelf: "center", px: 4 }}>
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
-            p: 4,
+            justifyContent: "center",
             borderRadius: `24px`,
+            maxWidth: "320px",
+            marginLeft: "auto",
+            marginRight: "auto",
           }}
         >
-          <Box component="form" onSubmit={onSubmit} noValidate>
+          <Box
+            component="form"
+            onSubmit={onSubmit}
+            noValidate
+            sx={{ maxWidth: "320px" }}
+          >
             <TextField
               margin="normal"
               required
               fullWidth
               id="name"
-              label="Change Apiary Name"
+              label="Apiary Name"
               name="name"
               value={name}
               autoFocus
               onChange={onChange}
               variant={"filled"}
             />
+
             <Button
               type="submit"
               fullWidth
@@ -171,6 +190,24 @@ const ApiaryCard = ({ apiary }) => {
               disabled={!isOwner}
             >
               Save Changes
+            </Button>
+          </Box>
+          <Box component="form" onSubmit={onDelete} noValidate fullWidth>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{
+                mb: 4,
+                color: "onSecondary.main",
+                bgcolor: "err.main",
+                ":hover": {
+                  color: "err.main",
+                },
+              }}
+              disabled={!isOwner}
+            >
+              Delete Apiary
             </Button>
           </Box>
         </Box>
@@ -218,9 +255,14 @@ const ApiaryCard = ({ apiary }) => {
               </Typography>
               <div className="devices">
                 {apiary.devices.map((device) => (
-                  <DeviceCard key={device._id} device={device} />
+                  <DeviceCard
+                    key={device._id}
+                    device={device}
+                    apiary={apiary}
+                  />
                 ))}
               </div>
+              <AddDeviceCard apiary={apiary} />
             </Box>
           </Grid>
           <Grid item xs={10} sm={10} lg={10}>

@@ -24,6 +24,7 @@ import {
 import UserCard from "../components/UserCard";
 import DeviceCard from "../components/DeviceCard";
 import ApiaryCard from "../components/ApiaryCard";
+import AddApiaryCard from "../components/AddApiaryCard";
 import { toast } from "react-toastify";
 import { Grow, Fade } from "@mui/material";
 import Backdrop from "@mui/material/Backdrop";
@@ -124,6 +125,7 @@ const Manage = () => {
               </Typography>
             )}
           </>
+          <AddApiaryCard />
         </Box>
       </Grid>
     </Grid>
