@@ -25,14 +25,14 @@ import {
 } from "../features/apiary/apiary.slice";
 
 const checkUser = async (apiary, user) => {
-  var isOwner = false;
+  var isEditor = false;
   apiary.members.forEach((member) => {
     if (member.user._id === user._id) {
-      isOwner = member.isOwner;
+      isEditor = member.isEditor;
       return;
     }
   });
-  return isOwner;
+  return isEditor;
 };
 
 const DeviceCard = ({ device, apiary }) => {
@@ -54,7 +54,7 @@ const DeviceCard = ({ device, apiary }) => {
 
   const { name, serial, remote } = formData;
 
-  const isOwner = checkUser(apiary, user);
+  const isEditor = checkUser(apiary, user);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -210,7 +210,7 @@ const DeviceCard = ({ device, apiary }) => {
                   color: "primary.light",
                 },
               }}
-              disabled={!isOwner}
+              disabled={!isEditor}
             >
               Save Changes
             </Button>
@@ -228,7 +228,7 @@ const DeviceCard = ({ device, apiary }) => {
                   color: "err.main",
                 },
               }}
-              disabled={!isOwner}
+              disabled={!isEditor}
             >
               Delete Device
             </Button>

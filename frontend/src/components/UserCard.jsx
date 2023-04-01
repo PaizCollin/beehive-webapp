@@ -25,14 +25,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateMember, deleteMember } from "../features/apiary/apiary.slice";
 
 const checkUser = async (apiary, user) => {
-  var isOwner = false;
+  var isEditor = false;
   apiary.members.forEach((member) => {
     if (member.user._id === user._id) {
-      isOwner = member.isOwner;
+      isEditor = member.isEditor;
       return;
     }
   });
-  return isOwner;
+  return isEditor;
 };
 
 const UserCard = ({ user, apiary }) => {
@@ -44,12 +44,12 @@ const UserCard = ({ user, apiary }) => {
   const [expand, setExpand] = useState();
 
   const [formData, setFormData] = useState({
-    isChecked: user.isOwner,
+    isChecked: user.isEditor,
   });
 
   const { isChecked } = formData;
 
-  const isOwner = checkUser(apiary, user);
+  const isEditor = checkUser(apiary, user);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -62,27 +62,28 @@ const UserCard = ({ user, apiary }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const isOwner = isChecked ? 1 : 0;
+    const isEditor = isChecked ? 1 : 0;
     const apiaryID = apiary._id;
     const userID = user.user._id;
 
-    const apiaryData = {
-      isOwner,
+    const userData = {
+      isEditor,
       apiaryID,
       userID,
     };
 
-    dispatch(updateMember(apiaryData));
+    dispatch(updateMember(userData));
   };
 
   const onDelete = async (e) => {
     e.preventDefault();
 
-    const data = {
+    const userData = {
       apiaryID: apiary._id,
+      userID: user.user._id,
     };
 
-    dispatch(deleteMember(data));
+    dispatch(deleteMember(userData));
   };
 
   return (
@@ -183,7 +184,7 @@ const UserCard = ({ user, apiary }) => {
                   color: "primary.light",
                 },
               }}
-              disabled={!isOwner}
+              disabled={!isEditor}
             >
               Save Changes
             </Button>
@@ -201,7 +202,7 @@ const UserCard = ({ user, apiary }) => {
                   color: "err.main",
                 },
               }}
-              disabled={!isOwner}
+              disabled={!isEditor}
             >
               Delete Device
             </Button>

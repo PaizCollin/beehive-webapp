@@ -25,14 +25,14 @@ import {
 import { toast } from "react-toastify";
 
 const checkUser = async (apiary, user) => {
-  var isOwner = false;
+  var isEditor = false;
   apiary.members.forEach((member) => {
     if (member.user._id === user._id) {
-      isOwner = member.isOwner;
+      isEditor = member.isEditor;
       return;
     }
   });
-  return isOwner;
+  return isEditor;
 };
 
 const AddDeviceCard = ({ apiary }) => {
@@ -54,7 +54,7 @@ const AddDeviceCard = ({ apiary }) => {
 
   const { name, serial, remote } = formData;
 
-  const isOwner = checkUser(apiary, user);
+  const isEditor = checkUser(apiary, user);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -172,7 +172,7 @@ const AddDeviceCard = ({ apiary }) => {
                   color: "primary.light",
                 },
               }}
-              disabled={!isOwner}
+              disabled={!isEditor}
             >
               Create Device
             </Button>

@@ -160,11 +160,11 @@ export const deleteDevice = createAsyncThunk(
 // Set new member
 export const setMember = createAsyncThunk(
   "apiary/setMember",
-  async (userData, apiaryID, thunkAPI) => {
+  async (userData, thunkAPI) => {
     if (!thunkAPI.getState().auth.user) return;
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await apiaryService.setMember(userData, apiaryID, token);
+      return await apiaryService.setMember(userData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -180,11 +180,11 @@ export const setMember = createAsyncThunk(
 // Update member
 export const updateMember = createAsyncThunk(
   "apiary/updateMember",
-  async (apiaryData, thunkAPI) => {
+  async (userData, thunkAPI) => {
     if (!thunkAPI.getState().auth.user) return;
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await apiaryService.updateMember(apiaryData, token);
+      return await apiaryService.updateMember(userData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -200,11 +200,11 @@ export const updateMember = createAsyncThunk(
 // Delete member
 export const deleteMember = createAsyncThunk(
   "apiary/deleteMember",
-  async (apiaryID, userID, thunkAPI) => {
+  async (userData, thunkAPI) => {
     if (!thunkAPI.getState().auth.user) return;
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await apiaryService.deleteMember(apiaryID, userID, token);
+      return await apiaryService.deleteMember(userData, token);
     } catch (error) {
       const message =
         (error.response &&

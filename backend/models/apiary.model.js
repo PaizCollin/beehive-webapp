@@ -11,6 +11,7 @@ const geoSchema = mongoose.Schema({
   },
   formattedAddress: {
     type: String,
+  },
 });
 
 const memberSchema = mongoose.Schema({
@@ -19,14 +20,11 @@ const memberSchema = mongoose.Schema({
     required: [true, "Please add a creator"],
     ref: "User",
   },
-  isEditor: {
-    type: Boolean,
-    required: [false, "Please specify if editor"],
+  role: {
+    type: String,
+    default: "USER",
+    enum: ["USER", "ADMIN", "CREATOR"],
   },
-  isCreator: {
-    type: Boolean,
-    required: [false, "Please specify if creator"],
-  }
 });
 
 const dataSchema = mongoose.Schema(

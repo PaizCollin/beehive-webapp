@@ -120,16 +120,18 @@ const deleteDevice = async (apiaryData, token) => {
 };
 
 // Set member
-const setMember = async (userData, apiaryID, token) => {
+const setMember = async (userData, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
 
+  const { email, isEditor } = userData;
+
   const response = await axios.put(
-    API_URL + "apiary/" + apiaryID + "/setmember",
-    userData,
+    API_URL + "apiary/" + userData.apiaryID + "/setmember",
+    { email, isEditor },
     config
   );
 
@@ -137,23 +139,23 @@ const setMember = async (userData, apiaryID, token) => {
 };
 
 // Update member
-const updateMember = async (apiaryData, token) => {
+const updateMember = async (userData, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
 
-  const { isOwner } = apiaryData;
+  const { isEditor } = userData;
 
   const response = await axios.put(
     API_URL +
       "apiary/" +
-      apiaryData.apiaryID +
+      userData.apiaryID +
       "/user/" +
-      apiaryData.userID +
+      userData.userID +
       "/updatemember",
-    { isOwner },
+    { isEditor },
     config
   );
 
@@ -161,7 +163,7 @@ const updateMember = async (apiaryData, token) => {
 };
 
 // Delete member
-const deleteMember = async (apiaryID, userID, token) => {
+const deleteMember = async (userData, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -169,7 +171,12 @@ const deleteMember = async (apiaryID, userID, token) => {
   };
 
   const response = await axios.put(
-    API_URL + "apiary/" + apiaryID + "/user/" + userID + "/deletemember",
+    API_URL +
+      "apiary/" +
+      userData.apiaryID +
+      "/user/" +
+      userData.userID +
+      "/deletemember",
     config
   );
 
