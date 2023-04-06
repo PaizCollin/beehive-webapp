@@ -12,6 +12,9 @@ const geoSchema = mongoose.Schema({
   formattedAddress: {
     type: String,
   },
+  placeID: {
+    type: String,
+  },
 });
 
 const memberSchema = mongoose.Schema({

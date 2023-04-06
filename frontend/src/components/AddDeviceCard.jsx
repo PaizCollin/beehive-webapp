@@ -3,46 +3,25 @@ import {
   Avatar,
   Card,
   CardActions,
-  CardHeader,
   Collapse,
   IconButton,
-  Typography,
   useTheme,
   Button,
   TextField,
   Box,
 } from "@mui/material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { tokens } from "../theme";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setDevice,
-  reset as apiaryReset,
-} from "../features/apiary/apiary.slice";
-import { toast } from "react-toastify";
+import { setDevice } from "../features/apiary/apiary.slice";
 
-const checkUser = async (apiary, user) => {
-  var isEditor = false;
-  apiary.members.forEach((member) => {
-    if (member.user._id === user._id) {
-      isEditor = member.isEditor;
-      return;
-    }
-  });
-  return isEditor;
-};
-
-const AddDeviceCard = ({ apiary }) => {
-  const navigate = useNavigate();
+const AddDeviceCard = ({ apiary, userRole }) => {
   const dispatch = useDispatch();
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
-  const { user } = useSelector((state) => state.auth);
 
   const [expand, setExpand] = useState(false);
 
@@ -53,8 +32,6 @@ const AddDeviceCard = ({ apiary }) => {
   });
 
   const { name, serial, remote } = formData;
-
-  const isEditor = checkUser(apiary, user);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -172,7 +149,7 @@ const AddDeviceCard = ({ apiary }) => {
                   color: "primary.light",
                 },
               }}
-              disabled={!isEditor}
+              disabled={userRole === "USER"}
             >
               Create Device
             </Button>

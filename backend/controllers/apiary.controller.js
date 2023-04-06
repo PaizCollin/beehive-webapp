@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Apiary = require("../models/apiary.model.js");
+const { getUserByEmail } = require("../controllers/user.controller.js");
 
 // @status  WORKING
 // @desc    Check that user is part of apiary
@@ -97,7 +98,7 @@ const setApiary = asyncHandler(async (req, res) => {
 const updateApiary = asyncHandler(async (req, res) => {
   const { user, role } = await checkUserToApiary(req, res);
 
-  // If not an editor or not the currently logged in user, unauthorized
+  // If not an admin or not the currently logged in user, unauthorized
   if (
     (role != "CREATOR" && role != "ADMIN") ||
     user.toString() !== req.user.id
@@ -204,7 +205,7 @@ const setDevice = asyncHandler(async (req, res) => {
 // @status  WORKING
 // @desc    Update device
 // @route   PUT /api/apiaries/device/:apiary_id&:device_id
-// @access  Private; editors of apiary only
+// @access  Private; admins of apiary only
 const updateDevice = asyncHandler(async (req, res) => {
   const { user, role } = await checkUserToApiary(req, res);
   const { serial, name, remote } = req.body;
@@ -289,7 +290,7 @@ const deleteDevice = asyncHandler(async (req, res) => {
 const setMember = asyncHandler(async (req, res) => {
   const { user, role, apiary } = await checkUserToApiary(req, res);
 
-  // If not an editor or not the currently logged in user, unauthorized
+  // If not an admin or not the currently logged in user, unauthorized
   if (
     (role != "CREATOR" && role != "ADMIN") ||
     user.toString() !== req.user.id
@@ -302,7 +303,7 @@ const setMember = asyncHandler(async (req, res) => {
 
   var found = false;
   apiary.members.forEach((member) => {
-    if (member.user.toString() === req.body.user) {
+    if (member.user.email.toString() === req.body.email) {
       found = true;
       res.status(401);
       throw new Error("User is already a member of this apiary");
@@ -318,7 +319,7 @@ const setMember = asyncHandler(async (req, res) => {
       {
         $push: {
           members: {
-            user: req.body.user,
+            user: getUserByEmail(req.body.email),
             role: req.body.role,
           },
         },
@@ -326,16 +327,19 @@ const setMember = asyncHandler(async (req, res) => {
       {
         new: true,
       }
-    );
-  }
+    ).populate("members.user");
 
-  res.status(200).json(updatedApiary);
+    res.status(200).json(updatedApiary);
+  } else {
+    res.status(401);
+    throw new Error("User role cannot be set to CREATOR");
+  }
 });
 
 // @status  WORKING
 // @desc    Update members to apiary
 // @route   PUT /api/apiaries/member/:apiary_id&:user_id&setOwner
-// @access  Private; owners of apiary only
+// @access  Private; admins of apiary only
 const updateMember = asyncHandler(async (req, res) => {
   const { user, role, apiary } = await checkUserToApiary(req, res);
   // If not an admin or not the currently logged in user, unauthorized
@@ -345,7 +349,7 @@ const updateMember = asyncHandler(async (req, res) => {
   ) {
     res.status(401);
     throw new Error(
-      "User not authorized. User must be an owner of the apiary to update it"
+      "User not authorized. User must be an admin of the apiary to update it"
     );
   }
 
@@ -381,7 +385,7 @@ const updateMember = asyncHandler(async (req, res) => {
 // @status  WORKING
 // @desc    Delete member from apiary
 // @route   PUT /api/apiaries/member/:apiary_id&:user_id
-// @access  Private; owners of apiary only
+// @access  Private; admins of apiary only
 const deleteMember = asyncHandler(async (req, res) => {
   const { user, role, apiary } = await checkUserToApiary(req, res);
 
@@ -399,7 +403,7 @@ const deleteMember = asyncHandler(async (req, res) => {
   apiary.members.forEach((member) => {
     if (
       member.user.toString() === req.params.user_id &&
-      member.user.role === "CREATOR"
+      member.user.role == "CREATOR"
     ) {
       res.status(401);
       throw new Error("The creator of the apiary cannot be deleted");

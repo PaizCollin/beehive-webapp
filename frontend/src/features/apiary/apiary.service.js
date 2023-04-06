@@ -81,16 +81,23 @@ const setDevice = async (apiaryData, token) => {
 };
 
 // Update device
-const updateDevice = async (deviceData, apiaryID, deviceID, token) => {
+const updateDevice = async (apiaryData, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
 
+  const { serial, name, remote } = apiaryData;
+
   const response = await axios.put(
-    API_URL + "apiary/" + apiaryID + "/device/" + deviceID + "/updatedevice",
-    deviceData,
+    API_URL +
+      "apiary/" +
+      apiaryData.apiaryID +
+      "/device/" +
+      apiaryData.deviceID +
+      "/updatedevice",
+    { serial, name, remote },
     config
   );
 
@@ -127,11 +134,11 @@ const setMember = async (userData, token) => {
     },
   };
 
-  const { email, isEditor } = userData;
+  const { email, role } = userData;
 
   const response = await axios.put(
     API_URL + "apiary/" + userData.apiaryID + "/setmember",
-    { email, isEditor },
+    { email, role },
     config
   );
 
@@ -146,7 +153,7 @@ const updateMember = async (userData, token) => {
     },
   };
 
-  const { isEditor } = userData;
+  const { role } = userData;
 
   const response = await axios.put(
     API_URL +
@@ -155,7 +162,7 @@ const updateMember = async (userData, token) => {
       "/user/" +
       userData.userID +
       "/updatemember",
-    { isEditor },
+    { role },
     config
   );
 

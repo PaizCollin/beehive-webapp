@@ -12,31 +12,14 @@ import {
   Box,
   Button,
 } from "@mui/material";
-import { ArrowDropDown } from "@mui/icons-material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { useState } from "react";
 import { tokens } from "../theme";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  updateDevice,
-  deleteDevice,
-  reset as apiaryReset,
-} from "../features/apiary/apiary.slice";
+import { updateDevice, deleteDevice } from "../features/apiary/apiary.slice";
 
-const checkUser = async (apiary, user) => {
-  var isEditor = false;
-  apiary.members.forEach((member) => {
-    if (member.user._id === user._id) {
-      isEditor = member.isEditor;
-      return;
-    }
-  });
-  return isEditor;
-};
-
-const DeviceCard = ({ device, apiary }) => {
-  const navigate = useNavigate();
+const DeviceCard = ({ device, apiary, userRole }) => {
   const dispatch = useDispatch();
 
   const theme = useTheme();
@@ -54,8 +37,6 @@ const DeviceCard = ({ device, apiary }) => {
 
   const { name, serial, remote } = formData;
 
-  const isEditor = checkUser(apiary, user);
-
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
@@ -65,8 +46,6 @@ const DeviceCard = ({ device, apiary }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
-    const apiaryID = apiary._id;
 
     const apiaryData = {
       name,
@@ -210,7 +189,7 @@ const DeviceCard = ({ device, apiary }) => {
                   color: "primary.light",
                 },
               }}
-              disabled={!isEditor}
+              disabled={userRole === "USER"}
             >
               Save Changes
             </Button>
@@ -228,7 +207,7 @@ const DeviceCard = ({ device, apiary }) => {
                   color: "err.main",
                 },
               }}
-              disabled={!isEditor}
+              disabled={userRole === "USER"}
             >
               Delete Device
             </Button>

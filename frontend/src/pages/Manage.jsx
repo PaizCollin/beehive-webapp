@@ -85,7 +85,7 @@ const Manage = () => {
       justifyContent="center"
       sx={{ minWidth: "500px", mt: 4 }}
     >
-      <Grid item xs={11}>
+      <Grid item xs={12}>
         <Box
           sx={{
             display: "flex",

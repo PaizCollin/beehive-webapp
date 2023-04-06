@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import Sticky from "react-sticky-el";
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -10,7 +9,9 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Manage from "./pages/Manage";
-import { ToastContainer, toast } from "react-toastify";
+import FAQ from "./pages/FAQ";
+import About from "./pages/About";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -32,8 +33,9 @@ function App() {
                   <>
                     <div className="app">
                       <Sidebar isSidebar={isSidebar} />
+
                       <main className="content">
-                        <Topbar />
+                        <Topbar title="Home" />
                         <Dashboard />
                       </main>
                     </div>
@@ -47,11 +49,49 @@ function App() {
                   <>
                     {
                       <div className="app">
+                        <Sidebar
+                          isSidebar={isSidebar}
+                          className="sticky-header"
+                        />
+                        <main className="content">
+                          <Topbar title="Manage Apiaries" />
+                          <Manage />
+                        </main>
+                      </div>
+                    }
+                  </>
+                }
+              />
+              <Route
+                exact
+                path="/faq"
+                element={
+                  <>
+                    {
+                      <div className="app">
                         <Sidebar isSidebar={isSidebar} />
 
                         <main className="content">
-                            <Topbar />
-                          <Manage />
+                          <Topbar title="Frequently Asked Questions" />
+                          <FAQ />
+                        </main>
+                      </div>
+                    }
+                  </>
+                }
+              />
+              <Route
+                exact
+                path="/about"
+                element={
+                  <>
+                    {
+                      <div className="app">
+                        <Sidebar isSidebar={isSidebar} />
+
+                        <main className="content">
+                          <Topbar title="About the Project" />
+                          <About />
                         </main>
                       </div>
                     }

@@ -9,20 +9,16 @@ import {
   Button,
   TextField,
   Box,
-  Autocomplete,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
-import parse from "autosuggest-highlight/parse";
-import debounce from "lodash";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { useState } from "react";
 import { tokens } from "../theme";
 import { useDispatch } from "react-redux";
-import { setApiary } from "../features/apiary/apiary.slice";
-import React from "react";
-import GoogleMaps from "./AutocompleteMaps.tsx";
-import AddressAutocomplete from "mui-address-autocomplete";
+import { setMember } from "../features/apiary/apiary.slice";
 
-const AddApiaryCard = () => {
+const AddUserCard = ({ apiary, userRole }) => {
   const dispatch = useDispatch();
 
   const theme = useTheme();
@@ -31,33 +27,30 @@ const AddApiaryCard = () => {
   const [expand, setExpand] = useState(false);
 
   const [formData, setFormData] = useState({
-    name: "",
-    location: "",
+    email: "",
+    role: "",
   });
 
-  const { name, location } = formData;
+  const { email, isChecked } = formData;
 
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
+      isChecked: e.target.checked,
     }));
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const apiaryData = {
-      name,
-      location: {
-        type: "Point",
-        coordinates: [0, 0],
-        formattedAddress: "Unknown",
-        placeID: "Unknown",
-      },
+    const userData = {
+      email,
+      role: isChecked ? "ADMIN" : "USER",
+      apiaryID: apiary._id,
     };
 
-    dispatch(setApiary(apiaryData));
+    dispatch(setMember(userData));
   };
 
   return (
@@ -69,7 +62,6 @@ const AddApiaryCard = () => {
         flexDirection: "column",
         bgcolor: "primary.dark",
         mt: 2,
-        p: 2,
         borderRadius: `24px`,
       }}
     >
@@ -107,8 +99,6 @@ const AddApiaryCard = () => {
             justifyContent: "center",
             borderRadius: `24px`,
             maxWidth: "320px",
-            marginLeft: "auto",
-            marginRight: "auto",
           }}
         >
           <Box component="form" onSubmit={onSubmit} noValidate>
@@ -116,30 +106,43 @@ const AddApiaryCard = () => {
               margin="normal"
               required
               fullWidth
-              id="name"
-              label="Apiary Name"
-              name="name"
-              value={name}
+              id="email"
+              label="Email Address"
+              name="email"
+              value={email}
               autoFocus
               onChange={onChange}
               variant={"filled"}
             />
-            <GoogleMaps />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="owner"
+                  color="secondary"
+                  bgcolor="onSecondary.main"
+                />
+              }
+              label="Set as administrator"
+              onChange={onChange}
+              checked={isChecked}
+              fullWidth
+            />
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{
-                mt: 1,
-                mb: 2,
+                mt: 2,
+                mb: 3,
                 color: "onSecondary.main",
                 bgcolor: "secondary.main",
                 ":hover": {
                   color: "primary.light",
                 },
               }}
+              disabled={userRole === "USER"}
             >
-              Create Apiary
+              Create Device
             </Button>
           </Box>
         </Box>
@@ -148,4 +151,4 @@ const AddApiaryCard = () => {
   );
 };
 
-export default AddApiaryCard;
+export default AddUserCard;

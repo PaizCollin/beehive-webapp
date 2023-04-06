@@ -7,32 +7,27 @@ import {
   Collapse,
   IconButton,
   Typography,
-  makeStyles,
-  Paper,
   useTheme,
-  createTheme,
   Button,
-  TextField,
   Box,
   FormControlLabel,
   Checkbox,
 } from "@mui/material";
-import { ArrowDropDown } from "@mui/icons-material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { useState } from "react";
 import { tokens } from "../theme";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateMember, deleteMember } from "../features/apiary/apiary.slice";
 
 const checkUser = async (apiary, user) => {
-  var isEditor = false;
+  var role = "USER";
   apiary.members.forEach((member) => {
     if (member.user._id === user._id) {
-      isEditor = member.isEditor;
+      role = member.role;
       return;
     }
   });
-  return isEditor;
+  return role;
 };
 
 const UserCard = ({ user, apiary }) => {
@@ -44,12 +39,12 @@ const UserCard = ({ user, apiary }) => {
   const [expand, setExpand] = useState();
 
   const [formData, setFormData] = useState({
-    isChecked: user.isEditor,
+    isChecked: user.role !== "USER",
   });
 
   const { isChecked } = formData;
 
-  const isEditor = checkUser(apiary, user);
+  const role = checkUser(apiary, user);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -62,14 +57,10 @@ const UserCard = ({ user, apiary }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const isEditor = isChecked ? 1 : 0;
-    const apiaryID = apiary._id;
-    const userID = user.user._id;
-
     const userData = {
-      isEditor,
-      apiaryID,
-      userID,
+      role: isChecked ? "ADMIN" : "USER",
+      apiaryID: apiary._id,
+      userID: user.user._id,
     };
 
     dispatch(updateMember(userData));
@@ -165,7 +156,7 @@ const UserCard = ({ user, apiary }) => {
                   bgcolor="onSecondary.main"
                 />
               }
-              label="Owner"
+              label="Administrator"
               onChange={onChange}
               checked={isChecked}
               fullWidth
@@ -184,7 +175,7 @@ const UserCard = ({ user, apiary }) => {
                   color: "primary.light",
                 },
               }}
-              disabled={!isEditor}
+              disabled={role === "USER"}
             >
               Save Changes
             </Button>
@@ -202,9 +193,9 @@ const UserCard = ({ user, apiary }) => {
                   color: "err.main",
                 },
               }}
-              disabled={!isEditor}
+              disabled={role === "USER"}
             >
-              Delete Device
+              Delete User
             </Button>
           </Box>
         </Box>

@@ -15,33 +15,27 @@ import {
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import DeviceHubOutlinedIcon from "@mui/icons-material/DeviceHubOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { tokens } from "../theme";
 import { deleteApiary, updateApiary } from "../features/apiary/apiary.slice";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getApiaries,
-  reset as apiaryReset,
-} from "../features/apiary/apiary.slice";
-import { toast } from "react-toastify";
 import DeviceCard from "./DeviceCard";
 import UserCard from "./UserCard";
 import AddDeviceCard from "./AddDeviceCard";
+import AddUserCard from "./AddUserCard";
 
 const checkUser = async (apiary, user) => {
-  var isEditor = false;
+  var role = "USER";
   apiary.members.forEach((member) => {
     if (member.user._id === user._id) {
-      isEditor = member.isEditor;
+      role = member.role;
       return;
     }
   });
-  return isEditor;
+  return role;
 };
 
 const ApiaryCard = ({ apiary }) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const theme = useTheme();
@@ -58,7 +52,7 @@ const ApiaryCard = ({ apiary }) => {
 
   const { name, location } = formData;
 
-  const isEditor = checkUser(apiary, user);
+  const userRole = checkUser(apiary, user);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -180,14 +174,14 @@ const ApiaryCard = ({ apiary }) => {
               variant="contained"
               sx={{
                 mt: 1,
-                mb: 1,
+                mb: 2,
                 color: "onSecondary.main",
                 bgcolor: "secondary.main",
                 ":hover": {
                   color: "primary.light",
                 },
               }}
-              disabled={!isEditor}
+              disabled={userRole === "USER"}
             >
               Save Changes
             </Button>
@@ -205,7 +199,7 @@ const ApiaryCard = ({ apiary }) => {
                   color: "err.main",
                 },
               }}
-              disabled={!isEditor}
+              disabled={userRole !== "CREATOR"}
             >
               Delete Apiary
             </Button>
@@ -259,10 +253,11 @@ const ApiaryCard = ({ apiary }) => {
                     key={device._id}
                     device={device}
                     apiary={apiary}
+                    userRole={userRole}
                   />
                 ))}
               </div>
-              <AddDeviceCard apiary={apiary} />
+              <AddDeviceCard apiary={apiary} userRole={userRole} />
             </Box>
           </Grid>
           <Grid item xs={10} sm={10} lg={10}>
@@ -300,9 +295,15 @@ const ApiaryCard = ({ apiary }) => {
               </Typography>
               <div className="members">
                 {apiary.members.map((user) => (
-                  <UserCard key={user.user._id} user={user} apiary={apiary} />
+                  <UserCard
+                    key={user.user._id}
+                    user={user}
+                    apiary={apiary}
+                    userRole={userRole}
+                  />
                 ))}
               </div>
+              <AddUserCard apiary={apiary} userRole={userRole} />
             </Box>
           </Grid>
         </Grid>

@@ -115,16 +115,11 @@ export const setDevice = createAsyncThunk(
 // Update device
 export const updateDevice = createAsyncThunk(
   "apiary/updateDevice",
-  async (deviceData, apiaryID, deviceID, thunkAPI) => {
+  async (apiaryData, thunkAPI) => {
     if (!thunkAPI.getState().auth.user) return;
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await apiaryService.updateDevice(
-        deviceData,
-        apiaryID,
-        deviceID,
-        token
-      );
+      return await apiaryService.updateDevice(apiaryData, token);
     } catch (error) {
       const message =
         (error.response &&
