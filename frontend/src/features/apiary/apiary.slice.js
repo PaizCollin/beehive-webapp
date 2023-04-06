@@ -54,11 +54,11 @@ export const setApiary = createAsyncThunk(
 // Update apiary
 export const updateApiary = createAsyncThunk(
   "apiary/updateApiary",
-  async (apiaryData, apiaryID, thunkAPI) => {
+  async (apiaryData, thunkAPI) => {
     if (!thunkAPI.getState().auth.user) return;
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await apiaryService.updateApiary(apiaryData, apiaryID, token);
+      return await apiaryService.updateApiary(apiaryData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -74,12 +74,12 @@ export const updateApiary = createAsyncThunk(
 // Delete apiary
 export const deleteApiary = createAsyncThunk(
   "apiary/deleteApiary",
-  async (apiaryID, thunkAPI) => {
+  async (apiaryData, thunkAPI) => {
     if (!thunkAPI.getState().auth.user) return;
     try {
       const token = thunkAPI.getState().auth.user.token;
       if (!token) return;
-      return await apiaryService.deleteApiary(apiaryID, token);
+      return await apiaryService.deleteApiary(apiaryData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -95,11 +95,11 @@ export const deleteApiary = createAsyncThunk(
 // Set new device
 export const setDevice = createAsyncThunk(
   "apiary/setDevice",
-  async (deviceData, apiaryID, thunkAPI) => {
+  async (apiaryData, thunkAPI) => {
     if (!thunkAPI.getState().auth.user) return;
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await apiaryService.setDevice(deviceData, apiaryID, token);
+      return await apiaryService.setDevice(apiaryData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -115,16 +115,11 @@ export const setDevice = createAsyncThunk(
 // Update device
 export const updateDevice = createAsyncThunk(
   "apiary/updateDevice",
-  async (deviceData, apiaryID, deviceID, thunkAPI) => {
+  async (apiaryData, thunkAPI) => {
     if (!thunkAPI.getState().auth.user) return;
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await apiaryService.updateDevice(
-        deviceData,
-        apiaryID,
-        deviceID,
-        token
-      );
+      return await apiaryService.updateDevice(apiaryData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -140,11 +135,11 @@ export const updateDevice = createAsyncThunk(
 // Delete device
 export const deleteDevice = createAsyncThunk(
   "apiary/deleteDevice",
-  async (apiaryID, deviceID, thunkAPI) => {
+  async (apiaryData, thunkAPI) => {
     if (!thunkAPI.getState().auth.user) return;
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await apiaryService.deleteDevice(apiaryID, deviceID, token);
+      return await apiaryService.deleteDevice(apiaryData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -160,11 +155,11 @@ export const deleteDevice = createAsyncThunk(
 // Set new member
 export const setMember = createAsyncThunk(
   "apiary/setMember",
-  async (userData, apiaryID, thunkAPI) => {
+  async (userData, thunkAPI) => {
     if (!thunkAPI.getState().auth.user) return;
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await apiaryService.setMember(userData, apiaryID, token);
+      return await apiaryService.setMember(userData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -180,16 +175,11 @@ export const setMember = createAsyncThunk(
 // Update member
 export const updateMember = createAsyncThunk(
   "apiary/updateMember",
-  async (userData, apiaryID, userID, thunkAPI) => {
+  async (userData, thunkAPI) => {
     if (!thunkAPI.getState().auth.user) return;
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await apiaryService.updateMember(
-        userData,
-        apiaryID,
-        userID,
-        token
-      );
+      return await apiaryService.updateMember(userData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -205,11 +195,11 @@ export const updateMember = createAsyncThunk(
 // Delete member
 export const deleteMember = createAsyncThunk(
   "apiary/deleteMember",
-  async (apiaryID, userID, thunkAPI) => {
+  async (userData, thunkAPI) => {
     if (!thunkAPI.getState().auth.user) return;
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await apiaryService.deleteMember(apiaryID, userID, token);
+      return await apiaryService.deleteMember(userData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -264,12 +254,15 @@ export const apiarySlice = createSlice({
       .addCase(updateApiary.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.apiaries = action.payload;
+        const index = state.apiaries.findIndex(
+          (apiary) => apiary._id === action.payload._id
+        );
+        state.apiaries.fill(action.payload, index, index + 1);
       })
       .addCase(updateApiary.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.message = action.payload;
+        state.apiaries = action.payload;
       })
 
       .addCase(deleteApiary.pending, (state) => {
@@ -279,7 +272,7 @@ export const apiarySlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.apiaries = state.apiaries.filter(
-          (apiary) => apiary._id !== action.payload.id
+          (apiary) => apiary._id !== action.payload._id
         );
       })
       .addCase(deleteApiary.rejected, (state, action) => {
@@ -294,7 +287,10 @@ export const apiarySlice = createSlice({
       .addCase(setDevice.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.apiaries = action.payload;
+        const index = state.apiaries.findIndex(
+          (apiary) => apiary._id === action.payload._id
+        );
+        state.apiaries.fill(action.payload, index, index + 1);
       })
       .addCase(setDevice.rejected, (state, action) => {
         state.isLoading = false;
@@ -308,7 +304,10 @@ export const apiarySlice = createSlice({
       .addCase(updateDevice.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.apiaries = action.payload;
+        const index = state.apiaries.findIndex(
+          (apiary) => apiary._id === action.payload._id
+        );
+        state.apiaries.fill(action.payload, index, index + 1);
       })
       .addCase(updateDevice.rejected, (state, action) => {
         state.isLoading = false;
@@ -322,7 +321,10 @@ export const apiarySlice = createSlice({
       .addCase(deleteDevice.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.apiaries = action.payload;
+        const index = state.apiaries.findIndex(
+          (apiary) => apiary._id === action.payload._id
+        );
+        state.apiaries.fill(action.payload, index, index + 1);
       })
       .addCase(deleteDevice.rejected, (state, action) => {
         state.isLoading = false;
@@ -336,7 +338,10 @@ export const apiarySlice = createSlice({
       .addCase(setMember.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.apiaries = action.payload;
+        const index = state.apiaries.findIndex(
+          (apiary) => apiary._id === action.payload._id
+        );
+        state.apiaries.fill(action.payload, index, index + 1);
       })
       .addCase(setMember.rejected, (state, action) => {
         state.isLoading = false;
@@ -350,7 +355,10 @@ export const apiarySlice = createSlice({
       .addCase(updateMember.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.apiaries = action.payload;
+        const index = state.apiaries.findIndex(
+          (apiary) => apiary._id === action.payload._id
+        );
+        state.apiaries.fill(action.payload, index, index + 1);
       })
       .addCase(updateMember.rejected, (state, action) => {
         state.isLoading = false;
@@ -364,7 +372,10 @@ export const apiarySlice = createSlice({
       .addCase(deleteMember.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.apiaries = action.payload;
+        const index = state.apiaries.findIndex(
+          (apiary) => apiary._id === action.payload._id
+        );
+        state.apiaries.fill(action.payload, index, index + 1);
       })
       .addCase(deleteMember.rejected, (state, action) => {
         state.isLoading = false;

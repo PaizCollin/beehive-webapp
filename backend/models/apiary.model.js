@@ -9,17 +9,24 @@ const geoSchema = mongoose.Schema({
     type: [Number], //the type is an array of numbers
     index: "2dsphere",
   },
+  formattedAddress: {
+    type: String,
+  },
+  placeID: {
+    type: String,
+  },
 });
 
 const memberSchema = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    required: [true, "Please add an owner"],
+    required: [true, "Please add a creator"],
     ref: "User",
   },
-  isOwner: {
-    type: Boolean,
-    required: [false, "Please specify if owner"],
+  role: {
+    type: String,
+    default: "USER",
+    enum: ["USER", "ADMIN", "CREATOR"],
   },
 });
 

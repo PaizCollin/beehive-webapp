@@ -38,6 +38,17 @@ export const tokens = (mode) => ({
           800: "#5c5418",
           900: "#2e2a0c",
         },
+        orangeAccent: {
+          100: "#fae4d8",
+          200: "#f5c9b1",
+          300: "#f0ae8a",
+          400: "#eb9363",
+          500: "#e6783c",
+          600: "#b86030",
+          700: "#8a4824",
+          800: "#5c3018",
+          900: "#2e180c",
+        },
       }
     : {
         grey: {
@@ -72,6 +83,17 @@ export const tokens = (mode) => ({
           700: "#f0e48a",
           800: "#f5edb1",
           900: "#faf6d8",
+        },
+        orangeAccent: {
+          100: "#2e180c",
+          200: "#5c3018",
+          300: "#8a4824",
+          400: "#b86030",
+          500: "#e6783c",
+          600: "#eb9363",
+          700: "#f0ae8a",
+          800: "#f5c9b1",
+          900: "#fae4d8",
         },
       }),
 });
@@ -111,6 +133,9 @@ export const themeSettings = (mode) => {
             background: {
               default: colors.primary[800],
             },
+            err: {
+              main: "#e74c3c",
+            },
           }
         : {
             primary: {
@@ -138,6 +163,9 @@ export const themeSettings = (mode) => {
             },
             background: {
               default: colors.primary[900],
+            },
+            err: {
+              main: "#e74c3c",
             },
           }),
     },

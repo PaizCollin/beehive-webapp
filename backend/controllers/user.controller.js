@@ -6,7 +6,6 @@ const User = require("../models/user.model");
 //  @desc       Register new user
 //  @route      POST /api/users
 //  @access     Public
-
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -51,7 +50,6 @@ const registerUser = asyncHandler(async (req, res) => {
 //  @desc       Authenticate a user (login)
 //  @route      POST /api/users/login
 //  @access     Public
-
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -79,7 +77,6 @@ const loginUser = asyncHandler(async (req, res) => {
 //  @desc       Get user data
 //  @route      GET /api/users/me
 //  @access     Private
-
 const getMe = asyncHandler(async (req, res) => {
   const { _id, name, email } = await User.findById(req.user.id);
 
@@ -89,6 +86,14 @@ const getMe = asyncHandler(async (req, res) => {
     email,
   });
 });
+
+//  @desc       Get user data by email
+//  @access     Private; through apiary controller: setDevice
+const getUserByEmail = async (email) => {
+  const user = await User.findOne({ email });
+
+  return user._id;
+};
 
 // Generate JWT
 const generateToken = (id) => {
@@ -101,4 +106,5 @@ module.exports = {
   registerUser,
   loginUser,
   getMe,
+  getUserByEmail,
 };

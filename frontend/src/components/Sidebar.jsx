@@ -16,16 +16,12 @@ import {
   Typography,
   useTheme,
   createTheme,
+  Backdrop,
 } from "@mui/material";
-
-//import "react-pro-sidebar/dist/css/styles.css";
 import "../custom.scss";
 import { tokens } from "../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import CloudIcon from "@mui/icons-material/Cloud";
-import TimelineIcon from "@mui/icons-material/Timeline";
-import AddIcon from "@mui/icons-material/Add";
-import SettingsIcon from "@mui/icons-material/Settings";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import HiveOutlinedIcon from "@mui/icons-material/HiveOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
@@ -40,6 +36,7 @@ import {
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   return (
     <MenuItem
       active={selected === title}
@@ -91,7 +88,7 @@ const ApiaryMenu = ({ apiary, selected, setSelected }) => {
 
   return (
     <SubMenu
-      rootStyles={{
+      sx={{
         color: "primary.light",
         backgroundColor: "primary.dark",
       }}
@@ -101,6 +98,7 @@ const ApiaryMenu = ({ apiary, selected, setSelected }) => {
         <div className="devices">
           {apiary.devices.map((device) => (
             <DeviceItem
+              key={device._id}
               device={device}
               selected={selected}
               setSelected={setSelected}
@@ -120,7 +118,7 @@ const Sidebar = () => {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [selected, setSelected] = useState("Home");
 
   const { user } = useSelector((state) => state.auth);
@@ -132,14 +130,27 @@ const Sidebar = () => {
     if (isError) {
       console.log(message);
     }
+
     if (!user) {
       navigate("/login");
     }
+
     dispatch(getApiaries());
+
     return () => {
       dispatch(apiaryReset());
+      //navigate("/");
     };
   }, [user, navigate, isError, message, dispatch]);
+
+  if (!isCollapsed) {
+    <Backdrop
+      sx={{
+        color: "secondary.main",
+        zIndex: (theme) => theme.zIndex.drawer + 1,
+      }}
+    />;
+  }
 
   return (
     <Box
@@ -166,14 +177,19 @@ const Sidebar = () => {
           color: "primary.light",
         },
       }}
+      style={{
+        position: "sticky",
+        top: 0,
+        height: "100%",
+        zIndex: 2,
+      }}
     >
       <ProSidebar
-        defaultCollapsed={false}
         collapsed={isCollapsed}
         breakPoint="xs"
         collapsedWidth={80}
         width={240}
-        backgroundColor={"primary.dark"}
+        position="fixed"
       >
         <Menu iconShape="circle">
           {/* Header and Button */}
@@ -216,7 +232,7 @@ const Sidebar = () => {
                 setSelected={setSelected}
               />
               <SubMenu
-                rootStyles={{
+                sx={{
                   backgroundColor: "primary.dark",
                 }}
                 title={
@@ -242,6 +258,7 @@ const Sidebar = () => {
                   <div className="apiaries">
                     {apiaries.map((apiary) => (
                       <ApiaryMenu
+                        key={apiary._id}
                         apiary={apiary}
                         selected={selected}
                         setSelected={setSelected}
@@ -265,6 +282,13 @@ const Sidebar = () => {
                 title="FAQ"
                 to="/faq"
                 icon={<HelpOutlineOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+              <Item
+                title="About"
+                to="/about"
+                icon={<InfoOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
