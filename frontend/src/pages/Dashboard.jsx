@@ -26,6 +26,7 @@ import {
   Legend,
 } from "recharts";
 import { parseISO, format } from "date-fns";
+import { toast } from "react-toastify";
 
 const src = "https://www.youtube.com/watch?v=h8SZV12pnmo";
 
@@ -58,6 +59,31 @@ const Dashboard = () => {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const { user } = useSelector((state) => state.auth);
+  const { apiaries, isLoading, isError, message } = useSelector(
+    (state) => state.apiary
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message, {
+        toastID: "manageError",
+        hideProgressBar: true,
+        theme: "colored",
+      });
+    }
+
+    if (!user) {
+      navigate("/login");
+    }
+
+    dispatch(getApiaries());
+
+    return () => {
+      dispatch(apiaryReset());
+    };
+  }, [user, navigate, isError, message, dispatch]);
 
   const data = [
     {
