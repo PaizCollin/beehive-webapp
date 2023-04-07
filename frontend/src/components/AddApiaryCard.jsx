@@ -124,7 +124,7 @@ const AddApiaryCard = () => {
               onChange={onChange}
               variant={"filled"}
             />
-            <GoogleMaps />
+            {/* <GoogleMaps /> */}
             <Button
               type="submit"
               fullWidth

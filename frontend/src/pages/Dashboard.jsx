@@ -6,6 +6,7 @@ import {
   useTheme,
   createTheme,
   Grid,
+  Checkbox,
 } from "@mui/material";
 import { tokens } from "../theme";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,8 +28,6 @@ import {
 } from "recharts";
 import { parseISO, format } from "date-fns";
 import { toast } from "react-toastify";
-
-const src = "https://www.youtube.com/watch?v=h8SZV12pnmo";
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active) {
@@ -53,7 +52,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-const Dashboard = () => {
+const Dashboard = ({ apiary }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -61,29 +60,6 @@ const Dashboard = () => {
   const colors = tokens(theme.palette.mode);
 
   const { user } = useSelector((state) => state.auth);
-  const { apiaries, isLoading, isError, message } = useSelector(
-    (state) => state.apiary
-  );
-
-  useEffect(() => {
-    if (isError) {
-      toast.error(message, {
-        toastID: "manageError",
-        hideProgressBar: true,
-        theme: "colored",
-      });
-    }
-
-    if (!user) {
-      navigate("/login");
-    }
-
-    dispatch(getApiaries());
-
-    return () => {
-      dispatch(apiaryReset());
-    };
-  }, [user, navigate, isError, message, dispatch]);
 
   const data = [
     {
@@ -266,6 +242,22 @@ const Dashboard = () => {
                 <Legend verticalAlign="bottom" height={36} />
               </AreaChart>
             </ResponsiveContainer>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              align: "center",
+              bgcolor: "primary.dark",
+              borderRadius: `24px`,
+              height: "440px",
+            }}
+          >
+            <div className="devices">
+              {apiary.devices.map((device) => (
+                <Checkbox label={device.name} />
+              ))}
+            </div>
           </Box>
         </Grid>
         <Grid item xs={12} lg={4}>
