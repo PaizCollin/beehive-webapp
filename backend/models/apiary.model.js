@@ -50,7 +50,8 @@ const deviceSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please add a serial number"],
       unique: true,
-      partialFilterExpression: { serial: { $type: "string" } },
+      // partialFilterExpression: { serial: { $type: "string" } },
+      sparse: true,
     },
     name: {
       type: String,
@@ -60,7 +61,8 @@ const deviceSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please add a remote.it URL"],
       unique: true,
-      partialFilterExpression: { remote: { $type: "string" } },
+      // partialFilterExpression: { remote: { $type: "string" } },
+      sparse: true,
     },
     data: {
       type: dataSchema,
@@ -79,12 +81,11 @@ const apiarySchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Please add a name"],
-      unique: true,
+      // required: [true, "Please add a name"],
     },
     location: {
       type: geoSchema,
-      required: [true, "Please add a location"],
+      // required: [true, "Please add a location"],
     },
     members: [
       {

@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Apiary = require("../models/apiary.model.js");
-const { getUserByEmail } = require("../controllers/user.controller.js");
+const User = require("../models/user.model");
+const mongoose = require("mongoose");
 
 // @status  WORKING
 // @desc    Check that user is part of apiary
@@ -8,6 +9,8 @@ const { getUserByEmail } = require("../controllers/user.controller.js");
 async function checkUserToApiary(req, res) {
   // Find apiary from param :apiary_id
   const apiary = await Apiary.findById(req.params.apiary_id);
+
+  console.log(apiary);
 
   // If apiary not found, error
   if (!apiary) {
@@ -17,11 +20,11 @@ async function checkUserToApiary(req, res) {
 
   // Check for user (logged in essentially, from protect)
   if (!req.user) {
-    res.status(401);
+    res.status(400);
     throw new Error("User not found");
   }
 
-  // Make sure the logged in user matches a member of this apiary and isEditor
+  // Make sure the logged in user matches a member of this apiary and is an admin
   var user;
   var role;
   apiary.members.forEach((member) => {
@@ -76,17 +79,24 @@ const setApiary = asyncHandler(async (req, res) => {
   }
 
   // Create apiary
-  const apiary = await Apiary.create({
-    name: name,
-    location: location,
-    members: {
-      user: req.user.id,
-      role: "CREATOR",
+  // .create won't work
+  // find by an empty id (won't find one), so instead of updating, it "upserts" (creates) a new one
+  const apiary = await Apiary.findOneAndUpdate(
+    { _id: mongoose.Types.ObjectId() },
+    {
+      name: name,
+      location: location,
+      members: {
+        user: req.user.id,
+        role: "CREATOR",
+      },
+      devices: [],
     },
-    devices: [],
-  });
-
-  apiary.populate("members.user");
+    {
+      new: true,
+      upsert: true,
+    }
+  ).populate("members.user");
 
   res.status(200).json(apiary);
 });
@@ -103,7 +113,7 @@ const updateApiary = asyncHandler(async (req, res) => {
     (role != "CREATOR" && role != "ADMIN") ||
     user.toString() !== req.user.id
   ) {
-    res.status(401);
+    res.status(400);
     throw new Error(
       "User not authorized. User must be an admin of the apiary to update it"
     );
@@ -136,7 +146,7 @@ const deleteApiary = asyncHandler(async (req, res) => {
 
   // If not the creator or not the currently logged in user, unauthorized
   if (role != "CREATOR" || user.toString() !== req.user.id) {
-    res.status(401);
+    res.status(400);
     throw new Error(
       "User not authorized. User must be the original creator of the apiary to delete it"
     );
@@ -161,7 +171,7 @@ const setDevice = asyncHandler(async (req, res) => {
     (role != "CREATOR" && role != "ADMIN") ||
     user.toString() !== req.user.id
   ) {
-    res.status(401);
+    res.status(400);
     throw new Error(
       "User not authorized. User must be an admin of the apiary to update it"
     );
@@ -178,7 +188,7 @@ const setDevice = asyncHandler(async (req, res) => {
 
   // If deviceExists, error
   if (deviceExists) {
-    res.status(401);
+    res.status(400);
     throw new Error("Device already exists");
   }
 
@@ -215,7 +225,7 @@ const updateDevice = asyncHandler(async (req, res) => {
     (role != "CREATOR" && role != "ADMIN") ||
     user.toString() !== req.user.id
   ) {
-    res.status(401);
+    res.status(400);
     throw new Error(
       "User not authorized. User must be an admin of the apiary to update it"
     );
@@ -236,7 +246,7 @@ const updateDevice = asyncHandler(async (req, res) => {
   ).populate("members.user");
 
   if (!updatedApiary) {
-    res.status(401);
+    res.status(400);
     throw new Error("Device was not found");
   }
 
@@ -255,7 +265,7 @@ const deleteDevice = asyncHandler(async (req, res) => {
     (role != "CREATOR" && role != "ADMIN") ||
     user.toString() !== req.user.id
   ) {
-    res.status(401);
+    res.status(400);
     throw new Error(
       "User not authorized. User must be an admin of the apiary to update it"
     );
@@ -276,7 +286,7 @@ const deleteDevice = asyncHandler(async (req, res) => {
   ).populate("members.user");
 
   if (!updatedApiary) {
-    res.status(401);
+    res.status(400);
     throw new Error("Device was not found");
   }
 
@@ -295,17 +305,18 @@ const setMember = asyncHandler(async (req, res) => {
     (role != "CREATOR" && role != "ADMIN") ||
     user.toString() !== req.user.id
   ) {
-    res.status(401);
+    res.status(400);
     throw new Error(
       "User not authorized. User must be an admin of the apiary to update it"
     );
   }
 
+  const newMember = await User.findOne({ email: req.body.email });
   var found = false;
   apiary.members.forEach((member) => {
-    if (member.user.email.toString() === req.body.email) {
+    if (member.user._id.toString() === newMember._id.toString()) {
       found = true;
-      res.status(401);
+      res.status(400);
       throw new Error("User is already a member of this apiary");
     }
   });
@@ -319,7 +330,7 @@ const setMember = asyncHandler(async (req, res) => {
       {
         $push: {
           members: {
-            user: getUserByEmail(req.body.email),
+            user: newMember,
             role: req.body.role,
           },
         },
@@ -331,7 +342,7 @@ const setMember = asyncHandler(async (req, res) => {
 
     res.status(200).json(updatedApiary);
   } else {
-    res.status(401);
+    res.status(400);
     throw new Error("User role cannot be set to CREATOR");
   }
 });
@@ -347,7 +358,7 @@ const updateMember = asyncHandler(async (req, res) => {
     (role != "CREATOR" && role != "ADMIN") ||
     user.toString() !== req.user.id
   ) {
-    res.status(401);
+    res.status(400);
     throw new Error(
       "User not authorized. User must be an admin of the apiary to update it"
     );
@@ -377,7 +388,7 @@ const updateMember = asyncHandler(async (req, res) => {
     ).populate("members.user");
     res.status(200).json(updatedApiary);
   } else {
-    res.status(401);
+    res.status(400);
     throw new Error("User not found");
   }
 });
@@ -394,7 +405,7 @@ const deleteMember = asyncHandler(async (req, res) => {
     (role != "CREATOR" && role != "ADMIN") ||
     user.toString() !== req.user.id
   ) {
-    res.status(401);
+    res.status(400);
     throw new Error(
       "User not authorized. User must be an admin of the apiary to update it"
     );
@@ -403,9 +414,9 @@ const deleteMember = asyncHandler(async (req, res) => {
   apiary.members.forEach((member) => {
     if (
       member.user.toString() === req.params.user_id &&
-      member.user.role == "CREATOR"
+      member.role == "CREATOR"
     ) {
-      res.status(401);
+      res.status(400);
       throw new Error("The creator of the apiary cannot be deleted");
     }
   });
@@ -425,7 +436,7 @@ const deleteMember = asyncHandler(async (req, res) => {
   ).populate("members.user");
 
   if (!updatedApiary) {
-    res.status(401);
+    res.status(400);
     throw new Error("Member was not found");
   }
 

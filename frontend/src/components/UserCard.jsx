@@ -148,55 +148,70 @@ const UserCard = ({ user, apiary }) => {
           }}
         >
           <Box component="form" onSubmit={onSubmit} noValidate fullWidth>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value="owner"
-                  color="secondary"
-                  bgcolor="onSecondary.main"
+            {user.role === "CREATOR" ? (
+              <Typography color="primary.light" sx={{ mb: 4 }}>
+                Creator of this apiary
+              </Typography>
+            ) : (
+              <>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value="ADMIN"
+                      color="secondary"
+                      bgcolor="onSecondary.main"
+                    />
+                  }
+                  label="Administrator"
+                  onChange={onChange}
+                  checked={isChecked}
+                  fullWidth
+                  disabled={user.role === "CREATOR"}
                 />
-              }
-              label="Administrator"
-              onChange={onChange}
-              checked={isChecked}
-              fullWidth
-            />
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{
-                mt: 2,
-                mb: 3,
-                color: "onSecondary.main",
-                bgcolor: "secondary.main",
-                ":hover": {
-                  color: "primary.light",
-                },
-              }}
-              disabled={role === "USER"}
-            >
-              Save Changes
-            </Button>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{
+                    mt: 2,
+                    mb: 3,
+                    color: "onSecondary.main",
+                    bgcolor: "secondary.main",
+                    ":hover": {
+                      color: "primary.light",
+                    },
+                  }}
+                  disabled={role === "USER"}
+                >
+                  Save Changes
+                </Button>
+              </>
+            )}
           </Box>
           <Box component="form" onSubmit={onDelete} noValidate fullWidth>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{
-                mb: 4,
-                color: "onSecondary.main",
-                bgcolor: "err.main",
-                ":hover": {
-                  color: "err.main",
-                },
-              }}
-              disabled={role === "USER"}
-            >
-              Delete User
-            </Button>
+            {user.role === "CREATOR" ? (
+              <></>
+            ) : (
+              <>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{
+                    mb: 4,
+                    color: "onSecondary.main",
+                    bgcolor: "err.main",
+                    ":hover": {
+                      color: "err.main",
+                    },
+                  }}
+                  disabled={role === "USER"}
+                >
+                  Delete User
+                </Button>
+              </>
+            )}
           </Box>
         </Box>
       </Collapse>

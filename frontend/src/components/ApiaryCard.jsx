@@ -117,7 +117,7 @@ const ApiaryCard = ({ apiary }) => {
           </Avatar>
         }
         title={<Typography> {apiary.name} </Typography>}
-        subheader={apiary.location.coordinates}
+        subheader={apiary.location.formattedAddress}
         action={
           <CardActions
             disableSpacing
@@ -199,7 +199,7 @@ const ApiaryCard = ({ apiary }) => {
                   color: "err.main",
                 },
               }}
-              disabled={userRole !== "CREATOR"}
+              disabled={userRole === "CREATOR"}
             >
               Delete Apiary
             </Button>

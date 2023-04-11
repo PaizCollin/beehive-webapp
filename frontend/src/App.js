@@ -33,7 +33,6 @@ function App() {
                   <>
                     <div className="app">
                       <Sidebar isSidebar={isSidebar} />
-
                       <main className="content">
                         <Topbar title="Home" />
                         <Dashboard />
@@ -49,10 +48,7 @@ function App() {
                   <>
                     {
                       <div className="app">
-                        <Sidebar
-                          isSidebar={isSidebar}
-                          className="sticky-header"
-                        />
+                        <Sidebar isSidebar={isSidebar} />
                         <main className="content">
                           <Topbar title="Manage Apiaries" />
                           <Manage />
