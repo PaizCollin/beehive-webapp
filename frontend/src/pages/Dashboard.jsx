@@ -58,7 +58,6 @@ const SelectApiary = ({ apiaries, apiary, device, setApiary, setDevice }) => {
               {apiary.name}
             </MenuItem>
           ))}
-          )}
         </Select>
       </FormControl>
       <FormControl variant="filled" sx={{ width: 300 }}>
