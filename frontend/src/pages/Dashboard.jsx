@@ -46,38 +46,31 @@ const SelectApiary = ({ apiaries, apiary, device, setApiary, setDevice }) => {
     setDevice(e.target.value);
   };
 
+  console.log(device);
+
   return (
     <Box sx={{ px: 4, pt: 4 }}>
       <FormControl variant="filled" sx={{ pr: 2, width: 300 }}>
         <InputLabel id="apiary-label">Apiary</InputLabel>
         <Select labelId="apiary-label" value={apiary} onChange={onChange}>
-          {apiaries.length > 0 ? (
-            <div className="apiaries">
-              {apiaries.map((apiary) => (
-                <MenuItem value={apiary._id}>{apiary.name}</MenuItem>
-              ))}
-            </div>
-          ) : (
-            <Typography color="primary.light" textAlign={"center"}>
-              No Apiaries
-            </Typography>
+          {apiaries?.map((apiary) => (
+            <MenuItem key={apiary._id} value={apiary}>
+              {apiary.name}
+            </MenuItem>
+          ))}
           )}
         </Select>
       </FormControl>
       <FormControl variant="filled" sx={{ width: 300 }}>
         <InputLabel id="device-label">Device</InputLabel>
         <Select labelId="device-label" value={device} onChange={onChange2}>
-          {apiary ? (
-            <div className="apiaries">
-              {apiary.map((device) => {
-                return <MenuItem value={device.name}>{device.name}</MenuItem>;
-              })}
-            </div>
-          ) : (
-            <Typography color="primary.light" textAlign={"center"}>
-              No Devices
-            </Typography>
-          )}
+          {apiary.devices?.map((device) => {
+            return (
+              <MenuItem key={device._id} value={device}>
+                {device.name}
+              </MenuItem>
+            );
+          })}
         </Select>
       </FormControl>
     </Box>
@@ -149,7 +142,7 @@ const Dashboard = () => {
                 variant="h4"
                 sx={{ color: "primary.light", pt: 4, pb: 2 }}
               >
-                {/* {device.name} */}
+                {device.name}
               </Typography>
               <Graph device={device} />
             </Box>
