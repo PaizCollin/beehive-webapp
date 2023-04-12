@@ -20,7 +20,6 @@ import { useDispatch } from "react-redux";
 import { setApiary } from "../features/apiary/apiary.slice";
 import React from "react";
 import GoogleMaps from "./AutocompleteMaps.tsx";
-import AddressAutocomplete from "mui-address-autocomplete";
 
 const AddApiaryCard = () => {
   const dispatch = useDispatch();
@@ -28,14 +27,15 @@ const AddApiaryCard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [value, setValue] = React.useState();
+
   const [expand, setExpand] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
-    location: "",
   });
 
-  const { name, location } = formData;
+  const { name } = formData;
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -48,12 +48,11 @@ const AddApiaryCard = () => {
     e.preventDefault();
 
     const apiaryData = {
-      name,
+      name: name,
       location: {
-        type: "Point",
         coordinates: [0, 0],
-        formattedAddress: "Unknown",
-        placeID: "Unknown",
+        formattedAddress: value.description,
+        placeID: value.place_id,
       },
     };
 
@@ -124,7 +123,7 @@ const AddApiaryCard = () => {
               onChange={onChange}
               variant={"filled"}
             />
-            <GoogleMaps />
+            <GoogleMaps value={value} setValue={setValue} />
             <Button
               type="submit"
               fullWidth

@@ -184,6 +184,7 @@ const deleteMember = async (userData, token) => {
       "/user/" +
       userData.userID +
       "/deletemember",
+    {},
     config
   );
 

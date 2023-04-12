@@ -39,8 +39,7 @@ interface PlaceType {
   structured_formatting: StructuredFormatting;
 }
 
-export default function GoogleMaps() {
-  const [value, setValue] = React.useState<PlaceType | null>(null);
+export default function GoogleMaps({ value, setValue }) {
   const [inputValue, setInputValue] = React.useState("");
   const [options, setOptions] = React.useState<readonly PlaceType[]>([]);
   const loaded = React.useRef(false);
@@ -48,7 +47,7 @@ export default function GoogleMaps() {
   if (typeof window !== "undefined" && !loaded.current) {
     if (!document.querySelector("#google-maps")) {
       loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}&libraries=places`,
+        `https://maps.googleapis.com/maps/api/js?key=AIzaSyDzw9VWbQ3m-DooVKAEzdl9Wmgy5zoPEgc&libraries=places`,
         document.querySelector("head"),
         "google-maps"
       );
@@ -114,7 +113,7 @@ export default function GoogleMaps() {
 
   return (
     <Autocomplete
-      id="google-map-demo"
+      id="google-map"
       sx={{ width: 300 }}
       getOptionLabel={(option) =>
         typeof option === "string" ? option : option.description
@@ -135,11 +134,10 @@ export default function GoogleMaps() {
       }}
       renderInput={(params) => (
         <TextField
-          variant="filled"
           {...params}
           label="Add a location"
           fullWidth
-          required
+          variant="filled"
         />
       )}
       renderOption={(props, option) => {
@@ -153,12 +151,13 @@ export default function GoogleMaps() {
             match.offset + match.length,
           ])
         );
+        // console.log(option);
 
         return (
           <li {...props}>
             <Grid container alignItems="center">
               <Grid item sx={{ display: "flex", width: 44 }}>
-                <LocationOnIcon sx={{ color: "text.secondary" }} />
+                <LocationOnIcon sx={{ color: "secondary.main" }} />
               </Grid>
               <Grid
                 item
@@ -173,7 +172,7 @@ export default function GoogleMaps() {
                     {part.text}
                   </Box>
                 ))}
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="secondary.main">
                   {option.structured_formatting.secondary_text}
                 </Typography>
               </Grid>

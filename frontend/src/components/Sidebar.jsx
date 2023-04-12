@@ -102,6 +102,7 @@ const ApiaryMenu = ({ apiary, selected, setSelected }) => {
               device={device}
               selected={selected}
               setSelected={setSelected}
+              to="/"
             />
           ))}
         </div>

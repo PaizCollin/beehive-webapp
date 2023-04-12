@@ -9,7 +9,7 @@ const initialState = {
   message: "",
 };
 
-// Get user apiaries
+// Get user apiaries GOOD
 export const getApiaries = createAsyncThunk(
   "apiary/getApiaries",
   async (_, thunkAPI) => {
@@ -30,7 +30,7 @@ export const getApiaries = createAsyncThunk(
   }
 );
 
-// Set new apiary
+// Set new apiary GOOD
 export const setApiary = createAsyncThunk(
   "apiary/setApiary",
   async (apiaryData, thunkAPI) => {
@@ -51,7 +51,7 @@ export const setApiary = createAsyncThunk(
   }
 );
 
-// Update apiary
+// Update apiary GOOD
 export const updateApiary = createAsyncThunk(
   "apiary/updateApiary",
   async (apiaryData, thunkAPI) => {
@@ -71,7 +71,7 @@ export const updateApiary = createAsyncThunk(
   }
 );
 
-// Delete apiary
+// Delete apiary GOOD
 export const deleteApiary = createAsyncThunk(
   "apiary/deleteApiary",
   async (apiaryData, thunkAPI) => {
@@ -92,7 +92,7 @@ export const deleteApiary = createAsyncThunk(
   }
 );
 
-// Set new device
+// Set new device GOOD
 export const setDevice = createAsyncThunk(
   "apiary/setDevice",
   async (apiaryData, thunkAPI) => {
@@ -112,7 +112,7 @@ export const setDevice = createAsyncThunk(
   }
 );
 
-// Update device
+// Update device GOOD
 export const updateDevice = createAsyncThunk(
   "apiary/updateDevice",
   async (apiaryData, thunkAPI) => {
@@ -132,7 +132,7 @@ export const updateDevice = createAsyncThunk(
   }
 );
 
-// Delete device
+// Delete device GOOD
 export const deleteDevice = createAsyncThunk(
   "apiary/deleteDevice",
   async (apiaryData, thunkAPI) => {
@@ -152,7 +152,7 @@ export const deleteDevice = createAsyncThunk(
   }
 );
 
-// Set new member
+// Set new member GOOD
 export const setMember = createAsyncThunk(
   "apiary/setMember",
   async (userData, thunkAPI) => {
@@ -172,7 +172,7 @@ export const setMember = createAsyncThunk(
   }
 );
 
-// Update member
+// Update member GOOD
 export const updateMember = createAsyncThunk(
   "apiary/updateMember",
   async (userData, thunkAPI) => {
@@ -192,7 +192,7 @@ export const updateMember = createAsyncThunk(
   }
 );
 
-// Delete member
+// Delete member GOOD
 export const deleteMember = createAsyncThunk(
   "apiary/deleteMember",
   async (userData, thunkAPI) => {

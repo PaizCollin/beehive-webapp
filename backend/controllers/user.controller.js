@@ -87,14 +87,6 @@ const getMe = asyncHandler(async (req, res) => {
   });
 });
 
-//  @desc       Get user data by email
-//  @access     Private; through apiary controller: setDevice
-const getUserByEmail = async (email) => {
-  const user = await User.findOne({ email });
-
-  return user._id;
-};
-
 // Generate JWT
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -106,5 +98,4 @@ module.exports = {
   registerUser,
   loginUser,
   getMe,
-  getUserByEmail,
 };
