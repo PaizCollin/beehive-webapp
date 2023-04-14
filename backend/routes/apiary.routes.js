@@ -28,7 +28,7 @@ router.put(
   updateDevice
 );
 router.put(
-  "/apiary/:apiary_id/device/:device_id/deletedevice",
+  "/apiary/:apiary_id/device/:device_id/serial/:serial/deletedevice",
   protect,
   deleteDevice
 );

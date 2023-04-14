@@ -52,6 +52,7 @@ const deviceSchema = new mongoose.Schema(
       unique: true,
       // partialFilterExpression: { serial: { $type: "string" } },
       sparse: true,
+      immutable: true,
     },
     name: {
       type: String,
@@ -65,7 +66,8 @@ const deviceSchema = new mongoose.Schema(
       sparse: true,
     },
     data: {
-      type: dataSchema,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Data",
     },
   },
   {
