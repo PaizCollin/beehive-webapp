@@ -44,6 +44,28 @@ const dataSchema = mongoose.Schema(
   }
 );
 
+const dataPointSchema = new mongoose.Schema({
+  time: { type: Date, default: Date.now },
+  serialNumber: { type: Number, required: true },
+  raw_activity: {
+    x: { type: Number, required: true },
+    y: { type: Number, required: true },
+  },
+  weather: {
+    temp: { type: Number, required: true },
+    humidity: { type: Number, required: true },
+    windspeed: { type: Number, required: true },
+  },
+  prediction_activity: {
+    x: { type: Number, required: true },
+    y: { type: Number, required: true },
+  },
+  last_prediction_deviation: {
+    type: Number,
+    required: false,
+  },
+});
+
 const deviceSchema = new mongoose.Schema(
   {
     serial: {
@@ -64,6 +86,9 @@ const deviceSchema = new mongoose.Schema(
     },
     data: {
       type: dataSchema,
+    },
+    dataPoints: {
+      type: dataPointSchema,
     },
   },
   {

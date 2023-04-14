@@ -1,6 +1,8 @@
 const asyncHandler = require("express-async-handler");
-const Organization = require("../models/apiary.model.js");
-const DataPoint = require("../models/data.model.js");
+const Apiary = require("../models/apiary.model.js");
+const { getApiaries } = require("../controllers/apiary.controller.js");
+
+// const DataPoint = require("../models/data.model.js");
 
 // @status  WIP
 // @desc    Upload data point
@@ -9,6 +11,7 @@ const DataPoint = require("../models/data.model.js");
 // If param `limit` is specified, return past `limit` data, otherwise, return 100 datapoints
 // If there does not exist `limit` data, give HTTP 204
 
+/*
 const getData = asyncHandler(async (req, res) => {
   const datapointNumLimit =
     req.params["limit"] !== undefined ? req.params["limit"] : 100;
@@ -29,6 +32,7 @@ const getData = asyncHandler(async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+*/
 
 // @status  WIP
 // @desc    Upload data point
@@ -41,9 +45,9 @@ const postData = asyncHandler(async (req, res) => {
   // TODO: update data according to apiary_id and device_id
   // will just make datapoints for one organization id and device id
 
-  const dataPoint = await DataPoint.create(req.body);
+  const dataPoint = await getApiaries(req.body);
   if (dataPoint) {
-    console.log("TESTING JSON OBJECT PRINTING AND UPLOAD TO MONGODB\n");
+    // console.log("TESTING JSON OBJECT PRINTING AND UPLOAD TO MONGODB\n");
     console.log(JSON.stringify(dataPoint) + "\n");
     res.status(201).JSON(dataPoint);
   } else {
@@ -53,6 +57,6 @@ const postData = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
-  getData,
+  //getData,
   postData,
 };

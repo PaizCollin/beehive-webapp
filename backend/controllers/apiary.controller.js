@@ -47,7 +47,9 @@ const getApiaries = asyncHandler(async (req, res) => {
         user: req.user.id,
       },
     },
-  }).populate("members.user");
+  })
+    .populate("members.user")
+    .populate("devices.data");
 
   res.status(200).json(apiaries);
 });
