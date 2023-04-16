@@ -155,6 +155,9 @@ const deleteApiary = asyncHandler(async (req, res) => {
     );
   }
 
+  // Delete all data associated with apiary
+  await Data.deleteMany({ apiary: apiary._id });
+
   // Delete apiary
   await apiary.remove();
 
@@ -197,6 +200,7 @@ const setDevice = asyncHandler(async (req, res) => {
 
   const newData = await Data.create({
     serial: serial,
+    apiary: req.params.apiary_id,
     data: {},
   });
 

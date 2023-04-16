@@ -23,6 +23,10 @@ const dataPointSchema = new mongoose.Schema({
 });
 
 const dataSchema = new mongoose.Schema({
+  apiary: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Apiary",
+  },
   serial: {
     type: String,
     required: [true, "Please add a serial number"],
