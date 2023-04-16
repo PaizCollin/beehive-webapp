@@ -118,6 +118,8 @@ const deleteDevice = async (apiaryData, token) => {
       apiaryData.apiaryID +
       "/device/" +
       apiaryData.deviceID +
+      "/serial/" +
+      apiaryData.serial +
       "/deletedevice",
     {},
     config

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // Define the data point schema
-const DataPointSchema = new mongoose.Schema({
+const dataPointSchema = new mongoose.Schema({
   time: { type: Date, default: Date.now },
   raw_activity: {
     x: { type: Number, required: true },
@@ -22,4 +22,24 @@ const DataPointSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Datapoint", DataPointSchema);
+const dataSchema = new mongoose.Schema({
+  apiary: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Apiary",
+  },
+  serial: {
+    type: String,
+    required: [true, "Please add a serial number"],
+    unique: true,
+    // partialFilterExpression: { serial: { $type: "string" } },
+    sparse: true,
+    immutable: true,
+  },
+  datapoints: [
+    {
+      type: dataPointSchema,
+    },
+  ],
+});
+
+module.exports = mongoose.model("Data", dataSchema);

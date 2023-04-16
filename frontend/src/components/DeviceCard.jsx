@@ -64,6 +64,7 @@ const DeviceCard = ({ device, apiary, userRole }) => {
     const data = {
       apiaryID: apiary._id,
       deviceID: device._id,
+      serial: device.serial,
     };
 
     dispatch(deleteDevice(data));
@@ -163,6 +164,7 @@ const DeviceCard = ({ device, apiary, userRole }) => {
               autoFocus
               onChange={onChange}
               variant={"filled"}
+              disabled
             />
             <TextField
               margin="normal"

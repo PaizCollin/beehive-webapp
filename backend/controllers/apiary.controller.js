@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Apiary = require("../models/apiary.model.js");
 const User = require("../models/user.model");
+const Data = require("../models/data.model");
 const mongoose = require("mongoose");
 
 // @status  WORKING
@@ -50,7 +51,9 @@ const getApiaries = asyncHandler(async (req, res) => {
         user: req.user.id,
       },
     },
-  }).populate("members.user");
+  })
+    .populate("members.user")
+    .populate("devices.data");
 
   res.status(200).json(apiaries);
 });
@@ -152,6 +155,9 @@ const deleteApiary = asyncHandler(async (req, res) => {
     );
   }
 
+  // Delete all data associated with apiary
+  await Data.deleteMany({ apiary: apiary._id });
+
   // Delete apiary
   await apiary.remove();
 
@@ -192,6 +198,12 @@ const setDevice = asyncHandler(async (req, res) => {
     throw new Error("Device already exists");
   }
 
+  const newData = await Data.create({
+    serial: serial,
+    apiary: req.params.apiary_id,
+    data: {},
+  });
+
   const updatedApiary = await Apiary.findByIdAndUpdate(
     { _id: req.params.apiary_id },
     {
@@ -200,7 +212,7 @@ const setDevice = asyncHandler(async (req, res) => {
           serial: serial,
           name: name,
           remote: remote,
-          data: {},
+          data: newData._id,
         },
       },
     },
@@ -235,7 +247,6 @@ const updateDevice = asyncHandler(async (req, res) => {
     { _id: req.params.apiary_id, "devices._id": req.params.device_id },
     {
       $set: {
-        "devices.$.serial": serial,
         "devices.$.name": name,
         "devices.$.remote": remote,
       },
@@ -289,6 +300,10 @@ const deleteDevice = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Device was not found");
   }
+
+  const deletedData = await Data.findOneAndDelete({
+    serial: req.params.serial,
+  });
 
   res.status(200).json(updatedApiary);
 });

@@ -93,6 +93,7 @@ const Graph = ({ device }) => {
     },
   ];
 
+  console.log(device);
   return (
     <ResponsiveContainer width="100%" height={360}>
       <AreaChart data={data}>
@@ -125,16 +126,25 @@ const Graph = ({ device }) => {
           </linearGradient>
         </defs>
         <Area
-          dataKey="bees"
+          dataKey="Intake"
           yAxisId="bees"
           stroke={colors.yellowAccent[500]}
           fill="url(#beeColor)"
+          //data={device?.data.datapoints.prediction_activity.x}
+        />
+        <Area
+          dataKey="Outtake"
+          yAxisId="bees"
+          stroke={colors.yellowAccent[500]}
+          fill="url(#beeColor)"
+          //data={device?.data.datapoints.prediction_activity.y}
         />
         <Area
           dataKey="temp"
           yAxisId="temp"
           stroke={colors.orangeAccent[500]}
           fill="url(#tempColor)"
+          //data={device?.data.datapoints.weather.temp}
         />
 
         <YAxis

@@ -1,7 +1,6 @@
 const router = require("express").Router();
-const { getData, postData } = require("../controllers/data.controller.js");
+const { putData } = require("../controllers/data.controller.js");
 
-router.get("/:apiary_id/:device_id/", getData);
-router.post("/:apiary_id/:device_id/", postData);
+router.put("/serial/:serial", putData);
 
 module.exports = router;
