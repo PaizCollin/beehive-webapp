@@ -73,34 +73,39 @@ router.get("/", protect, (req, res) => {
 
 ##### In this example, the `protect` middleware function is used as the second argument in the `router.get()` method. This means that the `protect` function will be called before the route handler function. If the JWT is valid and the user is found, the `req.user` property will be set to the user object without the password field, and the route handler function will be called. If the JWT is not valid or not provided, a 401 Unauthorized response will be returned.
 
-## Function Definition
+#### Function Definition
 
 The `protect` function takes three arguments: `req`, `res`, and `next`.
 
-### req
+##### req
 
-The `req` argument is the incoming HTTP request object.
+###### The `req` argument is the incoming HTTP request object.
 
-### res
+##### res
 
-The `res` argument is the outgoing HTTP response object.
+###### The `res` argument is the outgoing HTTP response object.
 
-### next
+##### next
 
-The `next` argument is a function that passes control to the next middleware function in the request-response cycle.
+###### The `next` argument is a function that passes control to the next middleware function in the request-response cycle.
 
-## Function Flow
+#### Function Flow
 
-The `protect` function follows this flow:
+##### The `protect` function follows this flow:
 
-1. Check if the `Authorization` header exists and starts with the word "Bearer".
-2. If the header exists and starts with "Bearer", try to verify the JWT.
-3. If the JWT is valid, get the user ID from the token payload and find the user in the database.
-4. If the user is found, set the `req.user` property to the user object without the password field, and call the `next()` function to pass control to the next middleware.
-5. If the JWT is not valid, return a 401 Unauthorized response with an error message.
-6. If the `Authorization` header does not exist or does not start with "Bearer", return a 401 Unauthorized response with an error message.
+###### 1. Check if the `Authorization` header exists and starts with the word "Bearer".
 
-## Error Handling
+###### 2. If the header exists and starts with "Bearer", try to verify the JWT.
+
+###### 3. If the JWT is valid, get the user ID from the token payload and find the user in the database.
+
+###### 4. If the user is found, set the `req.user` property to the user object without the password field, and call the `next()` function to pass control to the next middleware.
+
+###### 5. If the JWT is not valid, return a 401 Unauthorized response with an error message.
+
+###### 6. If the `Authorization` header does not exist or does not start with "Bearer", return a 401 Unauthorized response with an error message.
+
+#### Error Handling
 
 If the `protect` function encounters an error, it will throw an error and call the `next()` function with the error object as an argument. This will trigger Express's default error handling middleware, which will return an error response to the client.
 
