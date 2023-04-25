@@ -52,11 +52,11 @@ The `config` module is responsible for setting up the MongoDB connection using M
 
 The `middleware` module is responsible for setting up the middleware for the application.
 
-### auth.middleware.js
+### `auth.middleware.js`
 
 This is a middleware function that adds authentication to a Node.js/Express application. The `protect` function checks for a valid JSON Web Token (JWT) in the `Authorization` header of incoming HTTP requests. If a valid token is found, the function decodes the token and sets the authenticated user in the request object. If a valid token is not found, the function returns a 401 Unauthorized response.
 
-#### Usage
+#### **Usage**
 
 The `protect` function can be used as a middleware function in any Express route that requires authentication. Here's an example of how to use the `protect` middleware function in an Express route:
 
@@ -73,23 +73,23 @@ router.get("/", protect, (req, res) => {
 
 In this example, the `protect` middleware function is used as the second argument in the `router.get()` method. This means that the `protect` function will be called before the route handler function. If the JWT is valid and the user is found, the `req.user` property will be set to the user object without the password field, and the route handler function will be called. If the JWT is not valid or not provided, a 401 Unauthorized response will be returned.
 
-#### Function Definition
+#### **Function Definition**
 
 The `protect` function takes three arguments: `req`, `res`, and `next`.
 
-##### req
+##### **`req`**
 
 The `req` argument is the incoming HTTP request object.
 
-##### res
+##### **`res`**
 
 The `res` argument is the outgoing HTTP response object.
 
-##### next
+##### **`next`**
 
 The `next` argument is a function that passes control to the next middleware function in the request-response cycle.
 
-#### Function Flow
+#### **Function Flow**
 
 The `protect` function follows this flow:
 
@@ -101,9 +101,75 @@ The `protect` function follows this flow:
 5. If the JWT is not valid, return a 401 Unauthorized response with an error message.
 6. If the `Authorization` header does not exist or does not start with "Bearer", return a 401 Unauthorized response with an error message.
 
-#### Error Handling
+#### **Error Handling**
 
 If the `protect` function encounters an error, it will throw an error and call the `next()` function with the error object as an argument. This will trigger Express's default error handling middleware, which will return an error response to the client.
+
+### `errorHandler.middleware.js`
+
+This is a middleware function that adds error handling to a Node.js/Express application. The `errorHandler` function catches any errors that occur in the application and sends an appropriate error response to the client.
+
+#### Usage
+
+The `errorHandler` function should be used as the last middleware function in the middleware stack of an Express application. Here's an example of how to use the `errorHandler` middleware function in an Express application:
+
+```javascript
+const express = require("express");
+const errorHandler = require("../middleware/errorHandler");
+
+const app = express();
+
+// Set up middleware functions
+app.use(express.json());
+app.use(cors());
+
+// Set up routes
+app.get("/", (req, res) => {
+  res.send("Hello, world!");
+});
+
+// Set up error handler middleware
+app.use(errorHandler);
+
+// Start server
+app.listen(3000, () => {
+  console.log("Server started on port 3000");
+});
+```
+
+In this example, the `errorHandler` middleware function is added to the middleware stack using the `app.use()` method. This means that the `errorHandler` function will be called if any middleware or route handler functions before it throw an error. The `errorHandler` function sends an error response with the error message and stack trace (if in development mode) to the client.
+
+#### **Function Definition**
+
+The `errorHandler` function takes four arguments: `err`, `req`, `res`, and `next`.
+
+##### **`err`**
+
+The `err` argument is the error object that was thrown by a previous middleware or route handler function.
+
+##### **`req`**
+
+The `req` argument is the incoming HTTP request object.
+
+##### **`res`**
+
+The `res` argument is the outgoing HTTP response object.
+
+##### **`next`**
+
+The `next` argument is a function that passes control to the next middleware function in the request-response cycle.
+
+#### **Function Flow**
+
+The `errorHandler` function follows this flow:
+
+1. Get the status code from the `res` object. If the status code is not set, default to 500 (Internal Server Error).
+2. Set the HTTP status code of the response to the status code obtained in the previous step.
+3. Send a JSON response to the client with the error message and stack trace (if in development mode).
+
+#### **Error Handling**
+
+The `errorHandler` function is itself an error handling middleware function, and its purpose is to catch errors thrown by previous middleware or route handler functions. If an error is thrown by a previous function, the `errorHandler` function will catch the error and send an appropriate error response to the client. The error message is sent as the `message` property of the JSON response, and the stack trace (if in development mode) is sent as the `stack` property of the JSON response.
 
 ## Models
 
