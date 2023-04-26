@@ -106,7 +106,7 @@ const setApiary = asyncHandler(async (req, res) => {
 
 // @status  WORKING
 // @desc    Update apiary
-// @route   PUT /api/apiaries/:apiary_id
+// @route   PUT /api/apiaries/apiary/:apiary_id
 // @access  Private; admins of apiary only
 const updateApiary = asyncHandler(async (req, res) => {
   const { user, role } = await checkUserToApiary(req, res);
@@ -142,7 +142,7 @@ const updateApiary = asyncHandler(async (req, res) => {
 
 // @status  WORKING
 // @desc    Delete apiary
-// @route   DELETE /api/apiaries/:apiary_id
+// @route   DELETE /api/apiaries/apiary/:apiary_id
 // @access  Private; creator of apiary only
 const deleteApiary = asyncHandler(async (req, res) => {
   const { user, role, apiary } = await checkUserToApiary(req, res);
@@ -166,7 +166,7 @@ const deleteApiary = asyncHandler(async (req, res) => {
 
 // @status  WORKING
 // @desc    Set device
-// @route   PUT /api/apiaries/device/:apiary_id
+// @route   PUT /api/apiaries/apiary/:apiary_id/setdevice
 // @access  Private; admins of apiary only
 const setDevice = asyncHandler(async (req, res) => {
   const { user, role } = await checkUserToApiary(req, res);
@@ -226,7 +226,7 @@ const setDevice = asyncHandler(async (req, res) => {
 
 // @status  WORKING
 // @desc    Update device
-// @route   PUT /api/apiaries/device/:apiary_id&:device_id
+// @route   PUT /api/apiaries/apiary/:apiary_id/device/:device_id/updatedevice
 // @access  Private; admins of apiary only
 const updateDevice = asyncHandler(async (req, res) => {
   const { user, role } = await checkUserToApiary(req, res);
@@ -266,7 +266,7 @@ const updateDevice = asyncHandler(async (req, res) => {
 
 // @status  WORKING
 // @desc    Delete device
-// @route   DELETE /api/apiaries/device/:apiary_id&:device_id
+// @route   PUT /api/apiaries/apiary/:apiary_id/device/:device_id/serial/:serial/deletedevice
 // @access  Private; admins of apiary only
 const deleteDevice = asyncHandler(async (req, res) => {
   const { user, role } = await checkUserToApiary(req, res);
@@ -310,7 +310,7 @@ const deleteDevice = asyncHandler(async (req, res) => {
 
 // @status  WORKING
 // @desc    Update members to apiary
-// @route   PUT /api/apiaries/member/:apiary_id&:user_id&setEditor
+// @route   PUT /api/apiaries/apiary/:apiary_id/setmember
 // @access  Private; admins of apiary only
 const setMember = asyncHandler(async (req, res) => {
   const { user, role, apiary } = await checkUserToApiary(req, res);
@@ -364,7 +364,7 @@ const setMember = asyncHandler(async (req, res) => {
 
 // @status  WORKING
 // @desc    Update members to apiary
-// @route   PUT /api/apiaries/member/:apiary_id&:user_id&setOwner
+// @route   PUT /api/apiaries/apiary/:apiary_id/user/:user_id/updatemember
 // @access  Private; admins of apiary only
 const updateMember = asyncHandler(async (req, res) => {
   const { user, role, apiary } = await checkUserToApiary(req, res);
@@ -410,7 +410,7 @@ const updateMember = asyncHandler(async (req, res) => {
 
 // @status  WORKING
 // @desc    Delete member from apiary
-// @route   PUT /api/apiaries/member/:apiary_id&:user_id
+// @route   PUT /api/apiaries/apiary/:apiary_id/user/:user_id/deletemember
 // @access  Private; admins of apiary only
 const deleteMember = asyncHandler(async (req, res) => {
   const { user, role, apiary } = await checkUserToApiary(req, res);
