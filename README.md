@@ -179,9 +179,9 @@ The `errorHandler` function is itself an error handling middleware function, and
 
 The three models used in the application are the `User`, `Apiary`, and `Data` models.
 
-## User Model
+## `user.model`
 
-This is a schema definition for a user model in a Node.js/Express application using Mongoose. The user schema defines the structure and validation rules for user documents that will be stored in a MongoDB database.
+This is a schema definition for the `user.model` in a Node.js/Express application using Mongoose. The `userSchema` defines the structure and validation rules for user documents that will be stored in a MongoDB database.
 
 ### Schema Description
 
@@ -205,7 +205,7 @@ Note that the `createdAt` and `updatedAt` fields are of type `Date` and are auto
 
 ### Example Document
 
-```js
+```json
 {
   "_id": ObjectId("6153db097a880f72a2d6c853"),
   "name": "John Doe",
@@ -218,9 +218,106 @@ Note that the `createdAt` and `updatedAt` fields are of type `Date` and are auto
 
 Note that the password field is encrypted using bcrypt, so the value shown is just an example of an encrypted password hash. The actual value would be a long string of random characters.
 
-## Data Model
+Sure, here's the documentation for the `Apiary` model:
 
-This module defines the data schema for storing data in the MongoDB database. It consists of two sub-schemas: dataPointSchema and dataSchema.
+## `apiary.model`
+
+This is a schema definition for the `apiary.model` in a Node.js/Express application using Mongoose. The `apiarySchema` defines the structure and validation rules for apiary documents that will be stored in a MongoDB database. This model consists of a `geoSchema` which defines a location, a `memberSchema` which defines a list of users, a `deviceSchema` which defines a list of devices, and an `apiarySchema` which defines an apiary.
+
+#### `geoSchema`
+
+| Field              | Type              | Example                       | Description                          |
+| ------------------ | ----------------- | ----------------------------- | ------------------------------------ |
+| `type`             | `String`          | "Point"                       | The type of location data.           |
+| `coordinates`      | Array of `Number` | [-73.856077, 40.848447]       | The coordinates of the apiary.       |
+| `formattedAddress` | `String`          | "123 Main St, New York, NY"   | The formatted address of the apiary. |
+| `placeID`          | `String`          | "ChIJ2QDvuoFawokRjZkGdG8a6_8" | The place ID of the apiary.          |
+
+#### `memberSchema`
+
+| Field | Type     | Example                    | Description                                                                                    |
+| ----- | -------- | -------------------------- | ---------------------------------------------------------------------------------------------- |
+| user  | ObjectId | `611d0e284ed7270017ebac6e` | The user associated with this member                                                           |
+| role  | String   | `"ADMIN"`                  | The role of the member, which can be one of `USER`, `ADMIN`, or `CREATOR`. Defaults to `USER`. |
+
+#### `deviceSchema`
+
+| Field     | Type     | Example                      | Description                                                    |
+| --------- | -------- | ---------------------------- | -------------------------------------------------------------- |
+| serial    | String   | `"ABC123"`                   | The serial number of the device. Required and must be unique.  |
+| name      | String   | `"My Device"`                | The name of the device. Required.                              |
+| remote    | String   | `"https://remote.it/ABC123"` | The remote.it URL for the device. Required and must be unique. |
+| data      | ObjectId | `611d0e284ed7270017ebac6e`   | The ID of the data associated with this device                 |
+| createdAt | Date     | `2022-01-01T00:00:00.000Z`   | The timestamp of when this device was created                  |
+| updatedAt | Date     | `2022-01-01T01:00:00.000Z`   | The timestamp of when this device was last updated             |
+
+#### `apiarySchema`
+
+| Field     | Type   | Example                    | Description                                                                         |
+| --------- | ------ | -------------------------- | ----------------------------------------------------------------------------------- |
+| name      | String | `"My Apiary"`              | The name of the apiary                                                              |
+| location  | Object | See example below          | The location of the apiary, represented as a GeoJSON object with a `Point` geometry |
+| members   | Array  | See example below          | An array of members associated with this apiary                                     |
+| devices   | Array  | See example below          | An array of devices associated with this apiary                                     |
+| createdAt | Date   | `2022-01-01T00:00:00.000Z` | The timestamp of when this apiary was created                                       |
+| updatedAt | Date   | `2022-01-01T01:00:00.000Z` | The timestamp of when this apiary was last updated                                  |
+
+### `ObjectId`
+
+A MongoDB ObjectId is a 12-byte unique identifier for documents in a collection. It can be converted to a string representation for ease of use.
+
+### Example Document
+
+```json
+{
+  "_id": "61701a1d45c5556f37e18f22",
+  "name": "My Apiary",
+  "location": {
+    "type": "Point",
+    "coordinates": [50.1234, -120.5678],
+    "formattedAddress": "123 Main Street, Vancouver, BC, Canada",
+    "placeID": "ChIJ2-3w3EXyhlQRugc5uVrXQ8o"
+  },
+  "members": [
+    {
+      "_id": "61701a1d45c5556f37e18f23",
+      "user": "616f5c5dc5be5e8b5fabc123",
+      "role": "ADMIN"
+    },
+    {
+      "_id": "61701a1d45c5556f37e18f24",
+      "user": "616f5c5dc5be5e8b5fabc456",
+      "role": "USER"
+    }
+  ],
+  "devices": [
+    {
+      "_id": "61701a1d45c5556f37e18f25",
+      "serial": "ABC123",
+      "name": "Sensor 1",
+      "remote": "https://example.com/ABC123",
+      "data": "61701a1d45c5556f37e18f26",
+      "createdAt": "2022-10-19T12:34:56.789Z",
+      "updatedAt": "2022-10-19T12:34:56.789Z"
+    },
+    {
+      "_id": "61701a1d45c5556f37e18f27",
+      "serial": "DEF456",
+      "name": "Sensor 2",
+      "remote": "https://example.com/DEF456",
+      "data": null,
+      "createdAt": "2022-10-19T12:34:56.789Z",
+      "updatedAt": "2022-10-19T12:34:56.789Z"
+    }
+  ],
+  "createdAt": "2022-10-19T12:34:56.789Z",
+  "updatedAt": "2022-10-19T12:34:56.789Z"
+}
+```
+
+## `data.model`
+
+This is a schema definition for a `data.model` in a Node.js/Express application using Mongoose. The `dataSchema` defines the structure and validation rules for data documents that will be stored in a MongoDB database. This model consists of a `dataPointSchema` which defines the structure of an individual data point, and a `dataSchema` which defines a list of datapoints.
 
 ### `dataPointSchema` Description
 
@@ -246,7 +343,7 @@ The `dataSchema` defines the schema for a collection of data points. It consists
 
 ### Example document
 
-```js
+```json
 {
   "_id": ObjectId("60934c7a2a58581ed82b8d96"),
   "apiary": ObjectId("6051902568f4a4dbd4f1c0e5"),
@@ -272,49 +369,239 @@ The `dataSchema` defines the schema for a collection of data points. It consists
 }
 ```
 
-## Routes
+# Routes
 
-## Controllers
+## `user.routes`
 
-## Server
+This file defines the routes for user authentication and authorization. The routes are protected by authentication middleware to ensure that only authenticated users can access them.
+
+### Controllers
+
+The `controllers` directory contains the functions that handle the logic for each route.
+
+### Middleware
+
+The `middleware` directory contains the `auth.middleware` file, which contains middleware functions for protecting the routes.
+
+### Route Endpoints
+
+```
+POST /register
+```
+
+- Request Type: `POST`
+- Authentication: None
+- Description: Registers a new user with the provided credentials.
+
+```
+POST /login
+```
+
+- Request Type: `POST`
+- Authentication: None
+- Description: Logs in a user with the provided credentials.
+
+```
+GET /me
+```
+
+- Request Type: `GET`
+- Authentication: `Protect`
+- Description: Gets the current user.
+
+## `apiary.routes`
+
+This file defines the routes for the apiary related endpoints. The routes are protected by authentication middleware to ensure that only authenticated users can access them.
+
+### Controllers
+
+The `controllers` directory contains the functions that handle the logic for each route.
+
+### Middleware
+
+The `middleware` directory contains the `auth.middleware` file, which contains middleware functions for protecting the routes.
+
+### Route Endpoints
+
+```
+GET /apiaries/
+```
+
+- Request Type: `GET`
+- Authentication: `Protect`
+- Description: Returns all apiaries associated with the authenticated user.
+
+```
+POST /apiaries/
+```
+
+- Request Type: `POST`
+- Authentication: `Protect`
+- Description: Creates a new apiary associated with the authenticated user.
+
+```
+PUT /apiaries/:apiary_id
+```
+
+- Request Type: `PUT`
+- Authentication: `Protect`
+- Description: Updates the specified apiary associated with the authenticated user.
+
+```
+DELETE /apiaries/:apiary_id
+```
+
+- Request Type: `DELETE`
+- Authentication: `Protect`
+- Description: Deletes the specified apiary associated with the authenticated user.
+
+```
+PUT /apiaries/:apiary_id/setdevice
+```
+
+- Request Type: `PUT`
+- Authentication: `Protect`
+- Description: Sets a new device for the specified apiary associated with the authenticated user.
+
+```
+PUT /apiaries/:apiary_id/device/:device_id/updatedevice
+```
+
+- Request Type: `PUT`
+- Authentication: `Protect`
+- Description: Updates the specified device for the specified apiary associated with the authenticated user.
+
+```
+PUT /apiaries/:apiary_id/device/:device_id/serial/:serial/deletedevice
+```
+
+- Request Type: `PUT`
+- Authentication: `Protect`
+- Description: Deletes the specified device for the specified apiary associated with the authenticated user.
+
+```
+PUT /apiaries/:apiary_id/setmember
+```
+
+- Request Type: `PUT`
+- Authentication: `Protect`
+- Description: Sets a new member for the specified apiary associated with the authenticated user.
+
+```
+PUT /apiaries/:apiary_id/user/:user_id/updatemember
+```
+
+- Request Type: `PUT`
+- Authentication: `Protect`
+- Description: Updates the specified member for the specified apiary associated with the authenticated user.
+
+```
+PUT /apiaries/:apiary_id/user/:user_id/deletemember
+```
+
+- Request Type: `PUT`
+- Authentication: `Protect`
+- Description: Deletes the specified member for the specified apiary associated with the authenticated user.
+
+## `data.routes`
+
+This file defines the routes for the data related endpoints.
+
+### Controllers
+
+The `controllers` directory contains the functions that handle the logic for each route.
+
+### Route Endpoints
+
+```
+PUT /serial/:seral
+```
+
+- Request Type: `PUT`
+- Authentication: None
+- Description: Puts the data from the device with the specified serial number into the database.
+
+# Controllers
+
+## `user.controller`
+
+This file handles user-related routes and requests.
+
+### Functions
+
+#### registerUser
+
+- Route: `POST /api/users`
+- Access: Public
+- Description: Registers a new user.
+
+#### loginUser
+
+- Route: `POST /api/users/login`
+- Access: Public
+- Description: Authenticates a user and generates a JSON web token (JWT) for authorization.
+
+#### getMe
+
+- Route: `GET /api/users/me`
+- Access: Private
+- Description: Gets user data based on the ID of the authenticated user.
+
+## `data.controller`
+
+This file handles data-related routes and requests.
+
+### Functions
+
+#### putData
+
+- Route: `POST /api/data/:apiary_id/:device_id/`
+- Access: Needs protection (ML team authorized only)
+- Description: Uploads a data point to the database.
+
+# Server
 
 The `server` is responsible for setting up the server and connecting to the database. The server is also responsible for listening on the port specified in the `.env` file (not provided).
 
-## Frontend
+# Frontend
 
-## Deployment (Jonathan)
+# Deployment (Jonathan)
 
 Explain how to deploy the application, including any server requirements and deployment steps.
 
-## Testing (TBD)
+# Testing (TBD)
 
 Testing has been manual. Outline how to test the application, including any testing frameworks or methodologies used.
 
-## License
+# License
 
 Property of Santa Clara University under SCU's Senior Design Program
 
-## Acknowledgments
+# Acknowledgments
 
 Special thanks to Kian Nizkad, Wendy Mather, and Gerhard and Lisa Eschelbeck for their continued support on this project's details and design direction.
 
-## Appendix
+# Appendix
 
 Include any additional information or resources, such as troubleshooting tips or frequently asked questions.
 
-## Screenshots
+# Screenshots
 
 - Manage
 - Dashboard
 - Manage opened
 - FAQ
 
-## Video Demo
+# Video Demo
 
 - Upload final video from
 
-## Contact
+# Contact
 
 Any questions regarding the web application, please contact cpaiz@scu.edu or paizcollin@gmail.com
 Any questions regarding deployment, please contact jstock@scu.edu
 Any questions regarding hardware, please contact ewrysinski@scu.edu and dblanc@scu.edu
+
+```
+
+```
