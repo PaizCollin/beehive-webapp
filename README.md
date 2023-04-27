@@ -638,211 +638,414 @@ This code snippet configures a Redux store using @reduxjs/toolkit. It uses two s
 
 ## `AboutCard` React Component
 
-The `AboutCard` React component is a MUI-based card that displays a question-answer pair. It is typically used to display frequently asked questions on a website.
+The `AboutCard` component is a reusable component that displays an information card with a title, avatar, and expandable content. It is used in the `About` page to display information regarding the project.
 
 ### Props
 
-- `faq`: An array containing two strings. The first string represents the question, and the second string represents the answer to the question.
+| Name | Type  | Required | Description                                                                                          |
+| ---- | ----- | -------- | ---------------------------------------------------------------------------------------------------- |
+| faq  | array | Yes      | An array of two strings: the title of the card and the content to display when the card is expanded. |
 
-### Usage
+### State
+
+| Name   | Type    | Description                                           |
+| ------ | ------- | ----------------------------------------------------- |
+| expand | boolean | Determines whether the card is expanded or collapsed. |
+
+### Methods
+
+The `AboutCard` component does not define any methods.
+
+### Handlers
+
+The `AboutCard` component does not define any handlers.
+
+### Child Components
+
+| Name                        | Package               | Description                                                     |
+| --------------------------- | --------------------- | --------------------------------------------------------------- |
+| `Grid`                      | `@mui/material`       | A layout component that helps to organize content in a grid     |
+| `Avatar`                    | `@mui/material`       | A component that represents a user or entity                    |
+| `Card`                      | `@mui/material`       | A container component that displays information                 |
+| `CardActions`               | `@mui/material`       | A component that provides space for buttons or icons            |
+| `CardHeader`                | `@mui/material`       | A component that displays a header for a card                   |
+| `Collapse`                  | `@mui/material`       | A component that animates the expansion or collapse of content  |
+| `IconButton`                | `@mui/material`       | A button component that displays an icon                        |
+| `Typography`                | `@mui/material`       | A component that displays text content                          |
+| `useTheme`                  | `@mui/material`       | A hook that provides access to the current theme                |
+| `Box`                       | `@mui/material`       | A component that provides a flexible container for content      |
+| `ArrowDropDownOutlinedIcon` | `@mui/icons-material` | An icon component that represents a downward-pointing arrow     |
+| `InfoOutlinedIcon`          | `@mui/icons-material` | An icon component that represents an information icon           |
+| `useState`                  | `react`               | A hook that adds state to a functional component                |
+| `tokens`                    | Custom function       | A function that returns color tokens based on the current theme |
+
+### Usage Example
 
 ```jsx
 import AboutCard from "./AboutCard";
 
-const faq = ["What is this website about?", "This website is about..."];
+const ExampleComponent = () => {
+  const faq = ["Title", "Content"];
 
-function MyComponent() {
   return <AboutCard faq={faq} />;
-}
+};
 ```
+
+In this example, we import the `AboutCard` component and render it with an array of two strings that will be displayed as the title and content of the card. When the user clicks on the arrow button in the card header, the content of the card will expand or collapse.
 
 ## `AddApiaryCard` React Component
 
-This is a React functional component that renders a card with a button to add a new apiary. When the button is clicked, a form expands to allow the user to input the details of the new apiary, including the name and location. The user can select the location from the Google Maps Autocomplete component.
+The `AddApiaryCard` component is a form card used to create a new apiary in a React application. It includes a name input field, a location input field powered by the `GoogleMaps` component, and a button to submit the form data.
 
 ### Props
 
-This component does not receive any props.
+The `AddApiaryCard` component does not accept any props.
+
+### State
+
+| Name     | Type    | Description                                                                        |
+| -------- | ------- | ---------------------------------------------------------------------------------- |
+| value    | Object  | The selected location value from the GoogleMaps component.                         |
+| expand   | Boolean | Whether or not the card is expanded.                                               |
+| formData | Object  | The form data to be submitted, including the apiary name and location information. |
 
 ### Methods
 
-The component defines two methods:
+The `AddApiaryCard` component does not define any methods.
 
-- `onChange`: A function that updates the `formData` state object as the user types into the `name` field and selects a location from the `maps` dropdown.
-- `onSubmit`: An async function that dispatches an action to add the new apiary to the API using the `setApiary` function from the Redux store.
+### Handlers
 
-### Usage
+| Name     | Parameters | Description                                                          |
+| -------- | ---------- | -------------------------------------------------------------------- |
+| onChange | e: Event   | Updates the form data when input fields are changed.                 |
+| onSubmit | e: Event   | Submits the form data to the Redux store via the `setApiary` action. |
 
-```jsx
-import AddApiaryCard from "./AddApiaryCard";
+### Child Components
 
-function MyComponent() {
+| Name            | Package                     | Description                                                           |
+| --------------- | --------------------------- | --------------------------------------------------------------------- |
+| Grid            | @mui/material               | A layout component to create a grid of items.                         |
+| Avatar          | @mui/material               | A component to display user profile pictures or icons.                |
+| Card            | @mui/material               | A material design card component.                                     |
+| CardActions     | @mui/material               | A component to create a row of actions for a `Card` component.        |
+| Collapse        | @mui/material               | A component to collapse content based on a boolean state variable.    |
+| IconButton      | @mui/material               | A component to create clickable icons.                                |
+| useTheme        | @mui/material               | A hook to access the current theme.                                   |
+| Button          | @mui/material               | A material design button component.                                   |
+| TextField       | @mui/material               | A material design input component.                                    |
+| Box             | @mui/material               | A layout component to create a box container.                         |
+| Autocomplete    | @mui/material               | A component to create an input field with autocomplete functionality. |
+| parse           | autosuggest-highlight/parse | A function to parse and highlight text in an autocomplete input.      |
+| debounce        | lodash                      | A function to debounce input field changes.                           |
+| AddOutlinedIcon | @mui/icons-material         | A material design add icon.                                           |
+| useState        | react                       | A hook to manage state variables in a functional component.           |
+| useDispatch     | react-redux                 | A hook to dispatch actions to the Redux store.                        |
+| GoogleMaps      | ./AutocompleteMaps.tsx      | A custom component to display a Google Maps autocomplete input field. |
+
+### Usage Example
+
+```
+import AddApiaryCard from './AddApiaryCard';
+
+const ParentComponent = () => {
   return (
     <div>
       <AddApiaryCard />
     </div>
   );
-}
+};
+
+export default ParentComponent;
 ```
+
+In this example, when the form is submitted, the data is sent to the Redux store via the `setApiary` action. This data includes the apiary name and location information provided by the `GoogleMaps` component.
 
 ## `AddDeviceCard` React Component
 
-The `AddDeviceCard` component is a React component that allows users to add a new device to an apiary. This component displays a card with an "Add Device" button that, when clicked, expands to show a form with fields for the device's name, serial number, and remote link. Users can enter the required information and create a new device by clicking the "Create Device" button.
+This component renders a card with a form to add a new device to an apiary. The form includes an input field for the device name, a select field for the device type, and a button to submit the form data.
 
 ### Props
 
-- `apiary`: (required) An object that contains the apiary ID to which the device will be added.
-- `userRole`: (required) A string that contains the role of the user. The value can be either "USER", "ADMIN", or "CREATOR".
-
-### Methods
-
-The component defines two methods:
-
-- `onChange`: A function that updates the `formData` state object as the user types into the `name` field, `serial` field, and `remote` field.
-- `onSubmit`: An async function that dispatches an action to add the new device to the API using the `setDevice` function from the Redux store.
-
-### Usage
-
-```jsx
-import AddDeviceCard from "./AddDeviceCard";
-
-const MyComponent = () => {
-  const apiary = {
-    _id: "apiaryId",
-  };
-  const userRole = "ADMIN";
-
-  return <AddDeviceCard apiary={apiary} userRole={userRole} />;
-};
-```
-
-## `AboutUserCard` React Component
-
-The `AddUserCard` is a React functional component that renders a card with a form to add new users to an API. It uses the Material UI library for styling and components.
-
-### Props
-
-The component receives two props:
-
-- `apiary`: (required) An object representing the API to which the new user will be added. It contains an `_id` property with the API's unique identifier.
-- `userRole`: (required) A string that contains the role of the user. The value can be either "USER", "ADMIN", or "CREATOR".
+| Name     | Type   | Required | Description                                                  |
+| -------- | ------ | -------- | ------------------------------------------------------------ |
+| apiary   | object | Yes      | An object with data for the apiary where the device is added |
+| userRole | string | Yes      | A string with the user role, either "USER" or "ADMIN"        |
 
 ### State
 
-The component uses the `useState` hook to manage the following state:
-
-- `expand`: A boolean that controls whether the form is expanded or collapsed.
-- `formData`: An object that contains the email and role of the user being added, as well as a boolean to determine if they should be an administrator.
+| Name     | Type    | Description                                              |
+| -------- | ------- | -------------------------------------------------------- |
+| expand   | boolean | A boolean indicating whether the card is expanded or not |
+| formData | object  | An object containing the values of the form inputs       |
 
 ### Methods
 
-The component defines two methods:
+The `AddDeviceCard` component does not define any methods.
 
-- `onChange`: A function that updates the `formData` state object as the user types into the email field and selects the "Set as administrator" checkbox.
-- `onSubmit`: An async function that dispatches an action to add the new user to the API using the `setMember` function from the Redux store.
+### Handlers
 
-### Usage
+| Name     | Parameters | Description                                                |
+| -------- | ---------- | ---------------------------------------------------------- |
+| onChange | e          | A function to handle the onChange event of the form inputs |
+| onSubmit | e          | A function to handle the onSubmit event of the form        |
 
-```javascript
+### Child Components
+
+| Name              | Package             | Description                                                                           |
+| ----------------- | ------------------- | ------------------------------------------------------------------------------------- |
+| `Grid`            | @mui/material       | A layout component for arranging its children in a grid.                              |
+| `Avatar`          | @mui/material       | A component for displaying a circular image or icon.                                  |
+| `Card`            | @mui/material       | A container component for displaying content and actions related to a single subject. |
+| `CardActions`     | @mui/material       | A container component for grouping action buttons in a card.                          |
+| `Collapse`        | @mui/material       | A component that allows for collapsing and expanding its children.                    |
+| `IconButton`      | @mui/material       | A button component that displays an icon.                                             |
+| `useTheme`        | @mui/material       | A hook that provides access to the MUI theme.                                         |
+| `Button`          | @mui/material       | A component for displaying a clickable button.                                        |
+| `TextField`       | @mui/material       | A component for displaying and inputting text.                                        |
+| `Box`             | @mui/material       | A component for wrapping and styling its children.                                    |
+| `AddOutlinedIcon` | @mui/icons-material | An icon component that displays a plus symbol.                                        |
+| `useState`        | React               | A hook for managing state in functional components.                                   |
+| `useNavigate`     | react-router-dom    | A hook for navigating to different routes in a React application.                     |
+| `useDispatch`     | react-redux         | A hook for dispatching actions to the Redux store.                                    |
+| `useSelector`     | react-redux         | A hook for accessing state from the Redux store.                                      |
+
+### Usage Example
+
+```
+import React from "react";
+import AddDeviceCard from "./AddDeviceCard";
+
+const MyComponent = () => {
+  return (
+    <AddDeviceCard apiary={{_id: "apiaryId", name: "apiaryName"}} userRole="ADMIN" />
+  );
+};
+
+export default MyComponent;
+```
+
+In this example, `MyComponent` renders the `AddDeviceCard` component passing the required props `apiary` and `userRole`. The `apiary` prop is an object with the data for the apiary where the device will be added, and the `userRole` prop is a string indicating the role of the user, either "USER" or "ADMIN".
+
+## `AddUserCard` React Component
+
+The `AddUserCard` component is a React component that displays a card with a button to expand a form to add a new user to an apiary. It takes in two props: `apiary` and `userRole`.
+
+### Props
+
+| Name     | Type   | Required | Description                                 |
+| -------- | ------ | -------- | ------------------------------------------- |
+| apiary   | object | Yes      | An object containing data for the APIary.   |
+| userRole | string | Yes      | The role of the user creating the new user. |
+
+### State
+
+| Name     | Type    | Description                                                |
+| -------- | ------- | ---------------------------------------------------------- |
+| expand   | boolean | Determines whether the form to add a new user is expanded. |
+| formData | object  | An object containing the email and role of the new user.   |
+
+### Methods
+
+| Name     | Parameters | Description                                                                                                      |
+| -------- | ---------- | ---------------------------------------------------------------------------------------------------------------- |
+| onChange | `e`: Event | Updates the `formData` state with the input value of the form.                                                   |
+| onSubmit | `e`: Event | Dispatches an action to add a new member to the APIary with the email and role provided in the `formData` state. |
+
+### Handlers
+
+The `AddUserCard` component does not define any handlers.
+
+### Child Components
+
+| Name             | Package       | Description                                                                                |
+| ---------------- | ------------- | ------------------------------------------------------------------------------------------ |
+| Avatar           | @mui/material | Displays an avatar with an icon.                                                           |
+| Box              | @mui/material | A layout component that allows for flexible box sizing.                                    |
+| Button           | @mui/material | A button component with customizable styling.                                              |
+| Card             | @mui/material | A component that displays a card with a shadow effect.                                     |
+| CardActions      | @mui/material | A layout component that displays a set of buttons below the card content.                  |
+| Checkbox         | @mui/material | A component that displays a checkbox.                                                      |
+| Collapse         | @mui/material | A component that animates the expanding and collapsing of its children.                    |
+| FormControlLabel | @mui/material | A component that combines a label with a form control, such as a checkbox or radio button. |
+| Grid             | @mui/material | A layout component that displays its children in a grid.                                   |
+| IconButton       | @mui/material | A button component that displays an icon.                                                  |
+| TextField        | @mui/material | A component that displays an input field for text.                                         |
+
+### Usage Example
+
+```jsx
 import AddUserCard from "./AddUserCard";
 
 const MyComponent = () => {
-  const apiary = { _id: "123abc" };
+  const apiary = { _id: "12345", name: "My APIary" };
   const userRole = "ADMIN";
 
   return <AddUserCard apiary={apiary} userRole={userRole} />;
 };
 ```
 
+In this example, the `MyComponent` component renders the `AddUserCard` component with an `apiary` object and a `userRole` string. The `AddUserCard` component displays a card with a button to expand a form to add a new user to the APIary.
+
 ## `ApiaryCard` React Component
 
-The `ApiaryCard` component displays information about an apiary and provides the ability to edit and delete apiary details. It also displays the devices and users associated with the apiary.
+The `ApiaryCard` component is a reusable component in a React application that displays information about an apiary such as its name, location and other details. It allows users to edit, delete and update the apiary information. This component utilizes Material-UI library.
 
 ### Props
 
-The component takes in the following props:
+The following table lists the props that can be passed to `ApiaryCard` component:
 
-- `apiary`: An object containing the details of a single apiary. The object should have the following properties:
-  - `_id`: A string representing the unique identifier of the apiary.
-  - `name`: A string representing the name of the apiary.
-  - `location`: An object representing the location of the apiary. The object should have the following properties:
-    - `formattedAddress`: A string representing the formatted address of the apiary location.
-
-### Children Components
-
-The `ApiaryCard` component uses the following child components:
-
-- `UserCard`: A component that displays the details of a single user.
-- `DeviceCard`: A component that displays the details of a single device.
-- `AddUserCard`: A component that allows the user to add a new member to the apiary.
-- `AddDeviceCard`: A component that allows the user to add a new device to the apiary.
+| Name   | Type   | Required | Description                             |
+| ------ | ------ | -------- | --------------------------------------- |
+| apiary | Object | Yes      | An object containing apiary information |
 
 ### State
 
-The `ApiaryCard` component maintains the following state:
+The `ApiaryCard` component has the following states:
 
-- `expand`: A boolean value that determines whether the form to edit the apiary details is expanded or not.
-- `formData`: An object that stores the data entered in the form to edit the apiary details.
+| Name     | Type    | Description                                                  |
+| -------- | ------- | ------------------------------------------------------------ |
+| expand   | boolean | Tracks whether the form for editing the apiary should expand |
+| formData | Object  | Tracks the form data entered by the user for updating        |
 
 ### Methods
 
-The `ApiaryCard` component defines the following methods:
+The `ApiaryCard` component does not define any methods.
 
-- `checkUser(apiary, user)`: A helper function that takes in an `apiary` object and a `user` object and returns the role of the user in the apiary.
-- `onChange(e)`: A method that handles the onChange event of the form input fields and updates the `formData` state accordingly.
-- `onSubmit(e)`: A method that handles the onSubmit event of the form and dispatches an action to update the apiary details.
-- `onDelete(e)`: A method that handles the onSubmit event of the delete button and dispatches an action to delete the apiary.
+### Handlers
+
+| Name     | Parameters  | Description                                     |
+| -------- | ----------- | ----------------------------------------------- |
+| onChange | `e` (Event) | Updates the formData state on form input change |
+| onSubmit | `e` (Event) | Submits the form data to update the apiary      |
+| onDelete | `e` (Event) | Deletes the apiary from the application         |
+
+### Child Components
+
+| Name                  | Package             | Description                                                               |
+| --------------------- | ------------------- | ------------------------------------------------------------------------- |
+| AddDeviceCard         | ./AddDeviceCard     | A form for adding a new device to the apiary.                             |
+| AddUserCard           | ./AddUserCard       | A form for adding a new user to the apiary.                               |
+| DeviceCard            | ./DeviceCard        | A card displaying details of a device in the apiary.                      |
+| Grid                  | @mui/material       | A layout component that displays child components in a grid.              |
+| Avatar                | @mui/material       | A component for displaying a user's avatar.                               |
+| Box                   | @mui/material       | A layout component that displays child components in a box.               |
+| Button                | @mui/material       | A component for displaying a button.                                      |
+| Card                  | @mui/material       | A component that displays a card.                                         |
+| CardActions           | @mui/material       | A component for displaying actions in a card.                             |
+| CardHeader            | @mui/material       | A component for displaying a header in a card.                            |
+| Collapse              | @mui/material       | A component for animating the expansion and collapse of a card's content. |
+| DeviceHubOutlinedIcon | @mui/icons-material | An icon component representing a device hub.                              |
+| EditOutlinedIcon      | @mui/icons-material | An icon component representing an edit button.                            |
+| GroupOutlinedIcon     | @mui/icons-material | An icon component representing a group.                                   |
+| IconButton            | @mui/material       | A component for displaying an icon that can be clicked.                   |
+| TextField             | @mui/material       | A component for displaying a text field that can be used for user input.  |
+| Typography            | @mui/material       | A component for displaying text.                                          |
+| useDispatch           | react-redux         | A hook that returns the Redux store's `dispatch` function.                |
+| useSelector           | react-redux         | A hook that returns a selected value from the Redux store's state.        |
+| useState              | react               | A hook that allows functional components to use component-level state.    |
 
 ### Usage
 
 ```jsx
-import ApiaryCard from "./ApiaryCard";
+import { ApiaryCard } from "./components";
 
-<ApiaryCard apiary={apiaryData} />;
+const apiary = {
+  _id: 1,
+  name: "My Apiary",
+  location: {
+    latitude: 43.6532,
+    longitude: -79.3832,
+    formattedAddress: "Toronto, ON, Canada",
+  },
+  devices: [
+    {
+      _id: 1,
+      name: "Device 1",
+      macAddress: "00:00:00:00:00:01",
+    },
+    {
+      _id: 2,
+      name: "Device 2",
+      macAddress: "00:00:00:00:00:02",
+    },
+  ],
+  members: [
+    {
+      user: {
+        _id: 1,
+        name: "User 1",
+        email: "user1@example.com",
+      },
+      role: "CREATOR",
+    },
+    {
+      user: {
+        _id: 2,
+        name: "User 2",
+        email: "user2@example.com",
+      },
+      role: "USER",
+    },
+  ],
+};
+
+const App = () => {
+  return <ApiaryCard apiary={apiary} />;
+};
 ```
+
+In this example, we will render an `ApiaryCard` component with the provided `apiary` object. Users can edit, delete and update the apiary details.
 
 ## `AutocompleteMaps` Typescript Component
 
-A React component that provides autocomplete functionality for Google Maps Places API. It uses the AutocompleteService to fetch place predictions and the Autocomplete component from the @material-ui/lab library to render the autocomplete dropdown. It also uses the loadScript method from the @react-google-maps/api library to load the Google Maps JavaScript API script asynchronously.
-
----
+This component is a wrapper around the Autocomplete component from MUI that provides an autocomplete feature for locations using Google Maps API. The component suggests location results as the user types and selects a location from the options.
 
 ### Props
 
-- `value`: The currently selected place. If provided, it must be an object with `description`, `main_text`, `secondary_text`, `main_text_matched_substrings`, `offset`, and `length` properties. Defaults to `null`.
-- `setValue`: A function that is called with the selected place object when a new place is selected.
+| Name     | Type        | Required | Description                                    |
+| -------- | ----------- | -------- | ---------------------------------------------- |
+| value    | `PlaceType` | Yes      | The selected location value.                   |
+| setValue | `function`  | Yes      | A function to set the selected location value. |
+
+### State
+
+| Name       | Type                   | Description                                                     |
+| ---------- | ---------------------- | --------------------------------------------------------------- |
+| inputValue | `string`               | The current input value of the Autocomplete component.          |
+| options    | `readonly PlaceType[]` | An array of location options fetched from Google Maps API.      |
+| loaded     | `boolean`              | Indicates whether the Google Maps API script has loaded or not. |
 
 ### Methods
 
-- `loadScript(src: string, position: HTMLElement | null, id: string)`: This method loads the Google Maps JavaScript API script asynchronously. It takes three arguments:
-  - `src`: The URL of the script to load.
-  - `position`: The position in the DOM where the script should be inserted. This should be a `<head>` element.
-  - `id`: The ID to assign to the script element.
-- `fetch(request: { input: string }, callback: (results?: readonly PlaceType[]) => void)`: This method fetches place predictions from the Google Places API using the AutocompleteService. It takes two arguments:
-  - `request`: An object containing an `input` property with the text to search for.
-  - `callback`: A function that will be called with an array of place objects if the search is successful.
+The component does not have any methods.
+
+### Handlers
+
+The component does not have any handlers.
 
 ### Interfaces
 
-- `MainTextMatchedSubstrings`: An interface describing the `main_text_matched_substrings` property of a place object. It has two properties:
-  - `offset`: The starting index of the matched substring.
-  - `length`: The length of the matched substring.
-- `StructuredFormatting`: An interface describing the `structured_formatting` property of a place object. It has three properties:
-  - `main_text`: The main text of the place description.
-  - `secondary_text`: Additional text about the place, such as the city and state.
-  - `main_text_matched_substrings` (optional): An array of `MainTextMatchedSubstrings` objects describing any matched substrings in the `main_text` property.
-- `PlaceType`: An interface describing a place object returned by the Google Places API. It has two properties:
-  - `description`: A string describing the place.
-  - `structured_formatting`: A `StructuredFormatting` object containing additional information about the place.
+| Name                      | Type        | Description                                                                      |
+| ------------------------- | ----------- | -------------------------------------------------------------------------------- |
+| MainTextMatchedSubstrings | `interface` | An interface representing the matched substrings in the main text of a location. |
+| StructuredFormatting      | `interface` | An interface representing the structured formatting of a location.               |
+| PlaceType                 | `interface` | An interface representing a location.                                            |
 
-### Usage
+### Child Components
 
-This component is a wrapper around the `Autocomplete` component from the Material-UI library that provides autocomplete suggestions based on the user's input using the Google Maps Places API. The component takes two props: `value` and `setValue`.
+| Component      | Package                          | Description                                                                                                                   |
+| -------------- | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Box            | "@mui/material/Box"              | A component used for creating layout containers that can contain other components.                                            |
+| TextField      | "@mui/material/TextField"        | An input field component used for accepting user input.                                                                       |
+| Autocomplete   | "@mui/material/Autocomplete"     | A component that provides an input field with an autocomplete dropdown, which displays a list of options based on user input. |
+| LocationOnIcon | "@mui/icons-material/LocationOn" | An icon component used for indicating a location.                                                                             |
+| Grid           | "@mui/material/Grid"             | A component used for creating grid-based layouts.                                                                             |
+| Typography     | "@mui/material/Typography"       | A component used for displaying text with different styles and variations.                                                    |
 
-Here's an example usage:
+### Usage Example
 
 ```jsx
-import GoogleMaps from "./GoogleMaps";
+import GoogleMaps from "./AutocompleteMaps.tsx";
 
 function MyComponent() {
   const [value, setValue] = React.useState(null);
@@ -855,106 +1058,130 @@ In this example, the `value` prop is the currently selected place, and the `setV
 
 Note that you'll need to obtain a Google Maps API key and enable the Places API in order to use this component. You can do this by following the instructions in the [Google Maps JavaScript API documentation](https://developers.google.com/maps/gmp-get-started).
 
-# DeviceCard Component
+## `DeviceCard` React Component
 
-A React component that renders a card representing a device with options to edit, delete, and display detailed information.
-
-## Props
-
-| Name     | Type   | Description                                                           |
-| -------- | ------ | --------------------------------------------------------------------- |
-| device   | object | The device object to be rendered                                      |
-| apiary   | object | The apiary object to which the device belongs                         |
-| userRole | string | The role of the user viewing the component (either "ADMIN" or "USER") |
-
-## Methods
-
-| Name     | Description                                                                   |
-| -------- | ----------------------------------------------------------------------------- |
-| onChange | A function that updates the component's form data when the user inputs values |
-| onSubmit | A function that dispatches an updateDevice action to update the device        |
-| onDelete | A function that dispatches a deleteDevice action to delete the device         |
-
-## State
-
-| Name   | Description                                                    |
-| ------ | -------------------------------------------------------------- |
-| expand | A boolean that toggles the display of the detailed information |
-
-## Child Components
-
-| Name        | Description                                           |
-| ----------- | ----------------------------------------------------- |
-| Grid        | A MUI component used for grid layout                  |
-| Avatar      | A MUI component used to display an avatar             |
-| Card        | A MUI component used to render a card                 |
-| CardActions | A MUI component used to render actions for the card   |
-| CardHeader  | A MUI component used to render the header of the card |
-| Collapse    | A MUI component used to display detailed information  |
-| IconButton  | A MUI component used to render an icon button         |
-| Typography  | A MUI component used to render text                   |
-| TextField   | A MUI component used to render a form field           |
-| Box         | A MUI component used for layout                       |
-| Button      | A MUI component used to render a button               |
-
-## Usage Example
-
-```jsx
-import DeviceCard from "./DeviceCard";
-
-const MyComponent = () => {
-  const device = {
-    name: "My Device",
-    serial: "123456",
-    remote: "https://example.com",
-  };
-  const apiary = { _id: "123", name: "My Apiary" };
-  const userRole = "ADMIN";
-
-  return <DeviceCard device={device} apiary={apiary} userRole={userRole} />;
-};
-```
-
-### Features
-
-The `DeviceCard` component displays the following features:
-
-- Displays the device name and serial number in the header of the card.
-- Displays an avatar with the first letter of the device name in the header of the card.
-- Displays a collapseable form for editing the device information, including the name and remote link.
-- Displays a button for deleting the device.
-- Allows users with an admin role to edit and delete the device.
-- Disables the edit and delete buttons for users with a user role.
-
-## `FAQCard` Component
-
-A React component that displays a frequently asked question with a collapsible answer.
+The `DeviceCard` component is a React component that displays information about a device in a card format. The card displays basic information about the device, including its name, serial number, and a remote link. Users with the appropriate access level can edit or delete the device using the provided buttons.
 
 ### Props
 
-- `faq` (array) : An array containing the question and answer text. The first item in the array is the question and the second item is the answer.
-
-### Methods
-
-- The `FAQCard` component does not include any methods.
+| Name     | Type   | Required | Description                                                                   |
+| -------- | ------ | -------- | ----------------------------------------------------------------------------- |
+| device   | Object | Yes      | An object containing information about the device.                            |
+| apiary   | Object | Yes      | An object containing information about the apiary that the device belongs to. |
+| userRole | String | Yes      | A string representing the user's role in the system.                          |
 
 ### State
 
-- `expand` (boolean): A state variable that controls whether the answer is collapsed or expanded.
+| Name     | Type    | Description                                                                     |
+| -------- | ------- | ------------------------------------------------------------------------------- |
+| expand   | Boolean | A boolean value indicating whether the form for editing the device is expanded. |
+| formData | Object  | An object containing the current form data for editing the device.              |
+
+### Methods
+
+The `DeviceCard` component does not define any methods.
+
+### Handlers
+
+| Name     | Parameters | Description                                                                |
+| -------- | ---------- | -------------------------------------------------------------------------- |
+| onChange | e:Event    | A handler function to update the `formData` state when form fields change. |
+| onSubmit | e:Event    | A handler function to submit the form for updating the device information. |
+| onDelete | e:Event    | A handler function to delete the device.                                   |
 
 ### Child Components
 
-- `Card` : A Material UI Card component that provides a container for the question and answer.
-- `CardHeader` : A Material UI CardHeader component that displays the question.
-- `Avatar` : A Material UI Avatar component that displays an icon next to the question.
-- `HelpOutlineOutlinedIcon` : A Material UI icon component that is used as the icon for the Avatar component.
-- `CardActions` : A Material UI CardActions component that displays the expand/collapse button.
-- `Grid` : A Material UI Grid component that provides a container for the expand/collapse button.
-- `IconButton` : A Material UI IconButton component that is used as the expand/collapse button.
-- `ArrowDropDownOutlinedIcon` : A Material UI icon component that is used as the icon for the expand/collapse button.
-- `Collapse` : A Material UI Collapse component that displays the answer when expanded.
-- `Box` : A Material UI Box component that provides a container for the answer text.
-- `Typography` : A Material UI Typography component that displays the answer text.
+| Name             | Package             | Description                                                                                                   |
+| ---------------- | ------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Grid             | @mui/material       | A responsive grid container used for laying out and aligning elements in a grid system.                       |
+| Avatar           | @mui/material       | Displays a circular image or icon that represents a user or entity.                                           |
+| Card             | @mui/material       | A container component that is used to group related content.                                                  |
+| CardActions      | @mui/material       | A container component for buttons and other action elements that are placed after the main content of a card. |
+| CardHeader       | @mui/material       | A container component for displaying a header in a Card.                                                      |
+| Collapse         | @mui/material       | A component that enables a content to be shown or hidden based on its visibility.                             |
+| IconButton       | @mui/material       | A clickable button that contains an icon.                                                                     |
+| Typography       | @mui/material       | A component for displaying text.                                                                              |
+| TextField        | @mui/material       | A component for getting user input from the keyboard.                                                         |
+| useTheme         | @mui/material       | A hook that returns the current theme used by the application.                                                |
+| Box              | @mui/material       | A container component that can be used to group and space out elements.                                       |
+| Button           | @mui/material       | A component for user interaction, such as triggering an action or event.                                      |
+| EditOutlinedIcon | @mui/icons-material | An icon that represents the edit action.                                                                      |
+| useState         | react               | A hook that adds state to functional components.                                                              |
+| useNavigate      | react-router-dom    | A hook that returns a navigation object that allows you to navigate to a different URL.                       |
+| useDispatch      | react-redux         | A hook that returns a reference to the dispatch function that allows you to dispatch actions to the store.    |
+| useSelector      | react-redux         | A hook that allows you to extract data from the Redux store state.                                            |
+
+### Usage Example
+
+```javascript
+import React from "react";
+import { DeviceCard } from "./components";
+
+const MyComponent = () => {
+  const device = {
+    name: "Device 1",
+    serial: "123456789",
+    remote: "https://example.com/device1",
+    _id: "abc123",
+  };
+
+  const apiary = {
+    name: "My Apiary",
+    _id: "def456",
+  };
+
+  const userRole = "ADMIN";
+
+  return (
+    <div>
+      <DeviceCard device={device} apiary={apiary} userRole={userRole} />
+    </div>
+  );
+};
+```
+
+In this example, we import the `DeviceCard` component and pass in an object with `device` information, an object with `apiary` information, and the current `userRole`. The component will render the device information in a card format, and the user can click the "Edit" button to expand the form for editing the device information or the "Delete" button to delete the device.
+
+## `FAQCard` React Component
+
+### Description
+
+A reusable React component that renders a card with a FAQ (Frequently Asked Questions) question and an expandable answer section. The answer section can be toggled by clicking on an arrow icon.
+
+### Props
+
+| Name | Type  | Required | Description                                                                                                                                 |
+| ---- | ----- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| faq  | array | Yes      | An array that contains the question and the answer of the FAQ item. The first element is the question and the second element is the answer. |
+
+### State
+
+| Name   | Type    | Description                                              |
+| ------ | ------- | -------------------------------------------------------- |
+| expand | boolean | Indicates whether the answer section is expanded or not. |
+
+### Methods
+
+The `FAQCard` component does not define any methods.
+
+### Handlers
+
+The `FAQCard` component does not define any event handlers.
+
+### Child Components
+
+| Name        | Package       | Description                                                    |
+| ----------- | ------------- | -------------------------------------------------------------- |
+| Grid        | @mui/material | A grid component used for layout.                              |
+| Avatar      | @mui/material | An avatar component used for displaying an icon.               |
+| Card        | @mui/material | A card component that displays the FAQ question and answer.    |
+| CardActions | @mui/material | A component that holds the action buttons in the card header.  |
+| CardHeader  | @mui/material | A component that holds the card title and avatar.              |
+| Collapse    | @mui/material | A component that displays the answer section when expanded.    |
+| IconButton  | @mui/material | An icon button component used for toggling the answer section. |
+| Typography  | @mui/material | A component for displaying text.                               |
+| useTheme    | @mui/material | A hook that provides access to the current theme object.       |
+| Box         | @mui/material | A component for grouping and organizing content.               |
 
 ### Usage Example
 
