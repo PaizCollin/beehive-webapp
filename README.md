@@ -628,9 +628,127 @@ This file handles data-related routes and requests.
 
 # Frontend
 
-# App
+# `App`
 
-## `store`
+## Description
+
+The `App` component is the root component of the application. It is responsible for rendering the application's navigation bar and routing the user to the appropriate page based on the URL.
+
+# `index.js`
+
+## Description
+
+The `index` file is the entry point of the application. It renders the `App` component and wraps it in a `BrowserRouter` component to enable routing.
+
+# `index.css`
+
+## Fonts
+
+This stylesheet imports the "Poppins" font family from Google Fonts with three weights - 400 (regular), 600 (semi-bold), and 700 (bold) - and the display property set to "swap".
+
+```
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+```
+
+## Height, Width and Font
+
+The stylesheet applies 100% height and width to the `html`, `body`, `#root`, `.app`, and `.content` selectors, and uses the "Poppins" font family as the default font for these elements.
+
+```
+html,
+body,
+#root,
+.app,
+.content {
+  height: 100%;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+}
+```
+
+## App Display and Position
+
+The `.app` selector has its display set to "flex" and position set to "relative".
+
+```
+.app {
+  display: flex;
+  position: relative;
+}
+```
+
+## Scrollbar Styling
+
+The stylesheet applies custom styling to the scrollbar using the WebKit CSS scrollbar pseudo-elements. The width of the scrollbar is set to 10px, the track color is set to #e0e0e0, and the handle color is set to #888. On hover, the track color changes to #555.
+
+```
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e0e0e0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on Hover */
+::-webkit-scrollbar-track:hover {
+  background: #555;
+}
+```
+
+## Fieldset Styling
+
+The `fieldset` selector has its border and outline set to "none" to remove any default styling applied to the element.
+
+```
+fieldset {
+  border: none !important;
+  outline: none !important;
+}
+```
+
+That's it! This is a basic documentation of the CSS stylesheet provided.
+
+# `theme.js`
+
+## Description
+
+The `theme` file contains the color design tokens and MUI theme settings for the application. It exports two functions, `tokens` and `themeSettings`, which can be used to retrieve the color design tokens and MUI theme settings for the specified mode.
+
+## `tokens`
+
+The `tokens` function accepts a single argument, `mode`, which can either be `"light"` or `"dark"`, and returns an object containing the color design tokens for the specified mode.
+
+### Example Usage
+
+```jsx
+import { tokens } from "./theme";
+
+const darkModeTokens = tokens("dark");
+const lightModeTokens = tokens("light");
+```
+
+## `themeSettings`
+
+The `themeSettings` function accepts a single argument, `mode`, which can either be `"light"` or `"dark"`, and returns an object containing the MUI theme settings for the specified mode.
+
+### Example Usage
+
+```jsx
+import { createTheme } from "@mui/material/styles";
+import { themeSettings } from "./theme";
+
+const darkTheme = createTheme(themeSettings("dark"));
+const lightTheme = createTheme(themeSettings("light"));
+```
+
+# `store.js`
 
 This code snippet configures a Redux store using @reduxjs/toolkit. It uses two slices, auth and apiary, to manage state related to user authentication and the application's apiary feature.
 
@@ -1113,7 +1231,7 @@ The `DeviceCard` component does not define any methods.
 
 ### Usage Example
 
-```javascript
+```jsx
 import React from "react";
 import { DeviceCard } from "./components";
 
@@ -1214,32 +1332,40 @@ In this example, we pass an array of FAQs to the `FAQCard` component as a prop. 
 
 ## `Graph` React Component
 
-The `Graph` component is a reusable component that displays an area chart with temperature and bee activity data. It uses the Recharts library to create the chart and includes custom tooltip and x-axis components.
+A `Graph` component built with React and Recharts that displays data in an area chart.
 
 ### Props
 
-- `device` (object) - Optional. The device object that contains the data for the chart.
-
-### Methods
-
-The `Graph` component does not include any methods.
+| Name   | Type   | Required | Description                                |
+| ------ | ------ | -------- | ------------------------------------------ |
+| device | Object | No       | An object that contains device data points |
 
 ### State
 
 The `Graph` component does not have any state.
 
+### Methods
+
+The `Graph` component does not define any methods.
+
+### Handlers
+
+The `Graph` component does not define any handlers.
+
 ### Child Components
 
-The `Graph` component includes the following child components:
-
-- `ResponsiveContainer` - A Recharts component that makes the chart responsive.
-- `AreaChart` - A Recharts component that renders an area chart.
-- `XAxis` - A Recharts component that displays the x-axis of the chart.
-- `YAxis` - A Recharts component that displays the y-axis of the chart.
-- `Area` - A Recharts component that displays the area of the chart.
-- `Tooltip` - A Recharts component that displays a tooltip when hovering over the chart.
-- `CartesianGrid` - A Recharts component that displays a grid in the chart.
-- `Legend` - A Recharts component that displays a legend for the chart.
+| Name                | Package       | Description                                                                                   |
+| ------------------- | ------------- | --------------------------------------------------------------------------------------------- |
+| ResponsiveContainer | recharts      | A container element from Recharts that sets the chart size to be responsive to its container. |
+| AreaChart           | recharts      | An area chart from Recharts that displays data points in an area format.                      |
+| XAxis               | recharts      | An x-axis component from Recharts that renders the horizontal axis of the chart.              |
+| YAxis               | recharts      | A y-axis component from Recharts that renders the vertical axis of the chart.                 |
+| Area                | recharts      | An area component from Recharts that renders the area fill of the chart.                      |
+| Tooltip             | recharts      | A tooltip component from Recharts that displays a tooltip when hovering over a data point.    |
+| CartesianGrid       | recharts      | A cartesian grid component from Recharts that displays grid lines on the chart.               |
+| Legend              | recharts      | A legend component from Recharts that displays a legend for the chart.                        |
+| Box                 | @mui/material | A box component from Material-UI that wraps the tooltip content.                              |
+| Typography          | @mui/material | A typography component from Material-UI that renders the date and data values in the tooltip. |
 
 ### Usage
 
@@ -1257,7 +1383,7 @@ function MyComponent() {
 
 In this example, the `Graph` component is passed a `device` object as a prop. The `device` object contains the data for the chart.
 
-## `Loading` Component
+## `Loading` React Component
 
 The `Loading` component displays a circular progress indicator from the Material-UI library.
 
@@ -1265,13 +1391,13 @@ The `Loading` component displays a circular progress indicator from the Material
 
 The `Loading` component does not accept any props.
 
-### Methods
-
-The `Loading` component does not define any methods.
-
 ### State
 
 The `Loading` component does not use any internal state.
+
+### Methods
+
+The `Loading` component does not define any methods.
 
 ### Child Components
 
@@ -1299,237 +1425,289 @@ In this example, the `Loading` component is used to display a loading spinner.
 
 ## `Sidebar` React Component
 
-The `Sidebar` component is a customizable sidebar component for React applications that uses React Router and MUI. It is used to provide a user interface for navigating through different pages in the application.
+### Description
+
+A React component that implements a sidebar for navigation. It uses the `react-pro-sidebar` and `@mui/material` packages. The sidebar consists of a menu with several items and submenus, and it displays information related to the user's APIaries and devices.
 
 ### Props
 
-The `Sidebar` component does not take any props.
-
-### Methods
-
-The `Sidebar` component does not have any methods.
+The `Sidebar` component does not accept any props.
 
 ### State
 
-The `Sidebar` component has the following state:
+| Name        | Type    | Description                                            |
+| ----------- | ------- | ------------------------------------------------------ |
+| isCollapsed | boolean | Controls whether the sidebar is collapsed or expanded. |
+| selected    | string  | The name of the currently selected item.               |
 
-- `isCollapsed` (boolean): Indicates whether the sidebar is collapsed or not.
-- `selected` (string): The currently selected item in the sidebar.
+### Methods
+
+The `Sidebar` component does not define any methods.
+
+### Handlers
+
+| Name           | Parameters | Description                      |
+| -------------- | ---------- | -------------------------------- |
+| setIsCollapsed | boolean    | Updates the `isCollapsed` state. |
+| setSelected    | string     | Updates the `selected` state.    |
 
 ### Child Components
 
-The `Sidebar` component contains the following child components:
-
-- `ProSidebar`: A component from `react-pro-sidebar` used to render the sidebar.
-- `Menu`: A component from `react-pro-sidebar` used to render the menu.
-- `MenuItem`: A component from `react-pro-sidebar` used to render a menu item.
-- `SubMenu`: A component from `react-pro-sidebar` used to render a sub-menu item.
-- `SidebarHeader`: A component from `react-pro-sidebar` used to render the sidebar header.
-- `SidebarFooter`: A component from `react-pro-sidebar` used to render the sidebar footer.
-- `SidebarContent`: A component from `react-pro-sidebar` used to render the sidebar content.
-- `Box`: A component from `@mui/material` used to render a box.
-- `IconButton`: A component from `@mui/material` used to render an icon button.
-- `Typography`: A component from `@mui/material` used to render text.
-- `Backdrop`: A component from `@mui/material` used to render a backdrop.
-- `HomeOutlinedIcon`: A component from `@mui/icons-material` used to render a home icon.
-- `InfoOutlinedIcon`: A component from `@mui/icons-material` used to render an info icon.
-- `MenuOutlinedIcon`: A component from `@mui/icons-material` used to render a menu icon.
-- `HiveOutlinedIcon`: A component from `@mui/icons-material` used to render a hive icon.
-- `HelpOutlineOutlinedIcon`: A component from `@mui/icons-material` used to render a help icon.
-- `SettingsOutlinedIcon`: A component from `@mui/icons-material` used to render a settings icon.
-- `Avatar`: A component from `@mui/material` used to render an avatar.
+| Name                      | Package                | Description                                                                                                            |
+| ------------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `ProSidebar`              | `react-pro-sidebar`    | A sidebar component that provides a layout for the sidebar. It can be collapsed or expanded by the user.               |
+| `Menu`                    | `react-pro-sidebar`    | A component that renders a menu in the sidebar.                                                                        |
+| `MenuItem`                | `react-pro-sidebar`    | A clickable menu item in the sidebar.                                                                                  |
+| `SubMenu`                 | `react-pro-sidebar`    | A submenu that displays nested menus in the sidebar.                                                                   |
+| `SidebarHeader`           | `react-pro-sidebar`    | A component that displays a header at the top of the sidebar.                                                          |
+| `SidebarFooter`           | `react-pro-sidebar`    | A component that displays a footer at the bottom of the sidebar.                                                       |
+| `SidebarContent`          | `react-pro-sidebar`    | A component that displays the content of the sidebar.                                                                  |
+| `Box`                     | `@mui/material`        | A layout component that can be used to create a container with a specified width, height, padding, and margin.         |
+| `IconButton`              | `@mui/material`        | A button component that displays an icon.                                                                              |
+| `Typography`              | `@mui/material`        | A component that displays text.                                                                                        |
+| `useTheme`                | `@mui/material/styles` | A hook that returns the current theme of the application.                                                              |
+| `createTheme`             | `@mui/material/styles` | A function that creates a custom theme for the application.                                                            |
+| `Backdrop`                | `@mui/material`        | A component that provides a dark overlay behind the content to indicate that the content is disabled or not available. |
+| `HomeOutlinedIcon`        | `@mui/icons-material`  | An icon component that displays a home icon.                                                                           |
+| `InfoOutlinedIcon`        | `@mui/icons-material`  | An icon component that displays an info icon.                                                                          |
+| `MenuOutlinedIcon`        | `@mui/icons-material`  | An icon component that displays a menu icon.                                                                           |
+| `HiveOutlinedIcon`        | `@mui/icons-material`  | An icon component that displays a hive icon.                                                                           |
+| `HelpOutlineOutlinedIcon` | `@mui/icons-material`  | An icon component that displays a help icon.                                                                           |
+| `SettingsOutlinedIcon`    | `@mui/icons-material`  | An icon component that displays a settings icon.                                                                       |
+| `Avatar`                  | `@mui/material`        | A component that displays an avatar image.                                                                             |
+| `useDispatch`             | `react-redux`          | A hook that returns a reference to the `dispatch` function of the Redux store.                                         |
+| `useSelector`             | `react-redux`          | A hook that returns a selected value from the Redux store.                                                             |
 
 ### Usage Example
 
 ```jsx
-import React from "react";
 import { Sidebar } from "./components";
 
 const App = () => {
   return (
     <div>
       <Sidebar />
-      {/* Other content of the app */}
     </div>
   );
 };
 ```
 
-In this example, the `Sidebar` component is imported from the `components` folder and rendered in the JSX code.
+The `Sidebar` component should be imported and used within a parent component, as shown in the example above. When rendered, it will display a sidebar with several menu items and submenus. The user's APIaries and devices will be shown in the corresponding submenus, which can be clicked to navigate to the corresponding pages. The sidebar can be collapsed and expanded by clicking on the button in the top left corner.
 
 ## `Topbar` React Component
 
-The `Topbar` component is a custom React component that renders a top navigation bar. This component is used in a web application and requires the `@mui` and `react-router-dom` libraries to function properly.
+### Description
+
+The `Topbar` component is a customizable top navigation bar that can be used in a React application. It includes icons for toggling between light and dark mode, viewing notifications, accessing settings, and logging out. The component can display the title of the page or section it represents.
 
 ### Props
 
-- `title`: a string that represents the title of the navigation bar.
-
-### Methods
-
-The `Topbar` component does not have any methods.
+| Name  | Type   | Required | Description                                 |
+| ----- | ------ | -------- | ------------------------------------------- |
+| title | string | no       | The title of the page or section to display |
 
 ### State
 
-The `Topbar` component does not have any state.
+The `Topbar` component does not define any state.
+
+### Methods
+
+The `Topbar` component does not define any methods.
+
+### Handlers
+
+| Name      | Parameters | Description                                           |
+| --------- | ---------- | ----------------------------------------------------- |
+| onLogout  | None       | Logs out the current user and redirects to login page |
+| colorMode | None       | Toggles the color mode between light and dark mode    |
 
 ### Child Components
 
-The `Topbar` component does not have any child components.
+| Name                      | Package                          | Description                                                                                              |
+| ------------------------- | -------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Box                       | "@mui/material"                  | A basic layout component that provides a flexible container for grouping and arranging other components. |
+| IconButton                | "@mui/material"                  | A button component that displays an icon.                                                                |
+| useTheme                  | "@mui/material"                  | A hook that returns the current theme object.                                                            |
+| Typography                | "@mui/material"                  | A component that renders text in various styles and sizes.                                               |
+| Avatar                    | "@mui/material"                  | A component that displays a user's profile picture or initials.                                          |
+| Grid                      | "@mui/material"                  | A component that provides a responsive grid layout for arranging components.                             |
+| LightModeOutlinedIcon     | "@mui/icons-material"            | An icon component that displays an outline of a light bulb for switching to light mode.                  |
+| DarkModeOutlinedIcon      | "@mui/icons-material"            | An icon component that displays an outline of a light bulb for switching to dark mode.                   |
+| NotificationsOutlinedIcon | "@mui/icons-material"            | An icon component that displays a bell icon for showing notifications.                                   |
+| SettingsOutlinedIcon      | "@mui/icons-material"            | An icon component that displays a gear icon for opening the settings.                                    |
+| LogoutOutlinedIcon        | "@mui/icons-material"            | An icon component that displays a door with an arrow icon for logging out.                               |
+| useContext                | "react"                          | A hook that provides access to a context object.                                                         |
+| ColorModeContext          | "../theme"                       | A context object that provides the current color mode and a method to toggle the color mode.             |
+| logout                    | "../features/auth/auth.slice.js" | An action creator that dispatches an action to log out the user.                                         |
+| reset                     | "../features/auth/auth.slice.js" | An action creator that dispatches an action to reset the auth state.                                     |
+| Link                      | "react-router-dom"               | A component that provides a declarative way to navigate to a different page.                             |
+| useNavigate               | "react-router-dom"               | A hook that returns a navigate function for programmatic navigation.                                     |
+| useSelector               | "react-redux"                    | A hook that returns selected parts of the state from the Redux store.                                    |
+| useDispatch               | "react-redux"                    | A hook that returns a reference to the dispatch function from the Redux store.                           |
 
 ### Usage
+
+To use the `Topbar` component, import it into the file where you want to display it and add it to the JSX code for that file. Pass any desired props, such as a `title`, to customize the component.
 
 ```jsx
 import Topbar from "./Topbar";
 
-function App() {
+function MyPage() {
   return (
     <div>
-      <Topbar title="My App" />
-      {/* rest of the app */}
+      <Topbar title="My Page Title" />
+      <p>This is the content of the page.</p>
     </div>
   );
 }
-
-export default App;
 ```
 
-In this example, the `Topbar` component is rendered with the `title` prop set to `"My App"`. You can customize the component by passing in different values for the `title` prop.
+In the above example, the `Topbar` component is displayed at the top of the `MyPage` component with the title "My Page Title". The `p` tag below it represents the rest of the page content. The `Topbar` component can be customized with CSS styling or MUI theming.
 
-## `UserCard` Component
+## `UserCard` React Component
 
-The `UserCard` component is a React component that displays information about a user and allows administrators to edit the user's role or delete the user.
+### Description
+
+The `UserCard` component is a card component that displays user information and allows for editing user roles and deleting users.
 
 ### Props
 
-The `UserCard` component has two props:
-
-- `user`: A required object containing information about the user to display. The object must have the following properties:
-  - `user._id`: A string representing the user's ID.
-  - `user.name`: A string representing the user's name.
-  - `user.email`: A string representing the user's email address.
-  - `role`: A string representing the user's role.
-- `apiary`: A required object containing information about the apiary that the user belongs to. The object must have the following properties:
-  - `_id`: A string representing the apiary's ID.
-  - `members`: An array of objects representing the members of the apiary. Each member object must have the following properties:
-    - `user._id`: A string representing the member's user ID.
-    - `role`: A string representing the member's role.
+| Name   | Type   | Required | Description                            |
+| ------ | ------ | -------- | -------------------------------------- |
+| user   | Object | Yes      | The user object to be displayed.       |
+| apiary | Object | Yes      | The apiary object the user belongs to. |
 
 ### State
 
-The `UserCard` component has two state variables:
-
-- `expand`: A boolean indicating whether the form to edit the user's role is expanded.
-- `formData`: An object containing the form data for editing the user's role. The object has the following properties:
-  - `isChecked`: A boolean indicating whether the user is an administrator.
+| Name     | Type    | Description                                                             |
+| -------- | ------- | ----------------------------------------------------------------------- |
+| expand   | Boolean | A state variable that determines if the card should be expanded or not. |
+| formData | Object  | A state variable that holds the user's data to be edited.               |
 
 ### Methods
 
-The `UserCard` component does not have any methods of its own.
+| Name     | Parameters | Description                                                         |
+| -------- | ---------- | ------------------------------------------------------------------- |
+| onChange | (event)    | A function that handles form data changes.                          |
+| onSubmit | (event)    | A function that handles the form submission for updating user data. |
+| onDelete | (event)    | A function that handles the form submission for deleting a user.    |
 
 ### Child Components
 
-The `UserCard` component uses the following child components from the Material-UI library:
-
-- `Grid`: A grid container used to position the edit icon.
-- `Avatar`: An avatar component used to display the user's initials.
-- `Card`: A card component used to display the user's information and form to edit the user's role.
-- `CardHeader`: A card header component used to display the user's name and email address.
-- `CardActions`: A card actions component used to display the edit icon.
-- `Collapse`: A collapse component used to show or hide the form to edit the user's role.
-- `IconButton`: An icon button component used to trigger the expansion of the form to edit the user's role.
-- `Typography`: A typography component used to display the user's name, email address, and messages to the user.
-- `Button`: A button component used to submit the form to edit the user's role or delete the user.
-- `Box`: A box component used to wrap the form to edit the user's role and the button to delete the user.
-- `FormControlLabel`: A form control label component used to display the checkbox to set the user as an administrator.
-- `Checkbox`: A checkbox component used to set the user as an administrator.
+| Name             | Package       | Description                                               |
+| ---------------- | ------------- | --------------------------------------------------------- |
+| Avatar           | @mui/material | Displays the user's avatar.                               |
+| Card             | @mui/material | Wraps the user's information.                             |
+| CardActions      | @mui/material | Displays the edit icon to open the editing menu.          |
+| CardHeader       | @mui/material | Displays the user's name, email, and avatar.              |
+| Checkbox         | @mui/material | Allows for toggling between user roles.                   |
+| Collapse         | @mui/material | Collapses the editing menu.                               |
+| FormControlLabel | @mui/material | Displays a label for the Checkbox.                        |
+| Grid             | @mui/material | Wraps the edit icon for proper alignment.                 |
+| IconButton       | @mui/material | The button component for the edit icon.                   |
+| Typography       | @mui/material | Displays the user's name and email.                       |
+| Box              | @mui/material | Wraps the forms and aligns the editing menu.              |
+| Button           | @mui/material | Submits the form for saving changes or deleting the user. |
 
 ### Usage Example
 
 ```jsx
-import UserCard from "./UserCard";
+import UserCard from "./components/UserCard";
 
-const ExampleComponent = () => {
-  const user = {
-    user: {
-      _id: "user_id_1",
-      name: "John Doe",
-      email: "john.doe@example.com",
-    },
-    role: "USER",
-  };
-
+const MyComponent = () => {
   const apiary = {
-    _id: "apiary_id_1",
+    _id: "1",
+    name: "My Apiary",
     members: [
       {
         user: {
-          _id: "user_id_1",
+          _id: "2",
           name: "John Doe",
-          email: "john.doe@example.com",
+          email: "johndoe@example.com",
         },
         role: "ADMIN",
       },
       {
         user: {
-          _id: "user_id_2",
-          name: "Jane Doe",
-          email: "jane.doe@example.com",
+          _id: "3",
+          name: "Jane Smith",
+          email: "janesmith@example.com",
         },
         role: "USER",
       },
     ],
   };
 
-  return <UserCard user={user} apiary={apiary} />;
+  return (
+    <div>
+      <UserCard user={apiary.members[0]} apiary={apiary} />
+      <UserCard user={apiary.members[1]} apiary={apiary} />
+    </div>
+  );
 };
 ```
 
-In this example, the `UserCard` component is rendered with the `user` prop set to an object containing information about the user to display and the `apiary` prop set to an object containing information about the apiary that the user belongs to.
+In the example above, the `UserCard` component is used to display user information for two different members of the same apiary. The component is passed the user object and apiary object as props. When the edit icon is clicked, the editing menu is displayed, allowing the user's role to be changed or the user to be deleted.
 
 # Features
 
 ## Apiary
 
-### `apiary.slice`
+# `apiary.slice`
 
-This file contains Redux Toolkit code that defines the `apiary` slice of the store. The `apiary` slice stores the user's apiaries and other related data. It also defines a set of `async` actions that are used to interact with an API to retrieve, set, update or delete apiaries, devices, and members.
+#### Description
 
-#### Initial State
+This file contains a Redux slice for managing the state related to Apiaries. The file contains a set of initial states, action creators and their respective reducer cases to handle the apiaries CRUD operations. The file also integrates with the `apiaryService` module to perform the actual API calls.
 
-The initial state of the `apiary` slice contains the following properties:
+#### Initial States
 
-- `apiaries`: An empty array that will hold the user's apiaries
-- `isError`: A boolean flag that indicates whether an error occurred during the API call
-- `isSuccess`: A boolean flag that indicates whether the API call was successful
-- `isLoading`: A boolean flag that indicates whether the API call is currently in progress
-- `message`: A string that contains any error or success messages from the API call
+| Name      | Type    | Description                                                                   |
+| --------- | ------- | ----------------------------------------------------------------------------- |
+| apiaries  | Array   | A list of objects representing the user's apiaries.                           |
+| isError   | Boolean | Indicates if an error occurred while processing a request.                    |
+| isSuccess | Boolean | Indicates if a request was processed successfully.                            |
+| isLoading | Boolean | Indicates if a request is in progress.                                        |
+| message   | String  | A message that provides additional information about the status of a request. |
 
 #### Actions
 
-The `apiary` slice defines several `async` actions using the `createAsyncThunk` function from Redux Toolkit. These actions are responsible for communicating with the API to retrieve, set, update, or delete apiaries, devices, and members.
+| Name         | Description                                                                           |
+| ------------ | ------------------------------------------------------------------------------------- |
+| getApiaries  | This action creator dispatches an API call to retrieve a list of user apiaries.       |
+| setApiary    | This action creator dispatches an API call to create a new apiary for the user.       |
+| updateApiary | This action creator dispatches an API call to update an existing apiary.              |
+| deleteApiary | This action creator dispatches an API call to delete an existing apiary.              |
+| setDevice    | This action creator dispatches an API call to create a new device for an apiary.      |
+| updateDevice | This action creator dispatches an API call to update an existing device of an apiary. |
+| deleteDevice | This action creator dispatches an API call to delete an existing device of an apiary. |
+| setMember    | This action creator dispatches an API call to create a new member for an apiary.      |
+| updateMember | This action creator dispatches an API call to update an existing member of an apiary. |
 
-The async actions include:
+#### Reducer Cases
 
-- `getApiaries`: An async action that retrieves the user's apiaries
-- `setApiary`: An async action that creates a new apiary for the user
-- `updateApiary`: An async action that updates an existing apiary for the user
-- `deleteApiary`: An async action that deletes an apiary for the user
-- `setDevice`: An async action that creates a new device for an apiary
-- `updateDevice`: An async action that updates an existing device for an apiary
-- `deleteDevice`: An async action that deletes a device for an apiary
-- `setMember`: An async action that adds a new member to an apiary
-- `updateMember`: An async action that updates an existing member of an apiary
-
-Each of these actions checks whether the user is authenticated, retrieves the user's token, and then calls the appropriate method from the `apiaryService` module to perform the requested operation. If an error occurs, the action updates the `isError` and `message` properties in the `apiary` state slice.
-
-#### Slice
-
-The `apiary` slice is created using the `createSlice` function from Redux Toolkit. It defines reducers for handling the different states of the `apiary` slice. These reducers are responsible for updating the `apiary` state slice when the corresponding async action is complete.
-
-#### Export
-
-The `apiary` slice is exported from this file and can be imported and combined with other slices to create a complete Redux store.
+| Case                     | apiaries                      | isError | isSuccess | isLoading | message                       |
+| ------------------------ | ----------------------------- | ------- | --------- | --------- | ----------------------------- |
+| `getApiaries.pending`    | -                             | false   | false     | true      | "Loading"                     |
+| `getApiaries.fulfilled`  | List of apiaries from payload | false   | true      | false     | "Loaded successfully"         |
+| `getApiaries.rejected`   | -                             | true    | false     | false     | "Error while loading"         |
+| `setApiary.pending`      | -                             | false   | false     | true      | "Creating new apiary"         |
+| `setApiary.fulfilled`    | -                             | false   | true      | false     | "Apiary created successfully" |
+| `setApiary.rejected`     | -                             | true    | false     | false     | "Error while creating apiary" |
+| `updateApiary.pending`   | -                             | false   | false     | true      | "Updating apiary"             |
+| `updateApiary.fulfilled` | -                             | false   | true      | false     | "Apiary updated successfully" |
+| `updateApiary.rejected`  | -                             | true    | false     | false     | "Error while updating apiary" |
+| `deleteApiary.pending`   | -                             | false   | false     | true      | "Deleting apiary"             |
+| `deleteApiary.fulfilled` | -                             | false   | true      | false     | "Apiary deleted successfully" |
+| `deleteApiary.rejected`  | -                             | true    | false     | false     | "Error while deleting apiary" |
+| `setDevice.pending`      | -                             | false   | false     | true      | "Creating new device"         |
+| `setDevice.fulfilled`    | -                             | false   | true      | false     | "Device created successfully" |
+| `setDevice.rejected`     | -                             | true    | false     | false     | "Error while creating device" |
+| `updateDevice.pending`   | -                             | false   | false     | true      | "Updating device"             |
+| `updateDevice.fulfilled` | -                             | false   | true      | false     | "Device updated successfully" |
+| `updateDevice.rejected`  | -                             | true    | false     | false     | "Error while updating device" |
+| `deleteDevice.pending`   | -                             | false   | false     | true      | "Deleting device"             |
+| `deleteDevice.fulfilled` | -                             | false   | true      | false     | "Device deleted successfully" |
+| `deleteDevice.rejected`  | -                             | true    | false     | false     | "Error while deleting device" |
 
 ### `apiary.service`
 
@@ -1581,53 +1759,199 @@ This function deletes an existing member for an existing Apiary with the given d
 
 ### `auth.slice`
 
-This file exports a Redux slice for managing user authentication. It defines an initial state, action creators, and reducers for handling the state changes.
+#### Description
 
-#### State
+This is a Redux slice file that defines the `auth` slice for managing authentication-related state. It uses the `createSlice` and `createAsyncThunk` functions from the `@reduxjs/toolkit` package to define the initial state, actions, and reducer cases.
 
-The initial state has the following properties:
+#### Initial State
 
-- `user`: An object representing the current authenticated user. It is initialized from the `localStorage`.
-- `isError`: A boolean flag indicating whether there was an error in the authentication process.
-- `isSuccess`: A boolean flag indicating whether the authentication process was successful.
-- `isLoading`: A boolean flag indicating whether the authentication process is currently in progress.
-- `message`: A string message that provides more details about any errors encountered during authentication.
+| Name      | Type           | Description                                                             |
+| --------- | -------------- | ----------------------------------------------------------------------- |
+| user      | Object or null | The currently logged in user, retrieved from local storage.             |
+| isError   | Boolean        | Indicates whether an error occurred during an async operation.          |
+| isSuccess | Boolean        | Indicates whether an async operation was successful.                    |
+| isLoading | Boolean        | Indicates whether an async operation is currently in progress.          |
+| message   | String         | An error message or success message associated with an async operation. |
 
 #### Actions
 
-This Redux slice exports the following actions:
+| Name     | Description                                  |
+| -------- | -------------------------------------------- |
+| register | Async action that registers a user.          |
+| login    | Async action that logs in a user.            |
+| logout   | Async action that logs out the current user. |
+| reset    | Action that resets the authentication state. |
 
-- `register`: An async thunk action creator that registers a new user. It dispatches the following actions:
+#### Reducer Cases
 
-  - `register/pending`: Sets the `isLoading` flag to `true`.
-  - `register/fulfilled`: Sets the `isLoading` flag to `false` and updates the `user` property with the returned user object.
-  - `register/rejected`: Sets the `isLoading` flag to `false`, sets the `isError` flag to `true`, and sets the `message` property to the error message.
+| Case                 | User                  | Error                          | Success | Loading | Message                        |
+| -------------------- | --------------------- | ------------------------------ | ------- | ------- | ------------------------------ |
+| `register.pending`   | -                     | -                              | -       | `true`  | -                              |
+| `register.fulfilled` | Action payload (user) | -                              | `true`  | `false` | -                              |
+| `register.rejected`  | -                     | Action payload (error message) | -       | `false` | Action payload (error message) |
+| `login.pending`      | -                     | -                              | -       | `true`  | -                              |
+| `login.fulfilled`    | Action payload (user) | -                              | `true`  | `false` | -                              |
+| `login.rejected`     | -                     | Action payload (error message) | -       | `false` | Action payload (error message) |
+| `logout.fulfilled`   | -                     | -                              | -       | -       | -                              |
 
-- `login`: An async thunk action creator that logs in a user. It dispatches the following actions:
-
-  - `login/pending`: Sets the `isLoading` flag to `true`.
-  - `login/fulfilled`: Sets the `isLoading` flag to `false` and updates the `user` property with the returned user object.
-  - `login/rejected`: Sets the `isLoading` flag to `false`, sets the `isError` flag to `true`, and sets the `message` property to the error message.
-
-- `logout`: An async thunk action creator that logs out the current user. It dispatches the following action:
-
-  - `logout/fulfilled`: Sets the `user` property to `null`.
-
-- `reset`: A reducer that resets the authentication state. It sets the `isLoading`, `isSuccess`, and `isError` flags to `false` and the `message` property to an empty string.
-
-#### Reducers
-
-The Redux slice has a single reducer that handles state updates for the above actions. It uses the `extraReducers` property to map each action to its corresponding state update.
-
-- The `register` and `login` actions set the `isLoading` flag to `true` when pending, and set it to `false` and update the `user` property with the returned user object when fulfilled. They set the `isError` flag to `true` and the `message` property to the error message when rejected.
-
-- The `logout` action sets the `user` property to `null` when fulfilled.
-
-- The `reset` action sets the `isLoading`, `isSuccess`, and `isError` flags to `false` and the `message` property to an empty string.
-
-That's all about this Redux slice.
+Note: In the reducer cases table, the `Action payload` column refers to the value returned by the corresponding async action.
 
 # Pages
+
+## `Manage` React Page
+
+The `Manage` component is a React component that renders an About page with information about the project and its mission. The component imports several dependencies from MUI library and Redux, and it also imports a child component called `AboutCard`.
+
+### Props
+
+The `Manage` component does not receive any props.
+
+### State
+
+The `Manage` component does not have any state.
+
+### Methods
+
+The `Manage` component does not define any methods.
+
+### Handlers
+
+The `Manage` component does not define any handlers.
+
+### Child Components
+
+| Component Name   | Package                   | Description                                                                                                                                                        |
+| ---------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Box              | "@mui/material"           | A container component that can contain other MUI components or HTML elements. It provides various layout options such as flexbox and grid.                         |
+| Grid             | "@mui/material"           | A responsive grid container that can hold other MUI components or HTML elements. It allows for customization of column and row spacing for different screen sizes. |
+| Typography       | "@mui/material"           | A component for displaying text. It supports various typography styles such as headings, body text, and captions.                                                  |
+| Avatar           | "@mui/material"           | A circular component that represents a user or object. It can display an image, icon, or text.                                                                     |
+| useTheme         | "@mui/material"           | A hook that provides access to the current theme object. It can be used to customize the styling of MUI components.                                                |
+| tokens           | "../theme"                | An object that provides color values based on the current theme. It is used to customize the styling of non-MUI components.                                        |
+| useDispatch      | "react-redux"             | A hook that provides access to the dispatch function of the Redux store. It can be used to dispatch actions to update the state.                                   |
+| useSelector      | "react-redux"             | A hook that provides access to the state of the Redux store. It can be used to retrieve data from the store.                                                       |
+| useEffect        | "react"                   | A hook that runs a side effect after rendering. It is used to perform actions such as updating the state or making API requests.                                   |
+| useNavigate      | "react-router-dom"        | A hook that provides access to the navigation object. It can be used to navigate to different pages in the application.                                            |
+| InfoOutlinedIcon | "@mui/icons-material"     | An MUI icon component that displays an "info" icon.                                                                                                                |
+| AboutCard        | "../components/AboutCard" | A custom component that displays a statement and its description in a card format.                                                                                 |
+| Grow             | "@mui/material"           | A transition component that animates the appearance of an element by gradually increasing its size.                                                                |
+| Fade             | "@mui/material"           | A transition component that animates the appearance of an element by gradually fading it in or out.                                                                |
+| Backdrop         | "@mui/material"           | A component that provides a dark overlay behind other components. It is often used to indicate that a process is running in the background.                        |
+
+### Usage
+
+The `Manage` component can be used as follows:
+
+```jsx
+import Manage from "./Manage";
+
+const App = () => {
+  return (
+    <div>
+      <Manage />
+    </div>
+  );
+};
+
+export default App;
+```
+
+In this example, the `Manage` component is imported and rendered inside a parent component called `App`. The `Manage` component does not receive any props and displays an About page with information about the project and its mission.
+
+## `FAQ` React Page
+
+This is a React component that renders a frequently asked questions page. It displays a list of FAQs with their corresponding answers.
+
+### Props
+
+This component does not accept any props.
+
+### State
+
+This component does not have any state.
+
+### Methods
+
+This component does not have any methods.
+
+### Handlers
+
+This component does not have any handlers.
+
+### Child Components
+
+| Name                    | Package               | Description                                                                |
+| ----------------------- | --------------------- | -------------------------------------------------------------------------- |
+| Box                     | @mui/material         | A container component used for grouping and spacing elements               |
+| Grid                    | @mui/material         | A responsive layout component used for aligning and distributing elements  |
+| Typography              | @mui/material         | A component for displaying text with customizable typography               |
+| Avatar                  | @mui/material         | A component for displaying user avatars or icons                           |
+| useTheme                | @mui/material         | A hook that provides access to the MUI theme object                        |
+| HiveOutlinedIcon        | @mui/icons-material   | An icon component for displaying a hive outline                            |
+| tokens                  | ../theme              | A module that exports a function returning theme tokens                    |
+| Loading                 | ../components/Loading | A component for displaying a loading animation                             |
+| useDispatch             | react-redux           | A hook that returns the Redux store's dispatch method                      |
+| useSelector             | react-redux           | A hook that returns selected state from the Redux store                    |
+| useEffect               | react                 | A hook that allows performing side effects in function components          |
+| useNavigate             | react-router-dom      | A hook that returns a navigate function to use for programmatic navigation |
+| HelpOutlineOutlinedIcon | @mui/icons-material   | An icon component for displaying a help outline                            |
+| FAQCard                 | ../components/FAQCard | A component that displays a question and answer card                       |
+| toast                   | react-toastify        | A module for displaying toast notifications                                |
+| Grow                    | @mui/material         | A component for animating element growth                                   |
+| Fade                    | @mui/material         | A component for animating element opacity                                  |
+| Backdrop                | @mui/material         | A component for displaying a translucent background overlay                |
+
+## `Login` React Page
+
+### Description
+
+`Login` is a component that allows users to log into an application. The component receives user inputs of `email`, `password`, and `isChecked`. It dispatches a login action with the input data to authenticate users via the `auth.slice.js` module. It also displays a loading spinner while the authentication is in progress.
+
+### Props
+
+The `Login` component does not accept any props.
+
+### State
+
+| Name       | Type      | Description                                                                                         |
+| ---------- | --------- | --------------------------------------------------------------------------------------------------- |
+| `trans`    | `Boolean` | A state variable that determines whether to transition to another view.                             |
+| `formData` | `Object`  | A state variable that stores the user's input data, including `email`, `password`, and `isChecked`. |
+
+### Methods
+
+| Name          | Parameters  | Description                                                                                          |
+| ------------- | ----------- | ---------------------------------------------------------------------------------------------------- |
+| `handleTrans` | `none`      | A function that toggles the `trans` state to transition to another view.                             |
+| `onChange`    | `e: object` | A function that updates the `formData` state with the new user input data.                           |
+| `onSubmit`    | `e: object` | A function that dispatches the login action with the `formData` state data to authenticate the user. |
+
+### Handlers
+
+| Name   | Parameters | Description                     |
+| ------ | ---------- | ------------------------------- |
+| `none` | `none`     | This component has no handlers. |
+
+### Child Components
+
+| Name      | Package         | Description                                                      |
+| --------- | --------------- | ---------------------------------------------------------------- |
+| `Loading` | `../components` | A spinner that displays while the authentication is in progress. |
+
+### Usage Example
+
+```jsx
+import React from "react";
+import Login from "./Login";
+
+const App = () => {
+  return <Login />;
+};
+
+export default App;
+```
+
+In this example, we import the `Login` component and render it in the `App` component. This will display the login form to the user.
 
 # Deployment (Jonathan)
 
@@ -1662,10 +1986,6 @@ Include any additional information or resources, such as troubleshooting tips or
 
 # Contact
 
-Any questions regarding the web application, please contact cpaiz@scu.edu or paizcollin@gmail.com
-Any questions regarding deployment, please contact jstock@scu.edu
-Any questions regarding hardware, please contact ewrysinski@scu.edu and dblanc@scu.edu
-
-```
-
-```
+- Any questions regarding the web application, please contact cpaiz@scu.edu or paizcollin@gmail.com
+- Any questions regarding deployment, please contact jstock@scu.edu
+- Any questions regarding hardware, please contact ewrysinski@scu.edu and dblanc@scu.edu
