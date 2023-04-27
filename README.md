@@ -565,6 +565,780 @@ The `server` is responsible for setting up the server and connecting to the data
 
 # Frontend
 
+# App
+
+## `store`
+
+This code snippet configures a Redux store using @reduxjs/toolkit. It uses two slices, auth and apiary, to manage state related to user authentication and the application's apiary feature.
+
+# Components
+
+## `AboutCard` React Component
+
+The `AboutCard` React component is a MUI-based card that displays a question-answer pair. It is typically used to display frequently asked questions on a website.
+
+### Props
+
+- `faq`: An array containing two strings. The first string represents the question, and the second string represents the answer to the question.
+
+### Usage
+
+```jsx
+import AboutCard from "./AboutCard";
+
+const faq = ["What is this website about?", "This website is about..."];
+
+function MyComponent() {
+  return <AboutCard faq={faq} />;
+}
+```
+
+## `AddApiaryCard` React Component
+
+This is a React functional component that renders a card with a button to add a new apiary. When the button is clicked, a form expands to allow the user to input the details of the new apiary, including the name and location. The user can select the location from the Google Maps Autocomplete component.
+
+### Props
+
+This component does not receive any props.
+
+### Methods
+
+The component defines two methods:
+
+- `onChange`: A function that updates the `formData` state object as the user types into the `name` field and selects a location from the `maps` dropdown.
+- `onSubmit`: An async function that dispatches an action to add the new apiary to the API using the `setApiary` function from the Redux store.
+
+### Usage
+
+```jsx
+import AddApiaryCard from "./AddApiaryCard";
+
+function MyComponent() {
+  return (
+    <div>
+      <AddApiaryCard />
+    </div>
+  );
+}
+```
+
+## `AddDeviceCard` React Component
+
+The `AddDeviceCard` component is a React component that allows users to add a new device to an apiary. This component displays a card with an "Add Device" button that, when clicked, expands to show a form with fields for the device's name, serial number, and remote link. Users can enter the required information and create a new device by clicking the "Create Device" button.
+
+### Props
+
+- `apiary`: (required) An object that contains the apiary ID to which the device will be added.
+- `userRole`: (required) A string that contains the role of the user. The value can be either "USER", "ADMIN", or "CREATOR".
+
+### Methods
+
+The component defines two methods:
+
+- `onChange`: A function that updates the `formData` state object as the user types into the `name` field, `serial` field, and `remote` field.
+- `onSubmit`: An async function that dispatches an action to add the new device to the API using the `setDevice` function from the Redux store.
+
+### Usage
+
+```jsx
+import AddDeviceCard from "./AddDeviceCard";
+
+const MyComponent = () => {
+  const apiary = {
+    _id: "apiaryId",
+  };
+  const userRole = "ADMIN";
+
+  return <AddDeviceCard apiary={apiary} userRole={userRole} />;
+};
+```
+
+## `AboutUserCard` React Component
+
+The `AddUserCard` is a React functional component that renders a card with a form to add new users to an API. It uses the Material UI library for styling and components.
+
+### Props
+
+The component receives two props:
+
+- `apiary`: (required) An object representing the API to which the new user will be added. It contains an `_id` property with the API's unique identifier.
+- `userRole`: (required) A string that contains the role of the user. The value can be either "USER", "ADMIN", or "CREATOR".
+
+### State
+
+The component uses the `useState` hook to manage the following state:
+
+- `expand`: A boolean that controls whether the form is expanded or collapsed.
+- `formData`: An object that contains the email and role of the user being added, as well as a boolean to determine if they should be an administrator.
+
+### Methods
+
+The component defines two methods:
+
+- `onChange`: A function that updates the `formData` state object as the user types into the email field and selects the "Set as administrator" checkbox.
+- `onSubmit`: An async function that dispatches an action to add the new user to the API using the `setMember` function from the Redux store.
+
+### Usage
+
+```javascript
+import AddUserCard from "./AddUserCard";
+
+const MyComponent = () => {
+  const apiary = { _id: "123abc" };
+  const userRole = "ADMIN";
+
+  return <AddUserCard apiary={apiary} userRole={userRole} />;
+};
+```
+
+## `ApiaryCard` React Component
+
+The `ApiaryCard` component displays information about an apiary and provides the ability to edit and delete apiary details. It also displays the devices and users associated with the apiary.
+
+### Props
+
+The component takes in the following props:
+
+- `apiary`: An object containing the details of a single apiary. The object should have the following properties:
+  - `_id`: A string representing the unique identifier of the apiary.
+  - `name`: A string representing the name of the apiary.
+  - `location`: An object representing the location of the apiary. The object should have the following properties:
+    - `formattedAddress`: A string representing the formatted address of the apiary location.
+
+### Children Components
+
+The `ApiaryCard` component uses the following child components:
+
+- `UserCard`: A component that displays the details of a single user.
+- `DeviceCard`: A component that displays the details of a single device.
+- `AddUserCard`: A component that allows the user to add a new member to the apiary.
+- `AddDeviceCard`: A component that allows the user to add a new device to the apiary.
+
+### State
+
+The `ApiaryCard` component maintains the following state:
+
+- `expand`: A boolean value that determines whether the form to edit the apiary details is expanded or not.
+- `formData`: An object that stores the data entered in the form to edit the apiary details.
+
+### Methods
+
+The `ApiaryCard` component defines the following methods:
+
+- `checkUser(apiary, user)`: A helper function that takes in an `apiary` object and a `user` object and returns the role of the user in the apiary.
+- `onChange(e)`: A method that handles the onChange event of the form input fields and updates the `formData` state accordingly.
+- `onSubmit(e)`: A method that handles the onSubmit event of the form and dispatches an action to update the apiary details.
+- `onDelete(e)`: A method that handles the onSubmit event of the delete button and dispatches an action to delete the apiary.
+
+### Usage
+
+```jsx
+import ApiaryCard from "./ApiaryCard";
+
+<ApiaryCard apiary={apiaryData} />;
+```
+
+## `AutocompleteMaps` Typescript Component
+
+A React component that provides autocomplete functionality for Google Maps Places API. It uses the AutocompleteService to fetch place predictions and the Autocomplete component from the @material-ui/lab library to render the autocomplete dropdown. It also uses the loadScript method from the @react-google-maps/api library to load the Google Maps JavaScript API script asynchronously.
+
+---
+
+### Props
+
+- `value`: The currently selected place. If provided, it must be an object with `description`, `main_text`, `secondary_text`, `main_text_matched_substrings`, `offset`, and `length` properties. Defaults to `null`.
+- `setValue`: A function that is called with the selected place object when a new place is selected.
+
+### Methods
+
+- `loadScript(src: string, position: HTMLElement | null, id: string)`: This method loads the Google Maps JavaScript API script asynchronously. It takes three arguments:
+  - `src`: The URL of the script to load.
+  - `position`: The position in the DOM where the script should be inserted. This should be a `<head>` element.
+  - `id`: The ID to assign to the script element.
+- `fetch(request: { input: string }, callback: (results?: readonly PlaceType[]) => void)`: This method fetches place predictions from the Google Places API using the AutocompleteService. It takes two arguments:
+  - `request`: An object containing an `input` property with the text to search for.
+  - `callback`: A function that will be called with an array of place objects if the search is successful.
+
+### Interfaces
+
+- `MainTextMatchedSubstrings`: An interface describing the `main_text_matched_substrings` property of a place object. It has two properties:
+  - `offset`: The starting index of the matched substring.
+  - `length`: The length of the matched substring.
+- `StructuredFormatting`: An interface describing the `structured_formatting` property of a place object. It has three properties:
+  - `main_text`: The main text of the place description.
+  - `secondary_text`: Additional text about the place, such as the city and state.
+  - `main_text_matched_substrings` (optional): An array of `MainTextMatchedSubstrings` objects describing any matched substrings in the `main_text` property.
+- `PlaceType`: An interface describing a place object returned by the Google Places API. It has two properties:
+  - `description`: A string describing the place.
+  - `structured_formatting`: A `StructuredFormatting` object containing additional information about the place.
+
+### Usage
+
+This component is a wrapper around the `Autocomplete` component from the Material-UI library that provides autocomplete suggestions based on the user's input using the Google Maps Places API. The component takes two props: `value` and `setValue`.
+
+Here's an example usage:
+
+```jsx
+import GoogleMaps from "./GoogleMaps";
+
+function MyComponent() {
+  const [value, setValue] = React.useState(null);
+
+  return <GoogleMaps value={value} setValue={setValue} />;
+}
+```
+
+In this example, the `value` prop is the currently selected place, and the `setValue` prop is a function that gets called with the selected place object when a new place is selected. You can pass these props to the `GoogleMaps` component and it will handle the rest.
+
+Note that you'll need to obtain a Google Maps API key and enable the Places API in order to use this component. You can do this by following the instructions in the [Google Maps JavaScript API documentation](https://developers.google.com/maps/gmp-get-started).
+
+# DeviceCard Component
+
+A React component that renders a card representing a device with options to edit, delete, and display detailed information.
+
+## Props
+
+| Name     | Type   | Description                                                           |
+| -------- | ------ | --------------------------------------------------------------------- |
+| device   | object | The device object to be rendered                                      |
+| apiary   | object | The apiary object to which the device belongs                         |
+| userRole | string | The role of the user viewing the component (either "ADMIN" or "USER") |
+
+## Methods
+
+| Name     | Description                                                                   |
+| -------- | ----------------------------------------------------------------------------- |
+| onChange | A function that updates the component's form data when the user inputs values |
+| onSubmit | A function that dispatches an updateDevice action to update the device        |
+| onDelete | A function that dispatches a deleteDevice action to delete the device         |
+
+## State
+
+| Name   | Description                                                    |
+| ------ | -------------------------------------------------------------- |
+| expand | A boolean that toggles the display of the detailed information |
+
+## Child Components
+
+| Name        | Description                                           |
+| ----------- | ----------------------------------------------------- |
+| Grid        | A MUI component used for grid layout                  |
+| Avatar      | A MUI component used to display an avatar             |
+| Card        | A MUI component used to render a card                 |
+| CardActions | A MUI component used to render actions for the card   |
+| CardHeader  | A MUI component used to render the header of the card |
+| Collapse    | A MUI component used to display detailed information  |
+| IconButton  | A MUI component used to render an icon button         |
+| Typography  | A MUI component used to render text                   |
+| TextField   | A MUI component used to render a form field           |
+| Box         | A MUI component used for layout                       |
+| Button      | A MUI component used to render a button               |
+
+## Usage Example
+
+```jsx
+import DeviceCard from "./DeviceCard";
+
+const MyComponent = () => {
+  const device = {
+    name: "My Device",
+    serial: "123456",
+    remote: "https://example.com",
+  };
+  const apiary = { _id: "123", name: "My Apiary" };
+  const userRole = "ADMIN";
+
+  return <DeviceCard device={device} apiary={apiary} userRole={userRole} />;
+};
+```
+
+### Features
+
+The `DeviceCard` component displays the following features:
+
+- Displays the device name and serial number in the header of the card.
+- Displays an avatar with the first letter of the device name in the header of the card.
+- Displays a collapseable form for editing the device information, including the name and remote link.
+- Displays a button for deleting the device.
+- Allows users with an admin role to edit and delete the device.
+- Disables the edit and delete buttons for users with a user role.
+
+## `FAQCard` Component
+
+A React component that displays a frequently asked question with a collapsible answer.
+
+### Props
+
+- `faq` (array) : An array containing the question and answer text. The first item in the array is the question and the second item is the answer.
+
+### Methods
+
+- The `FAQCard` component does not include any methods.
+
+### State
+
+- `expand` (boolean): A state variable that controls whether the answer is collapsed or expanded.
+
+### Child Components
+
+- `Card` : A Material UI Card component that provides a container for the question and answer.
+- `CardHeader` : A Material UI CardHeader component that displays the question.
+- `Avatar` : A Material UI Avatar component that displays an icon next to the question.
+- `HelpOutlineOutlinedIcon` : A Material UI icon component that is used as the icon for the Avatar component.
+- `CardActions` : A Material UI CardActions component that displays the expand/collapse button.
+- `Grid` : A Material UI Grid component that provides a container for the expand/collapse button.
+- `IconButton` : A Material UI IconButton component that is used as the expand/collapse button.
+- `ArrowDropDownOutlinedIcon` : A Material UI icon component that is used as the icon for the expand/collapse button.
+- `Collapse` : A Material UI Collapse component that displays the answer when expanded.
+- `Box` : A Material UI Box component that provides a container for the answer text.
+- `Typography` : A Material UI Typography component that displays the answer text.
+
+### Usage Example
+
+```jsx
+import FAQCard from "./components/FAQCard";
+
+const App = () => {
+  const faqList = [
+    [
+      "What is React?",
+      "React is a JavaScript library for building user interfaces.",
+    ],
+    [
+      "What is JSX?",
+      "JSX is a syntax extension for JavaScript that allows you to write HTML-like code in your JavaScript files.",
+    ],
+  ];
+
+  return (
+    <div>
+      {faqList.map((faq, index) => (
+        <FAQCard key={index} faq={faq} />
+      ))}
+    </div>
+  );
+};
+```
+
+In this example, we pass an array of FAQs to the `FAQCard` component as a prop. The component renders a `Card` for each FAQ, displaying the question as the title and an expand/collapse button. When the button is clicked, the answer is displayed in the `Collapse` component.
+
+## `Graph` React Component
+
+The `Graph` component is a reusable component that displays an area chart with temperature and bee activity data. It uses the Recharts library to create the chart and includes custom tooltip and x-axis components.
+
+### Props
+
+- `device` (object) - Optional. The device object that contains the data for the chart.
+
+### Methods
+
+The `Graph` component does not include any methods.
+
+### State
+
+The `Graph` component does not have any state.
+
+### Child Components
+
+The `Graph` component includes the following child components:
+
+- `ResponsiveContainer` - A Recharts component that makes the chart responsive.
+- `AreaChart` - A Recharts component that renders an area chart.
+- `XAxis` - A Recharts component that displays the x-axis of the chart.
+- `YAxis` - A Recharts component that displays the y-axis of the chart.
+- `Area` - A Recharts component that displays the area of the chart.
+- `Tooltip` - A Recharts component that displays a tooltip when hovering over the chart.
+- `CartesianGrid` - A Recharts component that displays a grid in the chart.
+- `Legend` - A Recharts component that displays a legend for the chart.
+
+### Usage
+
+```
+import Graph from './Graph';
+
+function MyComponent() {
+  const device = { /* data for chart */ };
+
+  return (
+    <Graph device={device} />
+  );
+}
+```
+
+In this example, the `Graph` component is passed a `device` object as a prop. The `device` object contains the data for the chart.
+
+## `Loading` Component
+
+The `Loading` component displays a circular progress indicator from the Material-UI library.
+
+### Props
+
+The `Loading` component does not accept any props.
+
+### Methods
+
+The `Loading` component does not define any methods.
+
+### State
+
+The `Loading` component does not use any internal state.
+
+### Child Components
+
+The `Loading` component does not have any child components.
+
+### Usage Example
+
+```jsx
+import React from "react";
+import Loading from "./Loading";
+
+function MyComponent() {
+  return (
+    <div>
+      <h1>Loading Example</h1>
+      <Loading />
+    </div>
+  );
+}
+
+export default MyComponent;
+```
+
+In this example, the `Loading` component is used to display a loading spinner.
+
+## `Sidebar` React Component
+
+The `Sidebar` component is a customizable sidebar component for React applications that uses React Router and MUI. It is used to provide a user interface for navigating through different pages in the application.
+
+### Props
+
+The `Sidebar` component does not take any props.
+
+### Methods
+
+The `Sidebar` component does not have any methods.
+
+### State
+
+The `Sidebar` component has the following state:
+
+- `isCollapsed` (boolean): Indicates whether the sidebar is collapsed or not.
+- `selected` (string): The currently selected item in the sidebar.
+
+### Child Components
+
+The `Sidebar` component contains the following child components:
+
+- `ProSidebar`: A component from `react-pro-sidebar` used to render the sidebar.
+- `Menu`: A component from `react-pro-sidebar` used to render the menu.
+- `MenuItem`: A component from `react-pro-sidebar` used to render a menu item.
+- `SubMenu`: A component from `react-pro-sidebar` used to render a sub-menu item.
+- `SidebarHeader`: A component from `react-pro-sidebar` used to render the sidebar header.
+- `SidebarFooter`: A component from `react-pro-sidebar` used to render the sidebar footer.
+- `SidebarContent`: A component from `react-pro-sidebar` used to render the sidebar content.
+- `Box`: A component from `@mui/material` used to render a box.
+- `IconButton`: A component from `@mui/material` used to render an icon button.
+- `Typography`: A component from `@mui/material` used to render text.
+- `Backdrop`: A component from `@mui/material` used to render a backdrop.
+- `HomeOutlinedIcon`: A component from `@mui/icons-material` used to render a home icon.
+- `InfoOutlinedIcon`: A component from `@mui/icons-material` used to render an info icon.
+- `MenuOutlinedIcon`: A component from `@mui/icons-material` used to render a menu icon.
+- `HiveOutlinedIcon`: A component from `@mui/icons-material` used to render a hive icon.
+- `HelpOutlineOutlinedIcon`: A component from `@mui/icons-material` used to render a help icon.
+- `SettingsOutlinedIcon`: A component from `@mui/icons-material` used to render a settings icon.
+- `Avatar`: A component from `@mui/material` used to render an avatar.
+
+### Usage Example
+
+```jsx
+import React from "react";
+import { Sidebar } from "./components";
+
+const App = () => {
+  return (
+    <div>
+      <Sidebar />
+      {/* Other content of the app */}
+    </div>
+  );
+};
+```
+
+In this example, the `Sidebar` component is imported from the `components` folder and rendered in the JSX code.
+
+## `Topbar` React Component
+
+The `Topbar` component is a custom React component that renders a top navigation bar. This component is used in a web application and requires the `@mui` and `react-router-dom` libraries to function properly.
+
+### Props
+
+- `title`: a string that represents the title of the navigation bar.
+
+### Methods
+
+The `Topbar` component does not have any methods.
+
+### State
+
+The `Topbar` component does not have any state.
+
+### Child Components
+
+The `Topbar` component does not have any child components.
+
+### Usage
+
+```jsx
+import Topbar from "./Topbar";
+
+function App() {
+  return (
+    <div>
+      <Topbar title="My App" />
+      {/* rest of the app */}
+    </div>
+  );
+}
+
+export default App;
+```
+
+In this example, the `Topbar` component is rendered with the `title` prop set to `"My App"`. You can customize the component by passing in different values for the `title` prop.
+
+## `UserCard` Component
+
+The `UserCard` component is a React component that displays information about a user and allows administrators to edit the user's role or delete the user.
+
+### Props
+
+The `UserCard` component has two props:
+
+- `user`: A required object containing information about the user to display. The object must have the following properties:
+  - `user._id`: A string representing the user's ID.
+  - `user.name`: A string representing the user's name.
+  - `user.email`: A string representing the user's email address.
+  - `role`: A string representing the user's role.
+- `apiary`: A required object containing information about the apiary that the user belongs to. The object must have the following properties:
+  - `_id`: A string representing the apiary's ID.
+  - `members`: An array of objects representing the members of the apiary. Each member object must have the following properties:
+    - `user._id`: A string representing the member's user ID.
+    - `role`: A string representing the member's role.
+
+### State
+
+The `UserCard` component has two state variables:
+
+- `expand`: A boolean indicating whether the form to edit the user's role is expanded.
+- `formData`: An object containing the form data for editing the user's role. The object has the following properties:
+  - `isChecked`: A boolean indicating whether the user is an administrator.
+
+### Methods
+
+The `UserCard` component does not have any methods of its own.
+
+### Child Components
+
+The `UserCard` component uses the following child components from the Material-UI library:
+
+- `Grid`: A grid container used to position the edit icon.
+- `Avatar`: An avatar component used to display the user's initials.
+- `Card`: A card component used to display the user's information and form to edit the user's role.
+- `CardHeader`: A card header component used to display the user's name and email address.
+- `CardActions`: A card actions component used to display the edit icon.
+- `Collapse`: A collapse component used to show or hide the form to edit the user's role.
+- `IconButton`: An icon button component used to trigger the expansion of the form to edit the user's role.
+- `Typography`: A typography component used to display the user's name, email address, and messages to the user.
+- `Button`: A button component used to submit the form to edit the user's role or delete the user.
+- `Box`: A box component used to wrap the form to edit the user's role and the button to delete the user.
+- `FormControlLabel`: A form control label component used to display the checkbox to set the user as an administrator.
+- `Checkbox`: A checkbox component used to set the user as an administrator.
+
+### Usage Example
+
+```jsx
+import UserCard from "./UserCard";
+
+const ExampleComponent = () => {
+  const user = {
+    user: {
+      _id: "user_id_1",
+      name: "John Doe",
+      email: "john.doe@example.com",
+    },
+    role: "USER",
+  };
+
+  const apiary = {
+    _id: "apiary_id_1",
+    members: [
+      {
+        user: {
+          _id: "user_id_1",
+          name: "John Doe",
+          email: "john.doe@example.com",
+        },
+        role: "ADMIN",
+      },
+      {
+        user: {
+          _id: "user_id_2",
+          name: "Jane Doe",
+          email: "jane.doe@example.com",
+        },
+        role: "USER",
+      },
+    ],
+  };
+
+  return <UserCard user={user} apiary={apiary} />;
+};
+```
+
+In this example, the `UserCard` component is rendered with the `user` prop set to an object containing information about the user to display and the `apiary` prop set to an object containing information about the apiary that the user belongs to.
+
+# Features
+
+## Apiary
+
+### `apiary.slice`
+
+This file contains Redux Toolkit code that defines the `apiary` slice of the store. The `apiary` slice stores the user's apiaries and other related data. It also defines a set of `async` actions that are used to interact with an API to retrieve, set, update or delete apiaries, devices, and members.
+
+#### Initial State
+
+The initial state of the `apiary` slice contains the following properties:
+
+- `apiaries`: An empty array that will hold the user's apiaries
+- `isError`: A boolean flag that indicates whether an error occurred during the API call
+- `isSuccess`: A boolean flag that indicates whether the API call was successful
+- `isLoading`: A boolean flag that indicates whether the API call is currently in progress
+- `message`: A string that contains any error or success messages from the API call
+
+#### Actions
+
+The `apiary` slice defines several `async` actions using the `createAsyncThunk` function from Redux Toolkit. These actions are responsible for communicating with the API to retrieve, set, update, or delete apiaries, devices, and members.
+
+The async actions include:
+
+- `getApiaries`: An async action that retrieves the user's apiaries
+- `setApiary`: An async action that creates a new apiary for the user
+- `updateApiary`: An async action that updates an existing apiary for the user
+- `deleteApiary`: An async action that deletes an apiary for the user
+- `setDevice`: An async action that creates a new device for an apiary
+- `updateDevice`: An async action that updates an existing device for an apiary
+- `deleteDevice`: An async action that deletes a device for an apiary
+- `setMember`: An async action that adds a new member to an apiary
+- `updateMember`: An async action that updates an existing member of an apiary
+
+Each of these actions checks whether the user is authenticated, retrieves the user's token, and then calls the appropriate method from the `apiaryService` module to perform the requested operation. If an error occurs, the action updates the `isError` and `message` properties in the `apiary` state slice.
+
+#### Slice
+
+The `apiary` slice is created using the `createSlice` function from Redux Toolkit. It defines reducers for handling the different states of the `apiary` slice. These reducers are responsible for updating the `apiary` state slice when the corresponding async action is complete.
+
+#### Export
+
+The `apiary` slice is exported from this file and can be imported and combined with other slices to create a complete Redux store.
+
+### `apiary.service`
+
+This module contains a set of functions that interact with the server-side API to manage Apiaries, Devices, and Members of Apiaries. These functions use the axios library to perform HTTP requests to the server.
+
+#### Functions
+
+##### getApiaries(token)
+
+This function retrieves the list of Apiaries associated with the authenticated user's token.
+
+##### setApiary(apiaryData, token)
+
+This function creates a new Apiary with the given data and token.
+
+##### updateApiary(apiaryData, token)
+
+This function updates an existing Apiary with the given data and token.
+
+##### deleteApiary(apiaryData, token)
+
+This function deletes an Apiary with the given data and token.
+
+##### setDevice(apiaryData, token)
+
+This function sets a new device for an existing Apiary with the given data and token.
+
+##### updateDevice(apiaryData, token)
+
+This function updates an existing device for an existing Apiary with the given data and token.
+
+##### deleteDevice(apiaryData, token)
+
+This function deletes an existing device for an existing Apiary with the given data and token.
+
+##### setMember(userData, token)
+
+This function sets a new member for an existing Apiary with the given data and token.
+
+##### updateMember(userData, token)
+
+This function updates an existing member for an existing Apiary with the given data and token.
+
+##### deleteMember(userData, token)
+
+This function deletes an existing member for an existing Apiary with the given data and token.
+
+## Auth
+
+### `auth.slice`
+
+This file exports a Redux slice for managing user authentication. It defines an initial state, action creators, and reducers for handling the state changes.
+
+#### State
+
+The initial state has the following properties:
+
+- `user`: An object representing the current authenticated user. It is initialized from the `localStorage`.
+- `isError`: A boolean flag indicating whether there was an error in the authentication process.
+- `isSuccess`: A boolean flag indicating whether the authentication process was successful.
+- `isLoading`: A boolean flag indicating whether the authentication process is currently in progress.
+- `message`: A string message that provides more details about any errors encountered during authentication.
+
+#### Actions
+
+This Redux slice exports the following actions:
+
+- `register`: An async thunk action creator that registers a new user. It dispatches the following actions:
+
+  - `register/pending`: Sets the `isLoading` flag to `true`.
+  - `register/fulfilled`: Sets the `isLoading` flag to `false` and updates the `user` property with the returned user object.
+  - `register/rejected`: Sets the `isLoading` flag to `false`, sets the `isError` flag to `true`, and sets the `message` property to the error message.
+
+- `login`: An async thunk action creator that logs in a user. It dispatches the following actions:
+
+  - `login/pending`: Sets the `isLoading` flag to `true`.
+  - `login/fulfilled`: Sets the `isLoading` flag to `false` and updates the `user` property with the returned user object.
+  - `login/rejected`: Sets the `isLoading` flag to `false`, sets the `isError` flag to `true`, and sets the `message` property to the error message.
+
+- `logout`: An async thunk action creator that logs out the current user. It dispatches the following action:
+
+  - `logout/fulfilled`: Sets the `user` property to `null`.
+
+- `reset`: A reducer that resets the authentication state. It sets the `isLoading`, `isSuccess`, and `isError` flags to `false` and the `message` property to an empty string.
+
+#### Reducers
+
+The Redux slice has a single reducer that handles state updates for the above actions. It uses the `extraReducers` property to map each action to its corresponding state update.
+
+- The `register` and `login` actions set the `isLoading` flag to `true` when pending, and set it to `false` and update the `user` property with the returned user object when fulfilled. They set the `isError` flag to `true` and the `message` property to the error message when rejected.
+
+- The `logout` action sets the `user` property to `null` when fulfilled.
+
+- The `reset` action sets the `isLoading`, `isSuccess`, and `isError` flags to `false` and the `message` property to an empty string.
+
+That's all about this Redux slice.
+
+# Pages
+
 # Deployment (Jonathan)
 
 Explain how to deploy the application, including any server requirements and deployment steps.
