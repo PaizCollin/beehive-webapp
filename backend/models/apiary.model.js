@@ -30,20 +30,6 @@ const memberSchema = mongoose.Schema({
   },
 });
 
-const dataSchema = mongoose.Schema(
-  {
-    time: Date,
-    intake: Number,
-    outtake: Number,
-  },
-  {
-    timeseries: {
-      timeField: "time",
-      granularity: "minutes",
-    },
-  }
-);
-
 const deviceSchema = new mongoose.Schema(
   {
     serial: {

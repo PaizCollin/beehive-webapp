@@ -1,34 +1,56 @@
 # Beehive Monitor Web Application
 
-This full stack web application (MERN Stack), was built to service a Santa Clara University Senior Design engineering project.
+This full stack web application (_MERN_ Stack), was built to service the Santa Clara University Senior Design engineering project: **A Hardware Solution to Wireless Beehive Monitoring**
 
-The frontend is built with React and Redux, and the backend is built with Express and Node, with a MongoDB database. The frontend heavily utilizes Google's Material UI for styling and design. The backend utilizes Mongoose for database modeling and management.
+The frontend is built using _React_, _Redux_, and _Axios_; the backend is built using _Express_ and _Node_; and the database is managed in _MongoDB_. The frontend heavily utilizes the open-source _React_ component library, _Material UI_ for styling and design. The backend utilizes _Mongoose_ for database modeling and management.
+
+This project aims to rely solely on _open-source_ technologies to ensure its reliability and longevity for beekeepers around the world.
 
 # Basic Information
 
 ## Installation
 
-In the main directory, run `npm install` to install backend dependencies. In the `frontend` directory, run `npm install` to install frontend dependencies. Be sure to install Express and Node on your development machines.
+To install the necessary dependencies for the frontend and backend, run the following command in the main directory:
+
+```bash
+npm run yayaya
+```
+
+To install the necessary dependencies for the backend only, run the following command in the main directory:
+
+```bash
+npm install
+```
+
+To install the necessary dependencies for the frontend only, run the following command in the `./frontend` directory:
+
+```bash
+npm install
+```
+
+### Note
+
+If you run into funding errors, try adding `--force` to the end of your command, and/or running the installations separately.
 
 ## Configuration
 
-Use the template `.env` file to setup necessary configurations such as the MongoDB URI, JWT secret, Google Maps Locations API, and port.
+Use the template `.env` file to setup necessary configurations such as the MongoDB URI, JWT secret, Google Maps Locations API, and port. For those continuing this project, please contact cpaiz@scu.edu or paizcollin@gmail.com for details or assistance.
 
 ## Usage
 
-In the main director, run the frontend and backend with
+To start the frontend and backend, run the following command in the main directory:
 
 ```bash
 npm run dev
 ```
 
-Run the backend only with
+To start the backend only, run the following command in the main directory:
 
 ```bash
 npm run server
 ```
 
-Run the frontend only with
+To start the frontend only, run the following command in the main directory:
 
 ```bash
 npm run client
@@ -38,29 +60,73 @@ The frontend will run on port 3000, and the backend will run on port 5000., by d
 
 Using the Web Application is simple. The user will be greeted with a login page. If the user has an account, they can login with their credentials. If the user does not have an account, they can register for one. Once logged in, the user will be greeted with a dashboard. The dashboard will display the user's beehives, and the user can use the dropdown to select an apiary and subsequent beehive device to view more information about that specific hive. The user can also add, delete, and update apiaries, each of which is a small organization that contains its own set of devices (hives) that can be added, deleted, and updated. Users may also be added to apiaries to help manage them; members of apiaries can be granted different privileges, with the creator of the apiary having full control of the apiary and its hives. The user can also view the FAQ page, which will display frequently asked questions about the application, as well as the about page, which will display information about the application and its creators. The user can also logout of the application.
 
-# Backend Overview
+# Backend
 
-The backend is neatly organized into individual modules, each of which is responsible for a specific set of tasks.
+## Overview
+
+The backend is neatly organized into individual modules, each of which is responsible for a specific set of tasks. The modules are as follows: `config`, `server`, `middleware`, `models`, `routes`, and `server`. Each module is described in detail below.
 
 # Config
 
-The `config` module is responsible for setting up the MongoDB connection using Mongoose and the ATLAS URI provided by the MongoDB database.
+## Overview
+
+The `config` module is responsible for setting up the _MongoDB_ connection using Mongoose and the `ATLAS_URI` provided by the _MongoDB_ database.
+
+## `db.js`
+
+### Description
+
+This file is responsible for connecting the application to the _MongoDB_ database using the `ATLAS_URI` provided by the _MongoDB_ database. The `ATLAS_URI` is stored in the `.env` file, which is not included in the repository for security reasons. The `ATLAS_URI` is a string that contains the username, password, and database name for the _MongoDB_ database. The `db.js` file uses the `ATLAS_URI` to connect to the database using the `mongoose.connect()` method.
+
+### Usage Example
+
+```javascript
+const connectDB = require("./connectDB");
+
+// Call the function
+connectDB();
+```
+
+In this example, the `connectDB` function is imported from the `db.js` file and called. This will connect your application to the database using the `MongoDB URI` provided in the `.env` file.
 
 # Server
 
-The `server` is responsible for setting up the server and connecting to the database. The server is also responsible for listening on the port specified in the `.env` file (not provided).
+## Overview
+
+The `server` is responsible for setting up the server and connecting to the _MongoDB_ database. The server is also responsible for listening on the port specified in the `.env` file.
+
+## `server.js`
+
+### Description
+
+This _Node.js_ sets up an _HTTP_ server using the _Express_ framework. It exports a single function that starts the server and listens for incoming requests.
+
+### Usage Example
+
+```javascript
+const startServer = require("./server");
+
+// Call the function
+startServer();
+```
+
+In this example, the `startServer` function is imported from the `server.js` file and called. This will start the server and listen for incoming requests.
 
 # Middleware
+
+## Overview
 
 The `middleware` module is responsible for setting up the middleware for the application.
 
 ## `auth.middleware.js`
 
-This is a middleware function that adds authentication to a Node.js/Express application. The `protect` function checks for a valid JSON Web Token (JWT) in the `Authorization` header of incoming HTTP requests. If a valid token is found, the function decodes the token and sets the authenticated user in the request object. If a valid token is not found, the function returns a 401 Unauthorized response.
+### Description
+
+This is a middleware function that adds authentication to a _Node.js/Express_ application. The `protect` function checks for a valid _JSON Web Token (JWT)_ in the `Authorization` header of incoming _HTTP_ requests. If a valid token is found, the function decodes the token and sets the authenticated user in the request object. If a valid token is not found, the function returns a **401 Unauthorized response**.
 
 ### Usage
 
-The `protect` function can be used as a middleware function in any Express route that requires authentication. Here's an example of how to use the `protect` middleware function in an Express route:
+The `protect` function can be used as a middleware function in any _Express_ route that requires authentication. Here's an example of how to use the `protect` middleware function in an _Express_ route:
 
 ```javascript
 const express = require("express");
@@ -73,46 +139,36 @@ router.get("/", protect, (req, res) => {
 });
 ```
 
-In this example, the `protect` middleware function is used as the second argument in the `router.get()` method. This means that the `protect` function will be called before the route handler function. If the JWT is valid and the user is found, the `req.user` property will be set to the user object without the password field, and the route handler function will be called. If the JWT is not valid or not provided, a 401 Unauthorized response will be returned.
+In this example, the `protect` middleware function is used as the second argument in the `router.get()` method. This means that the `protect` function will be called before the route handler function. If the _JWT_ is valid and the user is found, the `req.user` property will be set to the user object without the password field, and the route handler function will be called. If the _JWT_ is not valid or not provided, a **401 Unauthorized response** will be returned.
 
-### Function Definition
+### Function Parameters
 
-The `protect` function takes three arguments: `req`, `res`, and `next`.
-
-#### `req`
-
-The `req` argument is the incoming HTTP request object.
-
-#### `res`
-
-The `res` argument is the outgoing HTTP response object.
-
-#### `next`
-
-The `next` argument is a function that passes control to the next middleware function in the request-response cycle.
+| Parameter | Description                                                                                   |
+| --------- | --------------------------------------------------------------------------------------------- |
+| `req`     | The incoming HTTP request object.                                                             |
+| `res`     | The outgoing HTTP response object.                                                            |
+| `next`    | A function that passes control to the next middleware function in the request-response cycle. |
 
 ### Function Flow
 
 The `protect` function follows this flow:
 
 1. Check if the `Authorization` header exists and starts with the word "Bearer".
-2. If the header exists and starts with "Bearer", try to verify the JWT.
-3. If the JWT is valid, get the user ID from the token payload and find the user in the database.
+2. If the header exists and starts with "Bearer", try to verify the _JWT_.
+3. If the _JWT_ is valid, get the user ID from the token payload and find the user in the database.
 4. If the user is found, set the `req.user` property to the user object without the password field, and call the `next()` function to pass control to the next middleware.
-5. If the JWT is not valid, return a 401 Unauthorized response with an error message.
-6. If the `Authorization` header does not exist or does not start with "Bearer", return a 401 Unauthorized response with an error message.
-
-### Error Handling
-
-If the `protect` function encounters an error, it will throw an error and call the `next()` function with the error object as an argument. This will trigger Express's default error handling middleware, which will return an error response to the client.
+5. If the _JWT_ is not valid, return a **401 Unauthorized response** with an error message.
+6. If the `Authorization` header does not exist or does not start with "Bearer", return a **401 Unauthorized response** with an error message.
 
 ## `errorHandler.middleware.js`
 
-This is a middleware function that adds error handling to a Node.js/Express application. The `errorHandler` function catches any errors that occur in the application and sends an appropriate error response to the client.
+### Description
 
-### Usage
+This is a middleware function that adds error handling to a _Node.js/Express_ application. The `errorHandler` function catches any errors that occur in the application and sends an appropriate error response to the client.
 
-The `errorHandler` function should be used as the last middleware function in the middleware stack of an Express application. Here's an example of how to use the `errorHandler` middleware function in an Express application:
+### Usage Example
+
+The `errorHandler` function should be used as the last middleware function in the middleware stack of an _Express_ application. Here's an example of how to use the `errorHandler` middleware function in an _Express_ application:
 
 ```javascript
 const express = require("express");
@@ -140,25 +196,12 @@ app.listen(3000, () => {
 
 In this example, the `errorHandler` middleware function is added to the middleware stack using the `app.use()` method. This means that the `errorHandler` function will be called if any middleware or route handler functions before it throw an error. The `errorHandler` function sends an error response with the error message and stack trace (if in development mode) to the client.
 
-### Function Definition
-
-The `errorHandler` function takes four arguments: `err`, `req`, `res`, and `next`.
-
-#### `err`
-
-The `err` argument is the error object that was thrown by a previous middleware or route handler function.
-
-#### `req`
-
-The `req` argument is the incoming HTTP request object.
-
-#### `res`
-
-The `res` argument is the outgoing HTTP response object.
-
-#### `next`
-
-The `next` argument is a function that passes control to the next middleware function in the request-response cycle.
+| Parameter | Description                                                                                   |
+| --------- | --------------------------------------------------------------------------------------------- |
+| `err`     | The error object that was thrown by a previous middleware or route handler function.          |
+| `req`     | The incoming HTTP request object.                                                             |
+| `res`     | The outgoing HTTP response object.                                                            |
+| `next`    | A function that passes control to the next middleware function in the request-response cycle. |
 
 ### Function Flow
 
@@ -174,29 +217,25 @@ The `errorHandler` function is itself an error handling middleware function, and
 
 # Models
 
-The three models used in the application are the `User`, `Apiary`, and `Data` models.
+## Overview
 
-## `user.model`
+The three models used in the application are the `User`, `Apiary`, and `Data` models. The `User` model is used to store user data in the database, the `Apiary` model is used to store apiary data in the database. and the `Data` model is used to store data from the devices in the database.
 
-This is a schema definition for the `user.model` in a Node.js/Express application using Mongoose. The `userSchema` defines the structure and validation rules for user documents that will be stored in a MongoDB database.
+## `user.model.js`
 
-### Schema Description
+### Description
 
-The user schema has three properties: `name`, `email`, and `password`.
+This is a schema definition for the `user` model in a _Node.js/Express_ application using _Mongoose_. The `userSchema` defines the structure and validation rules for user documents that will be stored in a _MongoDB_ database.
 
-| Field     | Type   | Example Value          | Description                                      |
-| --------- | ------ | ---------------------- | ------------------------------------------------ |
-| name      | String | "John Doe"             | The name of the user                             |
-| email     | String | "johndoe@example.com"  | The email address of the user                    |
-| password  | String | "$2a$10$V7X9I...jMx7"  | The password of the user                         |
-| createdAt | Date   | "2023-04-25T12:34:56Z" | The timestamp for when the user was created      |
-| updatedAt | Date   | "2023-04-25T12:34:56Z" | The timestamp for when the user was last updated |
+### Schema Definition
 
-The `name` field is of type String and is required, with a custom error message if it's not provided. This field stores the user's name.
-
-The `email` field is of type String and is required and unique, with a custom error message if it's not provided or is already in use. This field stores the user's email address.
-
-The `password` field is of type String and is required, with a custom error message if it's not provided. This field stores the user's password.
+| Field     | Type     | Required | Unique | Example Value          | Description                                      |
+| --------- | -------- | -------- | ------ | ---------------------- | ------------------------------------------------ |
+| name      | `String` | Yes      | No     | "John Doe"             | The user's name.                                 |
+| email     | `String` | Yes      | Yes    | "johndoe@example.com"  | The user's email address. Must be unique.        |
+| password  | `String` | Yes      | No     | "$2a$10$V7X9I...jMx7"  | The user's password.                             |
+| createdAt | `Date`   | No       | No     | "2023-04-25T12:34:56Z" | The timestamp for when the user was created      |
+| updatedAt | `Date`   | No       | No     | "2023-04-25T12:34:56Z" | The timestamp for when the user was last updated |
 
 Note that the `createdAt` and `updatedAt` fields are of type `Date` and are automatically generated by Mongoose using the `timestamps` option set to `true` in the schema.
 
@@ -204,64 +243,60 @@ Note that the `createdAt` and `updatedAt` fields are of type `Date` and are auto
 
 ```json
 {
-  "_id": ObjectId("6153db097a880f72a2d6c853"),
+  "_id": "6153db097a880f72a2d6c853",
   "name": "John Doe",
   "email": "johndoe@example.com",
   "password": "$2a$10$YSiN2VK/OdtZ5N5c5S5S5OAmQ2IyHz.gxCGKdDw.Ggchc20OaG1Ia",
-  "createdAt": ISODate("2021-09-28T05:45:29.586Z"),
-  "updatedAt": ISODate("2021-09-28T05:45:29.586Z")
+  "createdAt": "2021-09-28T05:45:29.586Z",
+  "updatedAt": "2021-09-28T05:45:29.586Z"
 }
 ```
 
-Note that the password field is encrypted using bcrypt, so the value shown is just an example of an encrypted password hash. The actual value would be a long string of random characters.
+Note that the password field is encrypted using _bcrypt_, so the value shown is just an example of an encrypted password hash. The actual value would be a long string of random characters.
 
-Sure, here's the documentation for the `Apiary` model:
+## `apiary.model.js`
 
-## `apiary.model`
+### Description
 
-This is a schema definition for the `apiary.model` in a Node.js/Express application using Mongoose. The `apiarySchema` defines the structure and validation rules for apiary documents that will be stored in a MongoDB database. This model consists of a `geoSchema` which defines a location, a `memberSchema` which defines a list of users, a `deviceSchema` which defines a list of devices, and an `apiarySchema` which defines an apiary.
+This is a schema definition for the `apiary.model` in a _Node.js/Express_ application using _Mongoose_. The `apiarySchema` defines the structure and validation rules for apiary documents that will be stored in a MongoDB database. This model consists of a `geoSchema` which defines a location, a `memberSchema` which defines a list of users, a `deviceSchema` which defines a list of devices, and an `apiarySchema` which defines an apiary.
 
 #### `geoSchema`
 
-| Field              | Type              | Example                       | Description                          |
-| ------------------ | ----------------- | ----------------------------- | ------------------------------------ |
-| `type`             | `String`          | "Point"                       | The type of location data.           |
-| `coordinates`      | Array of `Number` | [-73.856077, 40.848447]       | The coordinates of the apiary.       |
-| `formattedAddress` | `String`          | "123 Main St, New York, NY"   | The formatted address of the apiary. |
-| `placeID`          | `String`          | "ChIJ2QDvuoFawokRjZkGdG8a6_8" | The place ID of the apiary.          |
+| Field              | Type              | Required | Unique | Example Value                 | Description                                                                                                           |
+| ------------------ | ----------------- | -------- | ------ | ----------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `type`             | `String`          | No       | No     | "Point"                       | The type of the location data. Default value is "Point".                                                              |
+| `coordinates`      | Array of `Number` | No       | No     | `[-73.9857, 40.7484]`         | An array of longitude and latitude coordinates in that order. Indexed as a 2dsphere to enable location-based queries. |
+| `formattedAddress` | `String`          | No       | No     | "123 Main St, New York, NY"   | The formatted address of the location.                                                                                |
+| `placeID`          | `String`          | No       | No     | "ChIJd8BlQ2BZwokRAFUEcm_qrcA" | The place ID of the location.                                                                                         |
 
 #### `memberSchema`
 
-| Field | Type     | Example                    | Description                                                                                    |
-| ----- | -------- | -------------------------- | ---------------------------------------------------------------------------------------------- |
-| user  | ObjectId | `611d0e284ed7270017ebac6e` | The user associated with this member                                                           |
-| role  | String   | `"ADMIN"`                  | The role of the member, which can be one of `USER`, `ADMIN`, or `CREATOR`. Defaults to `USER`. |
+| Field | Type       | Required | Unique | Example Value              | Description                                                          |
+| ----- | ---------- | -------- | ------ | -------------------------- | -------------------------------------------------------------------- |
+| user  | `ObjectId` | Yes      | No     | "61579f9a53e7e8f2916d47b1" | References a user object associated with the member                  |
+| role  | `String`   | No       | No     | "USER"                     | The role of the member, must be one of "USER", "ADMIN", or "CREATOR" |
 
 #### `deviceSchema`
 
-| Field     | Type     | Example                      | Description                                                    |
-| --------- | -------- | ---------------------------- | -------------------------------------------------------------- |
-| serial    | String   | `"ABC123"`                   | The serial number of the device. Required and must be unique.  |
-| name      | String   | `"My Device"`                | The name of the device. Required.                              |
-| remote    | String   | `"https://remote.it/ABC123"` | The remote.it URL for the device. Required and must be unique. |
-| data      | ObjectId | `611d0e284ed7270017ebac6e`   | The ID of the data associated with this device                 |
-| createdAt | Date     | `2022-01-01T00:00:00.000Z`   | The timestamp of when this device was created                  |
-| updatedAt | Date     | `2022-01-01T01:00:00.000Z`   | The timestamp of when this device was last updated             |
+| Field     | Type       | Required | Unique | Example Value              | Description                                          |
+| --------- | ---------- | -------- | ------ | -------------------------- | ---------------------------------------------------- |
+| serial    | `String`   | Yes      | Yes    | "ABC123"                   | The serial number of the device                      |
+| name      | `String`   | Yes      | No     | "Device 1"                 | The name of the device                               |
+| remote    | `String`   | Yes      | Yes    | "https://remote.it/ABC123" | The remote.it URL of the device                      |
+| data      | `ObjectId` | No       | No     | "6154353e7eb3aa3b1886d051" | The ID of the data object associated with the device |
+| createdAt | `Date`     | No       | No     | "2022-01-01T00:00:00.000Z" | The date and time when the device was created        |
+| updatedAt | `Date`     | No       | No     | "2022-01-02T00:00:00.000Z" | The date and time when the device was last updated   |
 
 #### `apiarySchema`
 
-| Field     | Type   | Example                    | Description                                                                         |
-| --------- | ------ | -------------------------- | ----------------------------------------------------------------------------------- |
-| name      | String | `"My Apiary"`              | The name of the apiary                                                              |
-| location  | Object | See example below          | The location of the apiary, represented as a GeoJSON object with a `Point` geometry |
-| members   | Array  | See example below          | An array of members associated with this apiary                                     |
-| devices   | Array  | See example below          | An array of devices associated with this apiary                                     |
-| createdAt | Date   | `2022-01-01T00:00:00.000Z` | The timestamp of when this apiary was created                                       |
-| updatedAt | Date   | `2022-01-01T01:00:00.000Z` | The timestamp of when this apiary was last updated                                  |
-
-### `ObjectId`
-
-A MongoDB ObjectId is a 12-byte unique identifier for documents in a collection. It can be converted to a string representation for ease of use.
+| Field     | Type                                    | Required | Unique | Example Value      | Description                                    |
+| --------- | --------------------------------------- | -------- | ------ | ------------------ | ---------------------------------------------- |
+| name      | String                                  | No       | No     | "My Apiary"        | The name of the Apiary                         |
+| location  | Object of type `geoSchema`              | No       | No     | See `geoSchema`    | The coordinates of the Apiary                  |
+| members   | Array of Objects of type `memberSchema` | Yes      | No     | See `memberSchema` | An array of members associated with the Apiary |
+| devices   | Array of Objects of type `deviceSchema` | No       | No     | See `deviceSchema` | An array of devices associated with the Apiary |
+| createdAt | Date                                    | No       | No     | -                  | The date when the Apiary was created           |
+| updatedAt | Date                                    | No       | No     | -                  | The date when the Apiary was last updated      |
 
 ### Example Document
 
@@ -312,195 +347,110 @@ A MongoDB ObjectId is a 12-byte unique identifier for documents in a collection.
 }
 ```
 
-## `data.model`
+## `data.model.js`
 
-This is a schema definition for a `data.model` in a Node.js/Express application using Mongoose. The `dataSchema` defines the structure and validation rules for data documents that will be stored in a MongoDB database. This model consists of a `dataPointSchema` which defines the structure of an individual data point, and a `dataSchema` which defines a list of datapoints.
+### Description
+
+This is a schema definition for a `data.model` in a _Node.js/Express_ application using _Mongoose_. The `dataSchema` defines the structure and validation rules for data documents that will be stored in a _MongoDB_ database. This model consists of a `dataPointSchema` which defines the structure of an individual data point, and a `dataSchema` which defines a list of datapoints.
 
 ### `dataPointSchema` Description
 
 The `dataPointSchema` defines the schema for an individual data point. It consists of the following fields:
 
-| Field                     | Type   | Example                                   | Description                                                              |
-| ------------------------- | ------ | ----------------------------------------- | ------------------------------------------------------------------------ |
-| time                      | Date   | 2022-04-26T12:00:00.000Z                  | The timestamp for the data point                                         |
-| raw_activity              | Object | { x: 10, y: 20 }                          | The raw activity data point in (x, y) coordinates                        |
-| weather                   | Object | { temp: 25, humidity: 80, windspeed: 10 } | The weather data at the time of data point                               |
-| prediction_activity       | Object | { x: 12, y: 22 }                          | The predicted activity data point in (x, y) coordinates                  |
-| last_prediction_deviation | Number | 2.5                                       | The deviation of the last prediction from the actual activity (optional) |
+| Field                     | Type     | Required | Unique | Example Value | Description                                                                        |
+| ------------------------- | -------- | -------- | ------ | ------------- | ---------------------------------------------------------------------------------- |
+| time                      | `Date`   | No       | No     | Date.now      | The time the data point was recorded                                               |
+| raw_activity.x            | `Number` | Yes      | No     | 5.2           | The x coordinate of the raw activity data                                          |
+| raw_activity.y            | `Number` | Yes      | No     | 3.8           | The y coordinate of the raw activity data                                          |
+| weather.temp              | `Number` | Yes      | No     | 25.4          | The temperature in Celsius at the time of recording                                |
+| weather.humidity          | `Number` | Yes      | No     | 70.2          | The humidity in percent at the time of recording                                   |
+| weather.windspeed         | `Number` | Yes      | No     | 10.3          | The wind speed in meters per second at the time of recording                       |
+| prediction_activity.x     | `Number` | Yes      | No     | 2.1           | The x coordinate of the predicted activity data                                    |
+| prediction_activity.y     | `Number` | Yes      | No     | 1.5           | The y coordinate of the predicted activity data                                    |
+| last_prediction_deviation | `Number` | No       | No     | 0.7           | The deviation between the raw and predicted activity data at the time of recording |
 
 ### `dataSchema` Description
 
 The `dataSchema` defines the schema for a collection of data points. It consists of the following fields:
 
-| Field      | Type                             | Example                   | Description                                           |
-| ---------- | -------------------------------- | ------------------------- | ----------------------------------------------------- |
-| apiary     | ObjectId (refers to Apiary)      | 6051902568f4a4dbd4f1c0e5  | The ID of the apiary associated with the data         |
-| serial     | String (unique)                  | "XYZ123"                  | The unique serial number of the data logger           |
-| datapoints | Array of dataPointSchema objects | [ { ... }, { ... }, ... ] | The array of data points collected by the data logger |
+| Field      | Type                       | Required | Unique | Example Value              | Description                                         |
+| ---------- | -------------------------- | -------- | ------ | -------------------------- | --------------------------------------------------- |
+| apiary     | `ObjectId`                 | No       | No     | "6154353e7eb3aa3b1886d051" | Reference to the Apiary model                       |
+| serial     | `String`                   | Yes      | Yes    | "ABC123"                   | Unique identifier of the device sending the data    |
+| datapoints | Array of `dataPointSchema` | No       | No     | See `dataPointSchema`      | Array containing the data points sent by the device |
 
 ### Example document
 
 ```json
 {
-  "_id": ObjectId("60934c7a2a58581ed82b8d96"),
-  "apiary": ObjectId("6051902568f4a4dbd4f1c0e5"),
+  "_id": "60934c7a2a58581ed82b8d96",
+  "apiary": "6051902568f4a4dbd4f1c0e5",
   "serial": "XYZ123",
   "datapoints": [
     {
-      "time": ISODate("2022-04-26T12:00:00.000Z"),
+      "time": "2022-04-26T12:00:00.000Z",
       "raw_activity": { "x": 10, "y": 20 },
       "weather": { "temp": 25, "humidity": 80, "windspeed": 10 },
       "prediction_activity": { "x": 12, "y": 22 },
       "last_prediction_deviation": 2.5
     },
     {
-      "time": ISODate("2022-04-26T12:05:00.000Z"),
+      "time": "2022-04-26T12:05:00.000Z",
       "raw_activity": { "x": 11, "y": 21 },
       "weather": { "temp": 26, "humidity": 81, "windspeed": 11 },
       "prediction_activity": { "x": 13, "y": 23 },
       "last_prediction_deviation": 2.0
     }
   ],
-  "createdAt": ISODate("2021-05-06T00:00:00.000Z"),
-  "updatedAt": ISODate("2021-05-06T00:00:00.000Z")
+  "createdAt": "2021-05-06T00:00:00.000Z",
+  "updatedAt": "2021-05-06T00:00:00.000Z"
 }
 ```
 
 # Routes
 
-## `user.routes`
+## Overview
+
+The `routes` module contains the route definitions for the _Node.js/Express_ application. The routes are organized into separate files based on their purpose. The `user.routes` file contains the routes for user authentication and authorization, the `apiary.routes` file contains the routes for the apiary endpoints, and the `data.routes` file contains the routes for the data endpoints.
+
+## `user.routes.js`
+
+### Description
 
 This file defines the routes for user authentication and authorization. The routes are protected by authentication middleware to ensure that only authenticated users can access them.
 
-### Controllers
-
-The `controllers` directory contains the functions that handle the logic for each route.
-
-### Middleware
-
-The `middleware` directory contains the `auth.middleware` file, which contains middleware functions for protecting the routes.
-
 ### Route Endpoints
 
-```
-POST /register
-```
-
-- Request Type: `POST`
-- Authentication: None
-- Description: Registers a new user with the provided credentials.
-
-```
-POST /login
-```
-
-- Request Type: `POST`
-- Authentication: None
-- Description: Logs in a user with the provided credentials.
-
-```
-GET /me
-```
-
-- Request Type: `GET`
-- Authentication: `Protect`
-- Description: Gets the current user.
+| Endpoint              | Request Type | Authentication | Description                                        |
+| --------------------- | ------------ | -------------- | -------------------------------------------------- |
+| `/api/users/register` | `POST`       | -              | Registers a new user with the provided credentials |
+| `/api/users/login`    | `POST`       | -              | Logs in a user with the provided credentials       |
+| `/api/users/me`       | `GET`        | Protect        | Gets the current user                              |
 
 ## `apiary.routes`
 
+### Description
+
 This file defines the routes for the apiary related endpoints. The routes are protected by authentication middleware to ensure that only authenticated users can access them.
-
-### Controllers
-
-The `controllers` directory contains the functions that handle the logic for each route.
-
-### Middleware
-
-The `middleware` directory contains the `auth.middleware` file, which contains middleware functions for protecting the routes.
 
 ### Route Endpoints
 
-```
-GET /apiaries/
-```
-
-- Request Type: `GET`
-- Authentication: `Protect`
-- Description: Returns all apiaries associated with the authenticated user.
-
-```
-POST /apiaries/
-```
-
-- Request Type: `POST`
-- Authentication: `Protect`
-- Description: Creates a new apiary associated with the authenticated user.
-
-```
-PUT /apiaries/:apiary_id
-```
-
-- Request Type: `PUT`
-- Authentication: `Protect`
-- Description: Updates the specified apiary associated with the authenticated user.
-
-```
-DELETE /apiaries/:apiary_id
-```
-
-- Request Type: `DELETE`
-- Authentication: `Protect`
-- Description: Deletes the specified apiary associated with the authenticated user.
-
-```
-PUT /apiaries/:apiary_id/setdevice
-```
-
-- Request Type: `PUT`
-- Authentication: `Protect`
-- Description: Sets a new device for the specified apiary associated with the authenticated user.
-
-```
-PUT /apiaries/:apiary_id/device/:device_id/updatedevice
-```
-
-- Request Type: `PUT`
-- Authentication: `Protect`
-- Description: Updates the specified device for the specified apiary associated with the authenticated user.
-
-```
-PUT /apiaries/:apiary_id/device/:device_id/serial/:serial/deletedevice
-```
-
-- Request Type: `PUT`
-- Authentication: `Protect`
-- Description: Deletes the specified device for the specified apiary associated with the authenticated user.
-
-```
-PUT /apiaries/:apiary_id/setmember
-```
-
-- Request Type: `PUT`
-- Authentication: `Protect`
-- Description: Sets a new member for the specified apiary associated with the authenticated user.
-
-```
-PUT /apiaries/:apiary_id/user/:user_id/updatemember
-```
-
-- Request Type: `PUT`
-- Authentication: `Protect`
-- Description: Updates the specified member for the specified apiary associated with the authenticated user.
-
-```
-PUT /apiaries/:apiary_id/user/:user_id/deletemember
-```
-
-- Request Type: `PUT`
-- Authentication: `Protect`
-- Description: Deletes the specified member for the specified apiary associated with the authenticated user.
+| Endpoint                                                                        | Request Type | Authentication | Description                                                                                   |
+| ------------------------------------------------------------------------------- | ------------ | -------------- | --------------------------------------------------------------------------------------------- |
+| `/api/apiaries`                                                                 | `GET`        | `Protect`      | Returns all apiaries associated with the authenticated user.                                  |
+| `/api/apiaries`                                                                 | `POST`       | `Protect`      | Creates a new apiary associated with the authenticated user.                                  |
+| `/api/apiaries/apiary/:apiary_id`                                               | `PUT`        | `Protect`      | Updates the specified apiary associated with the authenticated user.                          |
+| `/api/apiaries/apiary/:apiary_id`                                               | `DELETE`     | `Protect`      | Deletes the specified apiary associated with the authenticated user.                          |
+| `/api/apiaries/apiary/:apiary_id/setdevice`                                     | `PUT`        | `Protect`      | Sets a new device for the specified apiary associated with the authenticated user.            |
+| `/api/apiaries/apiary/:apiary_id/device/:device_id/updatedevice`                | `PUT`        | `Protect`      | Updates the specified device for the specified apiary associated with the authenticated user. |
+| `/api/apiaries/apiary/:apiary_id/device/:device_id/serial/:serial/deletedevice` | `PUT`        | `Protect`      | Deletes the specified device for the specified apiary associated with the authenticated user. |
+| `/api/apiaries/apiary/:apiary_id/setmember`                                     | `PUT`        | `Protect`      | Sets a new member for the specified apiary associated with the authenticated user.            |
+| `/api/apiaries/apiary/:apiary_id/user/:user_id/updatemember`                    | `PUT`        | `Protect`      | Updates the specified member for the specified apiary associated with the authenticated user. |
+| `/api/apiaries/apiary/:apiary_id/user/:user_id/deletemember`                    | `PUT`        | `Protect`      | Deletes the specified member for the specified apiary associated with the authenticated user. |
 
 ## `data.routes`
+
+### Description
 
 This file defines the routes for the data related endpoints.
 
@@ -510,13 +460,9 @@ The `controllers` directory contains the functions that handle the logic for eac
 
 ### Route Endpoints
 
-```
-PUT /serial/:seral
-```
-
-- Request Type: `PUT`
-- Authentication: None
-- Description: Puts the data from the device with the specified serial number into the database.
+| Endpoint                   | Request Type | Authentication | Description                                                                       |
+| -------------------------- | ------------ | -------------- | --------------------------------------------------------------------------------- |
+| `/api/data/serial/:serial` | `PUT`        | None           | Puts the data from the device with the specified serial number into the database. |
 
 # Controllers
 
@@ -526,113 +472,58 @@ This file handles user-related routes and requests.
 
 ### Functions
 
-#### registerUser
-
-- Route: `POST /api/users`
-- Access: Public
-- Description: Registers a new user.
-
-#### loginUser
-
-- Route: `POST /api/users/login`
-- Access: Public
-- Description: Authenticates a user and generates a JSON web token (JWT) for authorization.
-
-#### getMe
-
-- Route: `GET /api/users/me`
-- Access: Private
-- Description: Gets user data based on the ID of the authenticated user.
+| Function      | Route                   | Access  | Description                                                                      |
+| ------------- | ----------------------- | ------- | -------------------------------------------------------------------------------- |
+| registerUser  | `POST /api/users`       | Public  | Registers a new user.                                                            |
+| loginUser     | `POST /api/users/login` | Public  | Authenticates a user and generates a _JSON Web Token_ (_JWT_) for authorization. |
+| getMe         | `GET /api/users/me`     | Private | Gets user data based on the ID of the authenticated user.                        |
+| generateToken | -                       | -       | Generates a _JSON Web Token_ (_JWT_) for authorization.                          |
 
 ## `apiary.controller`
 
-This file handles apiary-related routes and requests
+### Description
+
+This file handles apiary-related routes and requests, including creating, updating, and deleting apiaries; setting, updating, and deleting devices; and setting, updating, and deleting members.
 
 ### Functions
 
-#### checkUserToApiary
-
-- Description: This function checks if the logged-in user is a member of the specified apiary and has admin privileges.
-
-#### getApiaries
-
-- Route: `GET /api/apiaries`
-- Access: Private; all users
-- Description: This function retrieves all apiaries associated with the currently logged-in user.
-
-#### setApiary
-
-- Route: `POST /api/apiaries`
-- Access: Private; all users
-- Description: This function creates a new apiary.
-
-#### updateApiary
-
-- Route: `PUT /api/apiaries/apiary/:apiary_id`
-- Access: Private; apiary admins only
-- Description: This function updates the specified apiary's name and location.
-
-#### deleteApiary
-
-- Route: `DELETE /api/apiaries/apiary/:apiary_id`
-- Access: Private; apiary creator only
-- Description: This function deletes the specified apiary and all associated data.
-
-#### setDevice
-
-- Route: `PUT /api/apiaries/apiary/:apiary_id/setdevice`
-- Access: Private; apiary admins only
-- Description: This function sets a new device to an apiary. It checks if the user has admin privileges and if the device already exists. If the device doesn't exist, it creates a new document in the Data collection and pushes the device object into the `devices` array in the Apiary collection.
-
-#### updateDevice
-
-- Route: `PUT /api/apiaries/apiary/:apiary_id/device/:device_id/updatedevice`
-- Access: Private; apiary admins only
-- Description: This function updates an existing device in an apiary. It checks if the user has admin privileges and if the device exists in the apiary. If the device exists, it updates the name and remote properties of the device object in the `devices` array in the Apiary collection.
-
-#### deleteDevice
-
-- Route: `PUT /api/apiaries/apiary/:apiary_id/device/:device_id/serial/:serial/deletedevice`
-- Access: Private; apiary admins only
-- Description: This function deletes an existing device from an apiary. It checks if the user has admin privileges and if the device exists in the apiary. If the device exists, it removes the device object from the `devices` array in the Apiary collection and deletes the associated document in the Data collection.
-
-#### setMember
-
-- Route: `PUT /api/apiaries/apiary/:apiary_id/setmember`
-- Access: Private; admins of apiary only
-- Description: This function updates the user's role in the apiary to Editor.
-
-#### updateMember
-
-- Route: `PUT /api/apiaries/apiary/:apiary_id/user/:user_id/updatemember`
-- Access: Private; admins of apiary only
-- Description: This function updates the user's role in the apiary to Owner.
-
-#### deleteMember
-
-- Route: `PUT /api/apiaries/apiary/:apiary_id/user/:user_id/deletemember`
-- Access: Private; admins of apiary only
-- Description: This function deletes the specified user from the apiary.
+| Function          | Route                                                                               | Access                  | Description                                                                                |
+| ----------------- | ----------------------------------------------------------------------------------- | ----------------------- | ------------------------------------------------------------------------------------------ |
+| checkUserToApiary | -                                                                                   | Private; apiary admins  | Checks if the logged-in user is a member of the specified apiary and has admin privileges. |
+| getApiaries       | `GET /api/apiaries`                                                                 | Private; all users      | Retrieves all apiaries associated with the currently logged-in user.                       |
+| setApiary         | `POST /api/apiaries`                                                                | Private; all users      | Creates a new apiary.                                                                      |
+| updateApiary      | `PUT /api/apiaries/apiary/:apiary_id`                                               | Private; apiary admins  | Updates the specified apiary's name and location.                                          |
+| deleteApiary      | `DELETE /api/apiaries/apiary/:apiary_id`                                            | Private; apiary creator | Deletes the specified apiary and all associated data.                                      |
+| setDevice         | `PUT /api/apiaries/apiary/:apiary_id/setdevice`                                     | Private; apiary admins  | Sets a new device to an apiary.                                                            |
+| updateDevice      | `PUT /api/apiaries/apiary/:apiary_id/device/:device_id/updatedevice`                | Private; apiary admins  | Updates an existing device in an apiary.                                                   |
+| deleteDevice      | `PUT /api/apiaries/apiary/:apiary_id/device/:device_id/serial/:serial/deletedevice` | Private; apiary admins  | Deletes an existing device from an apiary.                                                 |
+| setMember         | `PUT /api/apiaries/apiary/:apiary_id/setmember`                                     | Private; apiary admins  | Updates the user's role in the apiary to Editor.                                           |
+| updateMember      | `PUT /api/apiaries/apiary/:apiary_id/user/:user_id/updatemember`                    | Private; apiary admins  | Updates the user's role in the apiary to Owner.                                            |
+| deleteMember      | `PUT /api/apiaries/apiary/:apiary_id/user/:user_id/deletemember`                    | Private; apiary admins  | Deletes the specified user from the apiary.                                                |
 
 ## `data.controller`
 
-This file handles data-related routes and requests.
+### Description
+
+This file handles data-related routes and requests. It includes uploading data points to the database.
 
 ### Functions
 
-#### putData
-
-- Route: `POST /api/data/:apiary_id/:device_id`
-- Access: Needs protection (ML team authorized only)
-- Description: Uploads a data point to the database.
+| Function | Route                                  | Access                                     | Description                           |
+| -------- | -------------------------------------- | ------------------------------------------ | ------------------------------------- |
+| putData  | `POST /api/data/:apiary_id/:device_id` | Needs protection (ML team authorized only) | Uploads a data point to the database. |
 
 # Frontend
 
-# `App`
+## Overview
+
+The frontend of the application is built using _React_. The `src` directory contains the source code for the frontend, including the components, pages, stylsheets, and features.
+
+# `App.js`
 
 ## Description
 
-The `App` component is the root component of the application. It is responsible for rendering the application's navigation bar and routing the user to the appropriate page based on the URL.
+The `App.js` component is the root component of the application. It is responsible for rendering the application's navigation bar and routing the user to the appropriate page based on the URL.
 
 # `index.js`
 
@@ -642,11 +533,15 @@ The `index` file is the entry point of the application. It renders the `App` com
 
 # `index.css`
 
+## Description
+
+The `index.css` file contains the global styles for the application.
+
 ## Fonts
 
 This stylesheet imports the "Poppins" font family from Google Fonts with three weights - 400 (regular), 600 (semi-bold), and 700 (bold) - and the display property set to "swap".
 
-```
+```css
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
 ```
 
@@ -654,7 +549,7 @@ This stylesheet imports the "Poppins" font family from Google Fonts with three w
 
 The stylesheet applies 100% height and width to the `html`, `body`, `#root`, `.app`, and `.content` selectors, and uses the "Poppins" font family as the default font for these elements.
 
-```
+```css
 html,
 body,
 #root,
@@ -670,7 +565,7 @@ body,
 
 The `.app` selector has its display set to "flex" and position set to "relative".
 
-```
+```css
 .app {
   display: flex;
   position: relative;
@@ -681,7 +576,7 @@ The `.app` selector has its display set to "flex" and position set to "relative"
 
 The stylesheet applies custom styling to the scrollbar using the WebKit CSS scrollbar pseudo-elements. The width of the scrollbar is set to 10px, the track color is set to #e0e0e0, and the handle color is set to #888. On hover, the track color changes to #555.
 
-```
+```css
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -706,7 +601,7 @@ The stylesheet applies custom styling to the scrollbar using the WebKit CSS scro
 
 The `fieldset` selector has its border and outline set to "none" to remove any default styling applied to the element.
 
-```
+```css
 fieldset {
   border: none !important;
   outline: none !important;
@@ -750,7 +645,9 @@ const lightTheme = createTheme(themeSettings("light"));
 
 # `store.js`
 
-This code snippet configures a Redux store using @reduxjs/toolkit. It uses two slices, auth and apiary, to manage state related to user authentication and the application's apiary feature.
+## Description
+
+The `store` file configures a Redux store using `@reduxjs/toolkit`. It uses two slices, `auth` and `apiary`, to manage state related to user authentication and the application's apiary feature.
 
 # Components
 
@@ -760,15 +657,15 @@ The `AboutCard` component is a reusable component that displays an information c
 
 ### Props
 
-| Name | Type  | Required | Description                                                                                          |
-| ---- | ----- | -------- | ---------------------------------------------------------------------------------------------------- |
-| faq  | array | Yes      | An array of two strings: the title of the card and the content to display when the card is expanded. |
+| Name | Type                | Required | Description                                                                                          |
+| ---- | ------------------- | -------- | ---------------------------------------------------------------------------------------------------- |
+| faq  | `List` of `Strings` | Yes      | An array of two strings: the title of the card and the content to display when the card is expanded. |
 
 ### State
 
-| Name   | Type    | Description                                           |
-| ------ | ------- | ----------------------------------------------------- |
-| expand | boolean | Determines whether the card is expanded or collapsed. |
+| Name   | Type      | Description                                           |
+| ------ | --------- | ----------------------------------------------------- |
+| expand | `Boolean` | Determines whether the card is expanded or collapsed. |
 
 ### Methods
 
@@ -780,22 +677,22 @@ The `AboutCard` component does not define any handlers.
 
 ### Child Components
 
-| Name                        | Package               | Description                                                     |
-| --------------------------- | --------------------- | --------------------------------------------------------------- |
-| `Grid`                      | `@mui/material`       | A layout component that helps to organize content in a grid     |
-| `Avatar`                    | `@mui/material`       | A component that represents a user or entity                    |
-| `Card`                      | `@mui/material`       | A container component that displays information                 |
-| `CardActions`               | `@mui/material`       | A component that provides space for buttons or icons            |
-| `CardHeader`                | `@mui/material`       | A component that displays a header for a card                   |
-| `Collapse`                  | `@mui/material`       | A component that animates the expansion or collapse of content  |
-| `IconButton`                | `@mui/material`       | A button component that displays an icon                        |
-| `Typography`                | `@mui/material`       | A component that displays text content                          |
-| `useTheme`                  | `@mui/material`       | A hook that provides access to the current theme                |
-| `Box`                       | `@mui/material`       | A component that provides a flexible container for content      |
-| `ArrowDropDownOutlinedIcon` | `@mui/icons-material` | An icon component that represents a downward-pointing arrow     |
-| `InfoOutlinedIcon`          | `@mui/icons-material` | An icon component that represents an information icon           |
-| `useState`                  | `react`               | A hook that adds state to a functional component                |
-| `tokens`                    | Custom function       | A function that returns color tokens based on the current theme |
+| Name                      | Package               | Description                                                     |
+| ------------------------- | --------------------- | --------------------------------------------------------------- |
+| Grid                      | `@mui/material`       | A layout component that helps to organize content in a grid     |
+| Avatar                    | `@mui/material`       | A component that represents a user or entity                    |
+| Card                      | `@mui/material`       | A container component that displays information                 |
+| CardActions               | `@mui/material`       | A component that provides space for buttons or icons            |
+| CardHeader                | `@mui/material`       | A component that displays a header for a card                   |
+| Collapse                  | `@mui/material`       | A component that animates the expansion or collapse of content  |
+| IconButton                | `@mui/material`       | A button component that displays an icon                        |
+| Typography                | `@mui/material`       | A component that displays text content                          |
+| useTheme                  | `@mui/material`       | A hook that provides access to the current theme                |
+| Box                       | `@mui/material`       | A component that provides a flexible container for content      |
+| ArrowDropDownOutlinedIcon | `@mui/icons-material` | An icon component that represents a downward-pointing arrow     |
+| InfoOutlinedIcon          | `@mui/icons-material` | An icon component that represents an information icon           |
+| useState                  | `react`               | A hook that adds state to a functional component                |
+| tokens`                   | Custom function       | A function that returns color tokens based on the current theme |
 
 ### Usage Example
 
@@ -813,7 +710,7 @@ In this example, we import the `AboutCard` component and render it with an array
 
 ## `AddApiaryCard` React Component
 
-The `AddApiaryCard` component is a form card used to create a new apiary in a React application. It includes a name input field, a location input field powered by the `GoogleMaps` component, and a button to submit the form data.
+The `AddApiaryCard` component is a form card used to create a new apiary in a _React_ application. It includes a name input field, a location input field powered by the `GoogleMaps` component, and a button to submit the form data.
 
 ### Props
 

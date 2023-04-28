@@ -7,7 +7,9 @@
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
     "client": "npm start --prefix frontend",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "frontend": "npm install --prefix frontend",
+    "yayaya": "concurrently \"npm install\" \"npm run frontend\""
   },
   "author": "Collin Paiz",
   "license": "ISC",
