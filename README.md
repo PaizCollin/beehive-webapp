@@ -262,12 +262,12 @@ This is a schema definition for the `apiary.model` in a _Node.js/Express_ applic
 
 #### `geoSchema`
 
-| Field              | Type              | Required | Unique | Example Value                 | Description                                                                                                           |
-| ------------------ | ----------------- | -------- | ------ | ----------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `type`             | `String`          | No       | No     | "Point"                       | The type of the location data. Default value is "Point".                                                              |
-| `coordinates`      | Array of `Number` | No       | No     | `[-73.9857, 40.7484]`         | An array of longitude and latitude coordinates in that order. Indexed as a 2dsphere to enable location-based queries. |
-| `formattedAddress` | `String`          | No       | No     | "123 Main St, New York, NY"   | The formatted address of the location.                                                                                |
-| `placeID`          | `String`          | No       | No     | "ChIJd8BlQ2BZwokRAFUEcm_qrcA" | The place ID of the location.                                                                                         |
+| Field            | Type              | Required | Unique | Example Value                 | Description                                                                                                           |
+| ---------------- | ----------------- | -------- | ------ | ----------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| type             | `String`          | No       | No     | "Point"                       | The type of the location data. Default value is "Point".                                                              |
+| coordinates      | Array of `Number` | No       | No     | `[-73.9857, 40.7484]`         | An array of longitude and latitude coordinates in that order. Indexed as a 2dsphere to enable location-based queries. |
+| formattedAddress | `String`          | No       | No     | "123 Main St, New York, NY"   | The formatted address of the location.                                                                                |
+| placeID          | `String`          | No       | No     | "ChIJd8BlQ2BZwokRAFUEcm_qrcA" | The place ID of the location.                                                                                         |
 
 #### `memberSchema`
 
@@ -653,6 +653,8 @@ The `store` file configures a Redux store using `@reduxjs/toolkit`. It uses two 
 
 ## `AboutCard` React Component
 
+### Description
+
 The `AboutCard` component is a reusable component that displays an information card with a title, avatar, and expandable content. It is used in the `About` page to display information regarding the project.
 
 ### Props
@@ -679,20 +681,20 @@ The `AboutCard` component does not define any handlers.
 
 | Name                      | Package               | Description                                                     |
 | ------------------------- | --------------------- | --------------------------------------------------------------- |
-| Grid                      | `@mui/material`       | A layout component that helps to organize content in a grid     |
+| ArrowDropDownOutlinedIcon | `@mui/icons-material` | An icon component that represents a downward-pointing arrow     |
 | Avatar                    | `@mui/material`       | A component that represents a user or entity                    |
+| Box                       | `@mui/material`       | A component that provides a flexible container for content      |
 | Card                      | `@mui/material`       | A container component that displays information                 |
 | CardActions               | `@mui/material`       | A component that provides space for buttons or icons            |
 | CardHeader                | `@mui/material`       | A component that displays a header for a card                   |
 | Collapse                  | `@mui/material`       | A component that animates the expansion or collapse of content  |
+| Grid                      | `@mui/material`       | A layout component that helps to organize content in a grid     |
 | IconButton                | `@mui/material`       | A button component that displays an icon                        |
-| Typography                | `@mui/material`       | A component that displays text content                          |
-| useTheme                  | `@mui/material`       | A hook that provides access to the current theme                |
-| Box                       | `@mui/material`       | A component that provides a flexible container for content      |
-| ArrowDropDownOutlinedIcon | `@mui/icons-material` | An icon component that represents a downward-pointing arrow     |
 | InfoOutlinedIcon          | `@mui/icons-material` | An icon component that represents an information icon           |
-| useState                  | `react`               | A hook that adds state to a functional component                |
+| Typography                | `@mui/material`       | A component that displays text content                          |
 | tokens`                   | Custom function       | A function that returns color tokens based on the current theme |
+| useTheme                  | `@mui/material`       | A hook that provides access to the current theme                |
+| useState                  | `react`               | A hook that adds state to a functional component                |
 
 ### Usage Example
 
@@ -710,6 +712,8 @@ In this example, we import the `AboutCard` component and render it with an array
 
 ## `AddApiaryCard` React Component
 
+### Description
+
 The `AddApiaryCard` component is a form card used to create a new apiary in a _React_ application. It includes a name input field, a location input field powered by the `GoogleMaps` component, and a button to submit the form data.
 
 ### Props
@@ -718,11 +722,11 @@ The `AddApiaryCard` component does not accept any props.
 
 ### State
 
-| Name     | Type    | Description                                                                        |
-| -------- | ------- | ---------------------------------------------------------------------------------- |
-| value    | Object  | The selected location value from the GoogleMaps component.                         |
-| expand   | Boolean | Whether or not the card is expanded.                                               |
-| formData | Object  | The form data to be submitted, including the apiary name and location information. |
+| Name     | Type      | Description                                                                        |
+| -------- | --------- | ---------------------------------------------------------------------------------- |
+| value    | `Object`  | The selected location value from the GoogleMaps component.                         |
+| expand   | `Boolean` | Whether or not the card is expanded.                                               |
+| formData | `Object`  | The form data to be submitted, including the apiary name and location information. |
 
 ### Methods
 
@@ -730,37 +734,37 @@ The `AddApiaryCard` component does not define any methods.
 
 ### Handlers
 
-| Name     | Parameters | Description                                                          |
-| -------- | ---------- | -------------------------------------------------------------------- |
-| onChange | e: Event   | Updates the form data when input fields are changed.                 |
-| onSubmit | e: Event   | Submits the form data to the Redux store via the `setApiary` action. |
+| Name     | Parameters   | Description                                                          |
+| -------- | ------------ | -------------------------------------------------------------------- |
+| onChange | `e`: `Event` | Updates the form data when input fields are changed.                 |
+| onSubmit | `e`: `Event` | Submits the form data to the Redux store via the `setApiary` action. |
 
 ### Child Components
 
-| Name            | Package                     | Description                                                           |
-| --------------- | --------------------------- | --------------------------------------------------------------------- |
-| Grid            | @mui/material               | A layout component to create a grid of items.                         |
-| Avatar          | @mui/material               | A component to display user profile pictures or icons.                |
-| Card            | @mui/material               | A material design card component.                                     |
-| CardActions     | @mui/material               | A component to create a row of actions for a `Card` component.        |
-| Collapse        | @mui/material               | A component to collapse content based on a boolean state variable.    |
-| IconButton      | @mui/material               | A component to create clickable icons.                                |
-| useTheme        | @mui/material               | A hook to access the current theme.                                   |
-| Button          | @mui/material               | A material design button component.                                   |
-| TextField       | @mui/material               | A material design input component.                                    |
-| Box             | @mui/material               | A layout component to create a box container.                         |
-| Autocomplete    | @mui/material               | A component to create an input field with autocomplete functionality. |
-| parse           | autosuggest-highlight/parse | A function to parse and highlight text in an autocomplete input.      |
-| debounce        | lodash                      | A function to debounce input field changes.                           |
-| AddOutlinedIcon | @mui/icons-material         | A material design add icon.                                           |
-| useState        | react                       | A hook to manage state variables in a functional component.           |
-| useDispatch     | react-redux                 | A hook to dispatch actions to the Redux store.                        |
-| GoogleMaps      | ./AutocompleteMaps.tsx      | A custom component to display a Google Maps autocomplete input field. |
+| Name            | Package                       | Description                                                           |
+| --------------- | ----------------------------- | --------------------------------------------------------------------- |
+| AddOutlinedIcon | `@mui/icons-material`         | A material design add icon.                                           |
+| Autocomplete    | `@mui/material`               | A component to create an input field with autocomplete functionality. |
+| Avatar          | `@mui/material`               | A component to display user profile pictures or icons.                |
+| Box             | `@mui/material`               | A layout component to create a box container.                         |
+| Button          | `@mui/material`               | A material design button component.                                   |
+| Card            | `@mui/material`               | A material design card component.                                     |
+| CardActions     | `@mui/material`               | A component to create a row of actions for a `Card` component.        |
+| Collapse        | `@mui/material`               | A component to collapse content based on a boolean state variable.    |
+| debounce        | `lodash`                      | A function to debounce input field changes.                           |
+| GoogleMaps      | `./AutocompleteMaps.tsx`      | A custom component to display a Google Maps autocomplete input field. |
+| Grid            | `@mui/material`               | A layout component to create a grid of items.                         |
+| IconButton      | `@mui/material`               | A component to create clickable icons.                                |
+| parse           | `autosuggest-highlight/parse` | A function to parse and highlight text in an autocomplete input.      |
+| TextField       | `@mui/material`               | A material design input component.                                    |
+| useTheme        | `@mui/material`               | A hook to access the current theme.                                   |
+| useDispatch     | `react-redux`                 | A hook to dispatch actions to the Redux store.                        |
+| useState        | `react`                       | A hook to manage state variables in a functional component.           |
 
 ### Usage Example
 
-```
-import AddApiaryCard from './AddApiaryCard';
+```jsx
+import AddApiaryCard from "./AddApiaryCard";
 
 const ParentComponent = () => {
   return (
@@ -777,21 +781,23 @@ In this example, when the form is submitted, the data is sent to the Redux store
 
 ## `AddDeviceCard` React Component
 
+### Description
+
 This component renders a card with a form to add a new device to an apiary. The form includes an input field for the device name, a select field for the device type, and a button to submit the form data.
 
 ### Props
 
-| Name     | Type   | Required | Description                                                  |
-| -------- | ------ | -------- | ------------------------------------------------------------ |
-| apiary   | object | Yes      | An object with data for the apiary where the device is added |
-| userRole | string | Yes      | A string with the user role, either "USER" or "ADMIN"        |
+| Name     | Type     | Required | Description                                                  |
+| -------- | -------- | -------- | ------------------------------------------------------------ |
+| apiary   | `Object` | Yes      | An object with data for the apiary where the device is added |
+| userRole | `String` | Yes      | A string with the user role, either "USER" or "ADMIN"        |
 
 ### State
 
-| Name     | Type    | Description                                              |
-| -------- | ------- | -------------------------------------------------------- |
-| expand   | boolean | A boolean indicating whether the card is expanded or not |
-| formData | object  | An object containing the values of the form inputs       |
+| Name     | Type      | Description                                              |
+| -------- | --------- | -------------------------------------------------------- |
+| expand   | `Boolean` | A boolean indicating whether the card is expanded or not |
+| formData | `Object`  | An object containing the values of the form inputs       |
 
 ### Methods
 
@@ -799,40 +805,43 @@ The `AddDeviceCard` component does not define any methods.
 
 ### Handlers
 
-| Name     | Parameters | Description                                                |
-| -------- | ---------- | ---------------------------------------------------------- |
-| onChange | e          | A function to handle the onChange event of the form inputs |
-| onSubmit | e          | A function to handle the onSubmit event of the form        |
+| Name     | Parameters   | Description                                                |
+| -------- | ------------ | ---------------------------------------------------------- |
+| onChange | `e`: `Event` | A function to handle the onChange event of the form inputs |
+| onSubmit | `e`: `Event` | A function to handle the onSubmit event of the form        |
 
 ### Child Components
 
-| Name              | Package             | Description                                                                           |
-| ----------------- | ------------------- | ------------------------------------------------------------------------------------- |
-| `Grid`            | @mui/material       | A layout component for arranging its children in a grid.                              |
-| `Avatar`          | @mui/material       | A component for displaying a circular image or icon.                                  |
-| `Card`            | @mui/material       | A container component for displaying content and actions related to a single subject. |
-| `CardActions`     | @mui/material       | A container component for grouping action buttons in a card.                          |
-| `Collapse`        | @mui/material       | A component that allows for collapsing and expanding its children.                    |
-| `IconButton`      | @mui/material       | A button component that displays an icon.                                             |
-| `useTheme`        | @mui/material       | A hook that provides access to the MUI theme.                                         |
-| `Button`          | @mui/material       | A component for displaying a clickable button.                                        |
-| `TextField`       | @mui/material       | A component for displaying and inputting text.                                        |
-| `Box`             | @mui/material       | A component for wrapping and styling its children.                                    |
-| `AddOutlinedIcon` | @mui/icons-material | An icon component that displays a plus symbol.                                        |
-| `useState`        | React               | A hook for managing state in functional components.                                   |
-| `useNavigate`     | react-router-dom    | A hook for navigating to different routes in a React application.                     |
-| `useDispatch`     | react-redux         | A hook for dispatching actions to the Redux store.                                    |
-| `useSelector`     | react-redux         | A hook for accessing state from the Redux store.                                      |
+| Name            | Package               | Description                                                                           |
+| --------------- | --------------------- | ------------------------------------------------------------------------------------- |
+| AddOutlinedIcon | `@mui/icons-material` | An icon component that displays a plus symbol.                                        |
+| Avatar          | `@mui/material`       | A component for displaying a circular image or icon.                                  |
+| Box             | `@mui/material`       | A component for wrapping and styling its children.                                    |
+| Button          | `@mui/material`       | A component for displaying a clickable button.                                        |
+| Card            | `@mui/material`       | A container component for displaying content and actions related to a single subject. |
+| CardActions     | `@mui/material`       | A container component for grouping action buttons in a card.                          |
+| Collapse        | `@mui/material`       | A component that allows for collapsing and expanding its children.                    |
+| Grid            | `@mui/material`       | A layout component for arranging its children in a grid.                              |
+| IconButton      | `@mui/material`       | A button component that displays an icon.                                             |
+| TextField       | `@mui/material`       | A component for displaying and inputting text.                                        |
+| useDispatch     | `react-redux`         | A hook for dispatching actions to the Redux store.                                    |
+| useSelector     | `react-redux`         | A hook for accessing state from the Redux store.                                      |
+| useNavigate     | `react-router-dom`    | A hook for navigating to different routes in a React application.                     |
+| useTheme        | `@mui/material`       | A hook that provides access to the MUI theme.                                         |
+| useState        | `React`               | A hook for managing state in functional components.                                   |
 
 ### Usage Example
 
-```
+```jsx
 import React from "react";
 import AddDeviceCard from "./AddDeviceCard";
 
 const MyComponent = () => {
   return (
-    <AddDeviceCard apiary={{_id: "apiaryId", name: "apiaryName"}} userRole="ADMIN" />
+    <AddDeviceCard
+      apiary={{ _id: "apiaryId", name: "apiaryName" }}
+      userRole="ADMIN"
+    />
   );
 };
 
@@ -843,48 +852,50 @@ In this example, `MyComponent` renders the `AddDeviceCard` component passing the
 
 ## `AddUserCard` React Component
 
+### Description
+
 The `AddUserCard` component is a React component that displays a card with a button to expand a form to add a new user to an apiary. It takes in two props: `apiary` and `userRole`.
 
 ### Props
 
-| Name     | Type   | Required | Description                                 |
-| -------- | ------ | -------- | ------------------------------------------- |
-| apiary   | object | Yes      | An object containing data for the APIary.   |
-| userRole | string | Yes      | The role of the user creating the new user. |
+| Name     | Type     | Required | Description                                 |
+| -------- | -------- | -------- | ------------------------------------------- |
+| apiary   | `Object` | Yes      | An object containing data for the APIary.   |
+| userRole | `String` | Yes      | The role of the user creating the new user. |
 
 ### State
 
-| Name     | Type    | Description                                                |
-| -------- | ------- | ---------------------------------------------------------- |
-| expand   | boolean | Determines whether the form to add a new user is expanded. |
-| formData | object  | An object containing the email and role of the new user.   |
+| Name     | Type      | Description                                                |
+| -------- | --------- | ---------------------------------------------------------- |
+| expand   | `Boolean` | Determines whether the form to add a new user is expanded. |
+| formData | `Object`  | An object containing the email and role of the new user.   |
 
 ### Methods
 
-| Name     | Parameters | Description                                                                                                      |
-| -------- | ---------- | ---------------------------------------------------------------------------------------------------------------- |
-| onChange | `e`: Event | Updates the `formData` state with the input value of the form.                                                   |
-| onSubmit | `e`: Event | Dispatches an action to add a new member to the APIary with the email and role provided in the `formData` state. |
+The `AddUserCard` component does not define any methods.
 
 ### Handlers
 
-The `AddUserCard` component does not define any handlers.
+| Name     | Parameters   | Description                                                                                                      |
+| -------- | ------------ | ---------------------------------------------------------------------------------------------------------------- |
+| onChange | `e`: `Event` | Updates the `formData` state with the input value of the form.                                                   |
+| onSubmit | `e`: `Event` | Dispatches an action to add a new member to the APIary with the email and role provided in the `formData` state. |
 
 ### Child Components
 
-| Name             | Package       | Description                                                                                |
-| ---------------- | ------------- | ------------------------------------------------------------------------------------------ |
-| Avatar           | @mui/material | Displays an avatar with an icon.                                                           |
-| Box              | @mui/material | A layout component that allows for flexible box sizing.                                    |
-| Button           | @mui/material | A button component with customizable styling.                                              |
-| Card             | @mui/material | A component that displays a card with a shadow effect.                                     |
-| CardActions      | @mui/material | A layout component that displays a set of buttons below the card content.                  |
-| Checkbox         | @mui/material | A component that displays a checkbox.                                                      |
-| Collapse         | @mui/material | A component that animates the expanding and collapsing of its children.                    |
-| FormControlLabel | @mui/material | A component that combines a label with a form control, such as a checkbox or radio button. |
-| Grid             | @mui/material | A layout component that displays its children in a grid.                                   |
-| IconButton       | @mui/material | A button component that displays an icon.                                                  |
-| TextField        | @mui/material | A component that displays an input field for text.                                         |
+| Name             | Package         | Description                                                                                |
+| ---------------- | --------------- | ------------------------------------------------------------------------------------------ |
+| Avatar           | `@mui/material` | Displays an avatar with an icon.                                                           |
+| Box              | `@mui/material` | A layout component that allows for flexible box sizing.                                    |
+| Button           | `@mui/material` | A button component with customizable styling.                                              |
+| Card             | `@mui/material` | A component that displays a card with a shadow effect.                                     |
+| CardActions      | `@mui/material` | A layout component that displays a set of buttons below the card content.                  |
+| Checkbox         | `@mui/material` | A component that displays a checkbox.                                                      |
+| Collapse         | `@mui/material` | A component that animates the expanding and collapsing of its children.                    |
+| FormControlLabel | `@mui/material` | A component that combines a label with a form control, such as a checkbox or radio button. |
+| Grid             | `@mui/material` | A layout component that displays its children in a grid.                                   |
+| IconButton       | `@mui/material` | A button component that displays an icon.                                                  |
+| TextField        | `@mui/material` | A component that displays an input field for text.                                         |
 
 ### Usage Example
 
@@ -903,24 +914,26 @@ In this example, the `MyComponent` component renders the `AddUserCard` component
 
 ## `ApiaryCard` React Component
 
-The `ApiaryCard` component is a reusable component in a React application that displays information about an apiary such as its name, location and other details. It allows users to edit, delete and update the apiary information. This component utilizes Material-UI library.
+### Description
+
+The `ApiaryCard` component is a reusable component in a _React_ application that displays information about an apiary such as its `name`, `location` and other details. It allows users to edit, delete and update the apiary information. This component utilizes _Material-UI_ library.
 
 ### Props
 
 The following table lists the props that can be passed to `ApiaryCard` component:
 
-| Name   | Type   | Required | Description                             |
-| ------ | ------ | -------- | --------------------------------------- |
-| apiary | Object | Yes      | An object containing apiary information |
+| Name   | Type     | Required | Description                             |
+| ------ | -------- | -------- | --------------------------------------- |
+| apiary | `Object` | Yes      | An object containing apiary information |
 
 ### State
 
 The `ApiaryCard` component has the following states:
 
-| Name     | Type    | Description                                                  |
-| -------- | ------- | ------------------------------------------------------------ |
-| expand   | boolean | Tracks whether the form for editing the apiary should expand |
-| formData | Object  | Tracks the form data entered by the user for updating        |
+| Name     | Type      | Description                                                  |
+| -------- | --------- | ------------------------------------------------------------ |
+| expand   | `Boolean` | Tracks whether the form for editing the apiary should expand |
+| formData | `Object`  | Tracks the form data entered by the user for updating        |
 
 ### Methods
 
@@ -928,36 +941,36 @@ The `ApiaryCard` component does not define any methods.
 
 ### Handlers
 
-| Name     | Parameters  | Description                                     |
-| -------- | ----------- | ----------------------------------------------- |
-| onChange | `e` (Event) | Updates the formData state on form input change |
-| onSubmit | `e` (Event) | Submits the form data to update the apiary      |
-| onDelete | `e` (Event) | Deletes the apiary from the application         |
+| Name     | Parameters   | Description                                     |
+| -------- | ------------ | ----------------------------------------------- |
+| onChange | `e`: `Event` | Updates the formData state on form input change |
+| onSubmit | `e`: `Event` | Submits the form data to update the apiary      |
+| onDelete | `e`: `Event` | Deletes the apiary from the application         |
 
 ### Child Components
 
-| Name                  | Package             | Description                                                               |
-| --------------------- | ------------------- | ------------------------------------------------------------------------- |
-| AddDeviceCard         | ./AddDeviceCard     | A form for adding a new device to the apiary.                             |
-| AddUserCard           | ./AddUserCard       | A form for adding a new user to the apiary.                               |
-| DeviceCard            | ./DeviceCard        | A card displaying details of a device in the apiary.                      |
-| Grid                  | @mui/material       | A layout component that displays child components in a grid.              |
-| Avatar                | @mui/material       | A component for displaying a user's avatar.                               |
-| Box                   | @mui/material       | A layout component that displays child components in a box.               |
-| Button                | @mui/material       | A component for displaying a button.                                      |
-| Card                  | @mui/material       | A component that displays a card.                                         |
-| CardActions           | @mui/material       | A component for displaying actions in a card.                             |
-| CardHeader            | @mui/material       | A component for displaying a header in a card.                            |
-| Collapse              | @mui/material       | A component for animating the expansion and collapse of a card's content. |
-| DeviceHubOutlinedIcon | @mui/icons-material | An icon component representing a device hub.                              |
-| EditOutlinedIcon      | @mui/icons-material | An icon component representing an edit button.                            |
-| GroupOutlinedIcon     | @mui/icons-material | An icon component representing a group.                                   |
-| IconButton            | @mui/material       | A component for displaying an icon that can be clicked.                   |
-| TextField             | @mui/material       | A component for displaying a text field that can be used for user input.  |
-| Typography            | @mui/material       | A component for displaying text.                                          |
-| useDispatch           | react-redux         | A hook that returns the Redux store's `dispatch` function.                |
-| useSelector           | react-redux         | A hook that returns a selected value from the Redux store's state.        |
-| useState              | react               | A hook that allows functional components to use component-level state.    |
+| Name                  | Package               | Description                                                               |
+| --------------------- | --------------------- | ------------------------------------------------------------------------- |
+| AddDeviceCard         | `./AddDeviceCard`     | A form for adding a new device to the apiary.                             |
+| AddUserCard           | `./AddUserCard`       | A form for adding a new user to the apiary.                               |
+| Avatar                | `@mui/material`       | A component for displaying a user's avatar.                               |
+| Box                   | `@mui/material`       | A layout component that displays child components in a box.               |
+| Button                | `@mui/material`       | A component for displaying a button.                                      |
+| Card                  | `@mui/material`       | A component that displays a card.                                         |
+| CardActions           | `@mui/material`       | A component for displaying actions in a card.                             |
+| CardHeader            | `@mui/material`       | A component for displaying a header in a card.                            |
+| Collapse              | `@mui/material`       | A component for animating the expansion and collapse of a card's content. |
+| DeviceCard            | `./DeviceCard`        | A card displaying details of a device in the apiary.                      |
+| DeviceHubOutlinedIcon | `@mui/icons-material` | An icon component representing a device hub.                              |
+| EditOutlinedIcon      | `@mui/icons-material` | An icon component representing an edit button.                            |
+| Grid                  | `@mui/material`       | A layout component that displays child components in a grid.              |
+| GroupOutlinedIcon     | `@mui/icons-material` | An icon component representing a group.                                   |
+| IconButton            | `@mui/material`       | A component for displaying an icon that can be clicked.                   |
+| TextField             | `@mui/material`       | A component for displaying a text field that can be used for user input.  |
+| Typography            | `@mui/material`       | A component for displaying text.                                          |
+| useDispatch           | `react-redux`         | A hook that returns the Redux store's `dispatch` function.                |
+| useSelector           | `react-redux`         | A hook that returns a selected value from the Redux store's state.        |
+| useState              | `react`               | A hook that allows functional components to use component-level state.    |
 
 ### Usage
 
@@ -1009,11 +1022,13 @@ const App = () => {
 };
 ```
 
-In this example, we will render an `ApiaryCard` component with the provided `apiary` object. Users can edit, delete and update the apiary details.
+In this example, we will render an `ApiaryCard` component with the provided `apiary` object. Users can edit, delete and update the apiary details by expanding the form using the dropdown arrow button.
 
 ## `AutocompleteMaps` Typescript Component
 
-This component is a wrapper around the Autocomplete component from MUI that provides an autocomplete feature for locations using Google Maps API. The component suggests location results as the user types and selects a location from the options.
+### Description
+
+This component is a wrapper around the `Autocomplete` component from `MUI` that provides an autocomplete feature for locations using _Google Maps API_. The component suggests location results as the user types and selects a location from the options.
 
 ### Props
 
@@ -1026,17 +1041,17 @@ This component is a wrapper around the Autocomplete component from MUI that prov
 
 | Name       | Type                   | Description                                                     |
 | ---------- | ---------------------- | --------------------------------------------------------------- |
-| inputValue | `string`               | The current input value of the Autocomplete component.          |
+| inputValue | `String`               | The current input value of the Autocomplete component.          |
 | options    | `readonly PlaceType[]` | An array of location options fetched from Google Maps API.      |
-| loaded     | `boolean`              | Indicates whether the Google Maps API script has loaded or not. |
+| loaded     | `Boolean`              | Indicates whether the Google Maps API script has loaded or not. |
 
 ### Methods
 
-The component does not have any methods.
+The `AutocompleteMaps` component does not define any methods.
 
 ### Handlers
 
-The component does not have any handlers.
+The `AutocompleteMaps` component does not define any handlers.
 
 ### Interfaces
 
@@ -1048,14 +1063,14 @@ The component does not have any handlers.
 
 ### Child Components
 
-| Component      | Package                          | Description                                                                                                                   |
-| -------------- | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| Box            | "@mui/material/Box"              | A component used for creating layout containers that can contain other components.                                            |
-| TextField      | "@mui/material/TextField"        | An input field component used for accepting user input.                                                                       |
-| Autocomplete   | "@mui/material/Autocomplete"     | A component that provides an input field with an autocomplete dropdown, which displays a list of options based on user input. |
-| LocationOnIcon | "@mui/icons-material/LocationOn" | An icon component used for indicating a location.                                                                             |
-| Grid           | "@mui/material/Grid"             | A component used for creating grid-based layouts.                                                                             |
-| Typography     | "@mui/material/Typography"       | A component used for displaying text with different styles and variations.                                                    |
+| Component      | Package               | Description                                                                                                                   |
+| -------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Autocomplete   | `@mui/material`       | A component that provides an input field with an autocomplete dropdown, which displays a list of options based on user input. |
+| Box            | `@mui/material`       | A component used for creating layout containers that can contain other components.                                            |
+| Grid           | `@mui/material`       | A component used for creating grid-based layouts.                                                                             |
+| LocationOnIcon | `@mui/icons-material` | An icon component used for indicating a location.                                                                             |
+| TextField      | `@mui/material`       | An input field component used for accepting user input.                                                                       |
+| Typography     | `@mui/material`       | A component used for displaying text with different styles and variations.                                                    |
 
 ### Usage Example
 
@@ -1071,26 +1086,28 @@ function MyComponent() {
 
 In this example, the `value` prop is the currently selected place, and the `setValue` prop is a function that gets called with the selected place object when a new place is selected. You can pass these props to the `GoogleMaps` component and it will handle the rest.
 
-Note that you'll need to obtain a Google Maps API key and enable the Places API in order to use this component. You can do this by following the instructions in the [Google Maps JavaScript API documentation](https://developers.google.com/maps/gmp-get-started).
+Note that you'll need to obtain a _Google Maps API_ key and enable the _Places API_ in order to use this component. You can do this by following the instructions in the [Google Maps JavaScript API documentation](https://developers.google.com/maps/gmp-get-started).
 
 ## `DeviceCard` React Component
 
-The `DeviceCard` component is a React component that displays information about a device in a card format. The card displays basic information about the device, including its name, serial number, and a remote link. Users with the appropriate access level can edit or delete the device using the provided buttons.
+### Description
+
+The `DeviceCard` component is a _React_ component that displays information about a device in a card format. The card displays basic information about the device, including its name, serial number, and a remote link. Users with the appropriate access level can edit or delete the device using the provided buttons.
 
 ### Props
 
-| Name     | Type   | Required | Description                                                                   |
-| -------- | ------ | -------- | ----------------------------------------------------------------------------- |
-| device   | Object | Yes      | An object containing information about the device.                            |
-| apiary   | Object | Yes      | An object containing information about the apiary that the device belongs to. |
-| userRole | String | Yes      | A string representing the user's role in the system.                          |
+| Name     | Type     | Required | Description                                                                   |
+| -------- | -------- | -------- | ----------------------------------------------------------------------------- |
+| device   | `Object` | Yes      | An object containing information about the device.                            |
+| apiary   | `Object` | Yes      | An object containing information about the apiary that the device belongs to. |
+| userRole | `String` | Yes      | A string representing the user's role in the system.                          |
 
 ### State
 
-| Name     | Type    | Description                                                                     |
-| -------- | ------- | ------------------------------------------------------------------------------- |
-| expand   | Boolean | A boolean value indicating whether the form for editing the device is expanded. |
-| formData | Object  | An object containing the current form data for editing the device.              |
+| Name     | Type      | Description                                                                     |
+| -------- | --------- | ------------------------------------------------------------------------------- |
+| expand   | `Boolean` | A boolean value indicating whether the form for editing the device is expanded. |
+| formData | `Object`  | An object containing the current form data for editing the device.              |
 
 ### Methods
 
@@ -1098,33 +1115,33 @@ The `DeviceCard` component does not define any methods.
 
 ### Handlers
 
-| Name     | Parameters | Description                                                                |
-| -------- | ---------- | -------------------------------------------------------------------------- |
-| onChange | e:Event    | A handler function to update the `formData` state when form fields change. |
-| onSubmit | e:Event    | A handler function to submit the form for updating the device information. |
-| onDelete | e:Event    | A handler function to delete the device.                                   |
+| Name     | Parameters   | Description                                                                |
+| -------- | ------------ | -------------------------------------------------------------------------- |
+| onChange | `e`: `Event` | A handler function to update the `formData` state when form fields change. |
+| onSubmit | `e`: `Event` | A handler function to submit the form for updating the device information. |
+| onDelete | `e`: `Event` | A handler function to delete the device.                                   |
 
 ### Child Components
 
-| Name             | Package             | Description                                                                                                   |
-| ---------------- | ------------------- | ------------------------------------------------------------------------------------------------------------- |
-| Grid             | @mui/material       | A responsive grid container used for laying out and aligning elements in a grid system.                       |
-| Avatar           | @mui/material       | Displays a circular image or icon that represents a user or entity.                                           |
-| Card             | @mui/material       | A container component that is used to group related content.                                                  |
-| CardActions      | @mui/material       | A container component for buttons and other action elements that are placed after the main content of a card. |
-| CardHeader       | @mui/material       | A container component for displaying a header in a Card.                                                      |
-| Collapse         | @mui/material       | A component that enables a content to be shown or hidden based on its visibility.                             |
-| IconButton       | @mui/material       | A clickable button that contains an icon.                                                                     |
-| Typography       | @mui/material       | A component for displaying text.                                                                              |
-| TextField        | @mui/material       | A component for getting user input from the keyboard.                                                         |
-| useTheme         | @mui/material       | A hook that returns the current theme used by the application.                                                |
-| Box              | @mui/material       | A container component that can be used to group and space out elements.                                       |
-| Button           | @mui/material       | A component for user interaction, such as triggering an action or event.                                      |
-| EditOutlinedIcon | @mui/icons-material | An icon that represents the edit action.                                                                      |
-| useState         | react               | A hook that adds state to functional components.                                                              |
-| useNavigate      | react-router-dom    | A hook that returns a navigation object that allows you to navigate to a different URL.                       |
-| useDispatch      | react-redux         | A hook that returns a reference to the dispatch function that allows you to dispatch actions to the store.    |
-| useSelector      | react-redux         | A hook that allows you to extract data from the Redux store state.                                            |
+| Name             | Package               | Description                                                                                                   |
+| ---------------- | --------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Avatar           | `@mui/material`       | Displays a circular image or icon that represents a user or entity.                                           |
+| Box              | `@mui/material`       | A container component that can be used to group and space out elements.                                       |
+| Button           | `@mui/material`       | A component for user interaction, such as triggering an action or event.                                      |
+| Card             | `@mui/material`       | A container component that is used to group related content.                                                  |
+| CardActions      | `@mui/material`       | A container component for buttons and other action elements that are placed after the main content of a card. |
+| CardHeader       | `@mui/material`       | A container component for displaying a header in a Card.                                                      |
+| Collapse         | `@mui/material`       | A component that enables a content to be shown or hidden based on its visibility.                             |
+| EditOutlinedIcon | `@mui/icons-material` | An icon that represents the edit action.                                                                      |
+| Grid             | `@mui/material`       | A responsive grid container used for laying out and aligning elements in a grid system.                       |
+| IconButton       | `@mui/material`       | A clickable button that contains an icon.                                                                     |
+| TextField        | `@mui/material`       | A component for getting user input from the keyboard.                                                         |
+| Typography       | `@mui/material`       | A component for displaying text.                                                                              |
+| useDispatch      | `react-redux`         | A hook that returns a reference to the dispatch function that allows you to dispatch actions to the store.    |
+| useSelector      | `react-redux`         | A hook that allows you to extract data from the Redux store state.                                            |
+| useNavigate      | `react-router-dom`    | A hook that returns a navigation object that allows you to navigate to a different URL.                       |
+| useState         | `react`               | A hook that adds state to functional components.                                                              |
+| useTheme         | `@mui/material`       | A hook that returns the current theme used by the application.                                                |
 
 ### Usage Example
 
@@ -1161,19 +1178,19 @@ In this example, we import the `DeviceCard` component and pass in an object with
 
 ### Description
 
-A reusable React component that renders a card with a FAQ (Frequently Asked Questions) question and an expandable answer section. The answer section can be toggled by clicking on an arrow icon.
+The `FAQCard` component renders a card with an FAQ (Frequently Asked Questions) question and an expandable answer section. The answer section can be toggled by clicking on an arrow icon.
 
 ### Props
 
-| Name | Type  | Required | Description                                                                                                                                 |
-| ---- | ----- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| faq  | array | Yes      | An array that contains the question and the answer of the FAQ item. The first element is the question and the second element is the answer. |
+| Name | Type                          | Required | Description                                                                                                                                 |
+| ---- | ----------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| faq  | `List` of `List` of `Strings` | Yes      | An array that contains the question and the answer of the FAQ item. The first element is the question and the second element is the answer. |
 
 ### State
 
-| Name   | Type    | Description                                              |
-| ------ | ------- | -------------------------------------------------------- |
-| expand | boolean | Indicates whether the answer section is expanded or not. |
+| Name   | Type      | Description                                              |
+| ------ | --------- | -------------------------------------------------------- |
+| expand | `Boolean` | Indicates whether the answer section is expanded or not. |
 
 ### Methods
 
@@ -1185,18 +1202,18 @@ The `FAQCard` component does not define any event handlers.
 
 ### Child Components
 
-| Name        | Package       | Description                                                    |
-| ----------- | ------------- | -------------------------------------------------------------- |
-| Grid        | @mui/material | A grid component used for layout.                              |
-| Avatar      | @mui/material | An avatar component used for displaying an icon.               |
-| Card        | @mui/material | A card component that displays the FAQ question and answer.    |
-| CardActions | @mui/material | A component that holds the action buttons in the card header.  |
-| CardHeader  | @mui/material | A component that holds the card title and avatar.              |
-| Collapse    | @mui/material | A component that displays the answer section when expanded.    |
-| IconButton  | @mui/material | An icon button component used for toggling the answer section. |
-| Typography  | @mui/material | A component for displaying text.                               |
-| useTheme    | @mui/material | A hook that provides access to the current theme object.       |
-| Box         | @mui/material | A component for grouping and organizing content.               |
+| Name        | Package         | Description                                                    |
+| ----------- | --------------- | -------------------------------------------------------------- |
+| Avatar      | `@mui/material` | An avatar component used for displaying an icon.               |
+| Box         | `@mui/material` | A component for grouping and organizing content.               |
+| Card        | `@mui/material` | A card component that displays the FAQ question and answer.    |
+| CardActions | `@mui/material` | A component that holds the action buttons in the card header.  |
+| CardHeader  | `@mui/material` | A component that holds the card title and avatar.              |
+| Collapse    | `@mui/material` | A component that displays the answer section when expanded.    |
+| Grid        | `@mui/material` | A grid component used for layout.                              |
+| IconButton  | `@mui/material` | An icon button component used for toggling the answer section. |
+| Typography  | `@mui/material` | A component for displaying text.                               |
+| useTheme    | `@mui/material` | A hook that provides access to the current theme object.       |
 
 ### Usage Example
 
@@ -1225,17 +1242,19 @@ const App = () => {
 };
 ```
 
-In this example, we pass an array of FAQs to the `FAQCard` component as a prop. The component renders a `Card` for each FAQ, displaying the question as the title and an expand/collapse button. When the button is clicked, the answer is displayed in the `Collapse` component.
+In this example, we pass a list of FAQs to the `FAQCard` component as a prop. The component renders a `Card` for each FAQ, displaying the question as the title and an expand/collapse button. When the button is clicked, the answer is displayed in the `Collapse` component.
 
 ## `Graph` React Component
 
-A `Graph` component built with React and Recharts that displays data in an area chart.
+### Description
+
+The `Graph` component built with _React_ and _Recharts_ displays data from a device in an area chart.
 
 ### Props
 
-| Name   | Type   | Required | Description                                |
-| ------ | ------ | -------- | ------------------------------------------ |
-| device | Object | No       | An object that contains device data points |
+| Name   | Type     | Required | Description                                |
+| ------ | -------- | -------- | ------------------------------------------ |
+| device | `Object` | No       | An object that contains device data points |
 
 ### State
 
@@ -1251,36 +1270,38 @@ The `Graph` component does not define any handlers.
 
 ### Child Components
 
-| Name                | Package       | Description                                                                                   |
-| ------------------- | ------------- | --------------------------------------------------------------------------------------------- |
-| ResponsiveContainer | recharts      | A container element from Recharts that sets the chart size to be responsive to its container. |
-| AreaChart           | recharts      | An area chart from Recharts that displays data points in an area format.                      |
-| XAxis               | recharts      | An x-axis component from Recharts that renders the horizontal axis of the chart.              |
-| YAxis               | recharts      | A y-axis component from Recharts that renders the vertical axis of the chart.                 |
-| Area                | recharts      | An area component from Recharts that renders the area fill of the chart.                      |
-| Tooltip             | recharts      | A tooltip component from Recharts that displays a tooltip when hovering over a data point.    |
-| CartesianGrid       | recharts      | A cartesian grid component from Recharts that displays grid lines on the chart.               |
-| Legend              | recharts      | A legend component from Recharts that displays a legend for the chart.                        |
-| Box                 | @mui/material | A box component from Material-UI that wraps the tooltip content.                              |
-| Typography          | @mui/material | A typography component from Material-UI that renders the date and data values in the tooltip. |
+| Name                | Package         | Description                                                                                   |
+| ------------------- | --------------- | --------------------------------------------------------------------------------------------- |
+| Area                | `recharts`      | An area component from Recharts that renders the area fill of the chart.                      |
+| AreaChart           | `recharts`      | An area chart from Recharts that displays data points in an area format.                      |
+| Box                 | `@mui/material` | A box component from Material-UI that wraps the tooltip content.                              |
+| CartesianGrid       | `recharts`      | A cartesian grid component from Recharts that displays grid lines on the chart.               |
+| Legend              | `recharts`      | A legend component from Recharts that displays a legend for the chart.                        |
+| ResponsiveContainer | `recharts`      | A container element from Recharts that sets the chart size to be responsive to its container. |
+| Tooltip             | `recharts`      | A tooltip component from Recharts that displays a tooltip when hovering over a data point.    |
+| Typography          | `@mui/material` | A typography component from Material-UI that renders the date and data values in the tooltip. |
+| XAxis               | `recharts`      | An x-axis component from Recharts that renders the horizontal axis of the chart.              |
+| YAxis               | `recharts`      | A y-axis component from Recharts that renders the vertical axis of the chart.                 |
 
 ### Usage
 
-```
-import Graph from './Graph';
+```jsx
+import Graph from "./Graph";
 
 function MyComponent() {
-  const device = { /* data for chart */ };
+  const device = {
+    /* data for chart */
+  };
 
-  return (
-    <Graph device={device} />
-  );
+  return <Graph device={device} />;
 }
 ```
 
 In this example, the `Graph` component is passed a `device` object as a prop. The `device` object contains the data for the chart.
 
 ## `Loading` React Component
+
+### Description
 
 The `Loading` component displays a circular progress indicator from the Material-UI library.
 
@@ -1324,7 +1345,7 @@ In this example, the `Loading` component is used to display a loading spinner.
 
 ### Description
 
-A React component that implements a sidebar for navigation. It uses the `react-pro-sidebar` and `@mui/material` packages. The sidebar consists of a menu with several items and submenus, and it displays information related to the user's APIaries and devices.
+The `Sidebar` component implements a sidebar for navigation. It uses the `react-pro-sidebar` and `@mui/material` packages. The sidebar consists of a menu with several items and submenus, and it displays information related to the user's apiaries and devices.
 
 ### Props
 
@@ -1332,10 +1353,10 @@ The `Sidebar` component does not accept any props.
 
 ### State
 
-| Name        | Type    | Description                                            |
-| ----------- | ------- | ------------------------------------------------------ |
-| isCollapsed | boolean | Controls whether the sidebar is collapsed or expanded. |
-| selected    | string  | The name of the currently selected item.               |
+| Name        | Type      | Description                                            |
+| ----------- | --------- | ------------------------------------------------------ |
+| isCollapsed | `Boolean` | Controls whether the sidebar is collapsed or expanded. |
+| selected    | `String`  | The name of the currently selected item.               |
 
 ### Methods
 
@@ -1345,35 +1366,35 @@ The `Sidebar` component does not define any methods.
 
 | Name           | Parameters | Description                      |
 | -------------- | ---------- | -------------------------------- |
-| setIsCollapsed | boolean    | Updates the `isCollapsed` state. |
-| setSelected    | string     | Updates the `selected` state.    |
+| setIsCollapsed | `Boolean`  | Updates the `isCollapsed` state. |
+| setSelected    | `String`   | Updates the `selected` state.    |
 
 ### Child Components
 
 | Name                      | Package                | Description                                                                                                            |
 | ------------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `ProSidebar`              | `react-pro-sidebar`    | A sidebar component that provides a layout for the sidebar. It can be collapsed or expanded by the user.               |
+| `Avatar`                  | `@mui/material`        | A component that displays an avatar image.                                                                             |
+| `Backdrop`                | `@mui/material`        | A component that provides a dark overlay behind the content to indicate that the content is disabled or not available. |
+| `Box`                     | `@mui/material`        | A layout component that can be used to create a container with a specified width, height, padding, and margin.         |
+| `createTheme`             | `@mui/material/styles` | A function that creates a custom theme for the application.                                                            |
+| `HelpOutlineOutlinedIcon` | `@mui/icons-material`  | An icon component that displays a help icon.                                                                           |
+| `HomeOutlinedIcon`        | `@mui/icons-material`  | An icon component that displays a home icon.                                                                           |
+| `HiveOutlinedIcon`        | `@mui/icons-material`  | An icon component that displays a hive icon.                                                                           |
+| `IconButton`              | `@mui/material`        | A button component that displays an icon.                                                                              |
+| `InfoOutlinedIcon`        | `@mui/icons-material`  | An icon component that displays an info icon.                                                                          |
 | `Menu`                    | `react-pro-sidebar`    | A component that renders a menu in the sidebar.                                                                        |
 | `MenuItem`                | `react-pro-sidebar`    | A clickable menu item in the sidebar.                                                                                  |
-| `SubMenu`                 | `react-pro-sidebar`    | A submenu that displays nested menus in the sidebar.                                                                   |
-| `SidebarHeader`           | `react-pro-sidebar`    | A component that displays a header at the top of the sidebar.                                                          |
-| `SidebarFooter`           | `react-pro-sidebar`    | A component that displays a footer at the bottom of the sidebar.                                                       |
-| `SidebarContent`          | `react-pro-sidebar`    | A component that displays the content of the sidebar.                                                                  |
-| `Box`                     | `@mui/material`        | A layout component that can be used to create a container with a specified width, height, padding, and margin.         |
-| `IconButton`              | `@mui/material`        | A button component that displays an icon.                                                                              |
-| `Typography`              | `@mui/material`        | A component that displays text.                                                                                        |
-| `useTheme`                | `@mui/material/styles` | A hook that returns the current theme of the application.                                                              |
-| `createTheme`             | `@mui/material/styles` | A function that creates a custom theme for the application.                                                            |
-| `Backdrop`                | `@mui/material`        | A component that provides a dark overlay behind the content to indicate that the content is disabled or not available. |
-| `HomeOutlinedIcon`        | `@mui/icons-material`  | An icon component that displays a home icon.                                                                           |
-| `InfoOutlinedIcon`        | `@mui/icons-material`  | An icon component that displays an info icon.                                                                          |
 | `MenuOutlinedIcon`        | `@mui/icons-material`  | An icon component that displays a menu icon.                                                                           |
-| `HiveOutlinedIcon`        | `@mui/icons-material`  | An icon component that displays a hive icon.                                                                           |
-| `HelpOutlineOutlinedIcon` | `@mui/icons-material`  | An icon component that displays a help icon.                                                                           |
+| `ProSidebar`              | `react-pro-sidebar`    | A sidebar component that provides a layout for the sidebar. It can be collapsed or expanded by the user.               |
 | `SettingsOutlinedIcon`    | `@mui/icons-material`  | An icon component that displays a settings icon.                                                                       |
-| `Avatar`                  | `@mui/material`        | A component that displays an avatar image.                                                                             |
+| `SidebarContent`          | `react-pro-sidebar`    | A component that displays the content of the sidebar.                                                                  |
+| `SidebarFooter`           | `react-pro-sidebar`    | A component that displays a footer at the bottom of the sidebar.                                                       |
+| `SidebarHeader`           | `react-pro-sidebar`    | A component that displays a header at the top of the sidebar.                                                          |
+| `SubMenu`                 | `react-pro-sidebar`    | A submenu that displays nested menus in the sidebar.                                                                   |
+| `Typography`              | `@mui/material`        | A component that displays text.                                                                                        |
 | `useDispatch`             | `react-redux`          | A hook that returns a reference to the `dispatch` function of the Redux store.                                         |
 | `useSelector`             | `react-redux`          | A hook that returns a selected value from the Redux store.                                                             |
+| `useTheme`                | `@mui/material/styles` | A hook that returns the current theme of the application.                                                              |
 
 ### Usage Example
 
@@ -1389,19 +1410,19 @@ const App = () => {
 };
 ```
 
-The `Sidebar` component should be imported and used within a parent component, as shown in the example above. When rendered, it will display a sidebar with several menu items and submenus. The user's APIaries and devices will be shown in the corresponding submenus, which can be clicked to navigate to the corresponding pages. The sidebar can be collapsed and expanded by clicking on the button in the top left corner.
+In this example, the `Sidebar` component is imported and used within a parent component. When rendered, it will display a sidebar with several menu items and submenus. The user's apiaries and devices will be shown in the corresponding submenus, which can be clicked to navigate to the corresponding pages. The sidebar can be collapsed and expanded by clicking on the button in the top left corner.
 
 ## `Topbar` React Component
 
 ### Description
 
-The `Topbar` component is a customizable top navigation bar that can be used in a React application. It includes icons for toggling between light and dark mode, viewing notifications, accessing settings, and logging out. The component can display the title of the page or section it represents.
+The `Topbar` component is a customizable top navigation bar that can be used in a _React_ application. It includes icons for toggling between light and dark mode, viewing notifications (no implementation), accessing settings, and logging out. The component can display the title of the page or section it represents.
 
 ### Props
 
-| Name  | Type   | Required | Description                                 |
-| ----- | ------ | -------- | ------------------------------------------- |
-| title | string | no       | The title of the page or section to display |
+| Name  | Type     | Required | Description                                 |
+| ----- | -------- | -------- | ------------------------------------------- |
+| title | `String` | no       | The title of the page or section to display |
 
 ### State
 
@@ -1422,29 +1443,27 @@ The `Topbar` component does not define any methods.
 
 | Name                      | Package                          | Description                                                                                              |
 | ------------------------- | -------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| Box                       | "@mui/material"                  | A basic layout component that provides a flexible container for grouping and arranging other components. |
-| IconButton                | "@mui/material"                  | A button component that displays an icon.                                                                |
-| useTheme                  | "@mui/material"                  | A hook that returns the current theme object.                                                            |
-| Typography                | "@mui/material"                  | A component that renders text in various styles and sizes.                                               |
-| Avatar                    | "@mui/material"                  | A component that displays a user's profile picture or initials.                                          |
-| Grid                      | "@mui/material"                  | A component that provides a responsive grid layout for arranging components.                             |
-| LightModeOutlinedIcon     | "@mui/icons-material"            | An icon component that displays an outline of a light bulb for switching to light mode.                  |
-| DarkModeOutlinedIcon      | "@mui/icons-material"            | An icon component that displays an outline of a light bulb for switching to dark mode.                   |
-| NotificationsOutlinedIcon | "@mui/icons-material"            | An icon component that displays a bell icon for showing notifications.                                   |
-| SettingsOutlinedIcon      | "@mui/icons-material"            | An icon component that displays a gear icon for opening the settings.                                    |
-| LogoutOutlinedIcon        | "@mui/icons-material"            | An icon component that displays a door with an arrow icon for logging out.                               |
-| useContext                | "react"                          | A hook that provides access to a context object.                                                         |
-| ColorModeContext          | "../theme"                       | A context object that provides the current color mode and a method to toggle the color mode.             |
-| logout                    | "../features/auth/auth.slice.js" | An action creator that dispatches an action to log out the user.                                         |
-| reset                     | "../features/auth/auth.slice.js" | An action creator that dispatches an action to reset the auth state.                                     |
-| Link                      | "react-router-dom"               | A component that provides a declarative way to navigate to a different page.                             |
-| useNavigate               | "react-router-dom"               | A hook that returns a navigate function for programmatic navigation.                                     |
-| useSelector               | "react-redux"                    | A hook that returns selected parts of the state from the Redux store.                                    |
-| useDispatch               | "react-redux"                    | A hook that returns a reference to the dispatch function from the Redux store.                           |
+| Box                       | `@mui/material`                  | A basic layout component that provides a flexible container for grouping and arranging other components. |
+| IconButton                | `@mui/material`                  | A button component that displays an icon.                                                                |
+| useTheme                  | `@mui/material`                  | A hook that returns the current theme object.                                                            |
+| Typography                | `@mui/material`                  | A component that renders text in various styles and sizes.                                               |
+| Avatar                    | `@mui/material`                  | A component that displays a user's profile picture or initials.                                          |
+| Grid                      | `@mui/material`                  | A component that provides a responsive grid layout for arranging components.                             |
+| LightModeOutlinedIcon     | `@mui/material`                  | An icon component that displays an outline of a light bulb for switching to light mode.                  |
+| DarkModeOutlinedIcon      | `@mui/material`                  | An icon component that displays an outline of a light bulb for switching to dark mode.                   |
+| NotificationsOutlinedIcon | `@mui/material`                  | An icon component that displays a bell icon for showing notifications.                                   |
+| SettingsOutlinedIcon      | `@mui/material`                  | An icon component that displays a gear icon for opening the settings.                                    |
+| LogoutOutlinedIcon        | `@mui/material`                  | An icon component that displays a door with an arrow icon for logging out.                               |
+| useContext                | `react`                          | A hook that provides access to a context object.                                                         |
+| ColorModeContext          | `../theme`                       | A context object that provides the current color mode and a method to toggle the color mode.             |
+| logout                    | `../features/auth/auth.slice.js` | An action creator that dispatches an action to log out the user.                                         |
+| reset                     | `../features/auth/auth.slice.js` | An action creator that dispatches an action to reset the auth state.                                     |
+| Link                      | `react-router-dom`               | A component that provides a declarative way to navigate to a different page.                             |
+| useNavigate               | `react-router-dom`               | A hook that returns a navigate function for programmatic navigation.                                     |
+| useSelector               | `react-redux`                    | A hook that returns selected parts of the state from the Redux store.                                    |
+| useDispatch               | `react-redux`                    | A hook that returns a reference to the dispatch function from the Redux store.                           |
 
 ### Usage
-
-To use the `Topbar` component, import it into the file where you want to display it and add it to the JSX code for that file. Pass any desired props, such as a `title`, to customize the component.
 
 ```jsx
 import Topbar from "./Topbar";
@@ -1459,7 +1478,7 @@ function MyPage() {
 }
 ```
 
-In the above example, the `Topbar` component is displayed at the top of the `MyPage` component with the title "My Page Title". The `p` tag below it represents the rest of the page content. The `Topbar` component can be customized with CSS styling or MUI theming.
+In this example, the `Topbar` component is displayed at the top of the `MyPage` component with the title "My Page Title". The `p` tag below it represents the rest of the page content. The `Topbar` component can be customized with _CSS_ styling or _MUI_ theming.
 
 ## `UserCard` React Component
 
@@ -1469,42 +1488,42 @@ The `UserCard` component is a card component that displays user information and 
 
 ### Props
 
-| Name   | Type   | Required | Description                            |
-| ------ | ------ | -------- | -------------------------------------- |
-| user   | Object | Yes      | The user object to be displayed.       |
-| apiary | Object | Yes      | The apiary object the user belongs to. |
+| Name   | Type     | Required | Description                            |
+| ------ | -------- | -------- | -------------------------------------- |
+| user   | `Object` | Yes      | The user object to be displayed.       |
+| apiary | `Object` | Yes      | The apiary object the user belongs to. |
 
 ### State
 
-| Name     | Type    | Description                                                             |
-| -------- | ------- | ----------------------------------------------------------------------- |
-| expand   | Boolean | A state variable that determines if the card should be expanded or not. |
-| formData | Object  | A state variable that holds the user's data to be edited.               |
+| Name     | Type      | Description                                                             |
+| -------- | --------- | ----------------------------------------------------------------------- |
+| expand   | `Boolean` | A state variable that determines if the card should be expanded or not. |
+| formData | `Object`  | A state variable that holds the user's data to be edited.               |
 
 ### Methods
 
-| Name     | Parameters | Description                                                         |
-| -------- | ---------- | ------------------------------------------------------------------- |
-| onChange | (event)    | A function that handles form data changes.                          |
-| onSubmit | (event)    | A function that handles the form submission for updating user data. |
-| onDelete | (event)    | A function that handles the form submission for deleting a user.    |
+| Name     | Parameters   | Description                                                         |
+| -------- | ------------ | ------------------------------------------------------------------- |
+| onChange | `e`: `Event` | A function that handles form data changes.                          |
+| onSubmit | `e`: `Event` | A function that handles the form submission for updating user data. |
+| onDelete | `e`: `Event` | A function that handles the form submission for deleting a user.    |
 
 ### Child Components
 
-| Name             | Package       | Description                                               |
-| ---------------- | ------------- | --------------------------------------------------------- |
-| Avatar           | @mui/material | Displays the user's avatar.                               |
-| Card             | @mui/material | Wraps the user's information.                             |
-| CardActions      | @mui/material | Displays the edit icon to open the editing menu.          |
-| CardHeader       | @mui/material | Displays the user's name, email, and avatar.              |
-| Checkbox         | @mui/material | Allows for toggling between user roles.                   |
-| Collapse         | @mui/material | Collapses the editing menu.                               |
-| FormControlLabel | @mui/material | Displays a label for the Checkbox.                        |
-| Grid             | @mui/material | Wraps the edit icon for proper alignment.                 |
-| IconButton       | @mui/material | The button component for the edit icon.                   |
-| Typography       | @mui/material | Displays the user's name and email.                       |
-| Box              | @mui/material | Wraps the forms and aligns the editing menu.              |
-| Button           | @mui/material | Submits the form for saving changes or deleting the user. |
+| Name             | Package         | Description                                               |
+| ---------------- | --------------- | --------------------------------------------------------- |
+| Avatar           | `@mui/material` | Displays the user's avatar.                               |
+| Box              | `@mui/material` | Wraps the forms and aligns the editing menu.              |
+| Button           | `@mui/material` | Submits the form for saving changes or deleting the user. |
+| Card             | `@mui/material` | Wraps the user's information.                             |
+| CardActions      | `@mui/material` | Displays the edit icon to open the editing menu.          |
+| CardHeader       | `@mui/material` | Displays the user's name, email, and avatar.              |
+| Checkbox         | `@mui/material` | Allows for toggling between user roles.                   |
+| Collapse         | `@mui/material` | Collapses the editing menu.                               |
+| FormControlLabel | `@mui/material` | Displays a label for the Checkbox.                        |
+| Grid             | `@mui/material` | Wraps the edit icon for proper alignment.                 |
+| IconButton       | `@mui/material` | The button component for the edit icon.                   |
+| Typography       | `@mui/material` | Displays the user's name and email.                       |
 
 ### Usage Example
 
@@ -1544,27 +1563,27 @@ const MyComponent = () => {
 };
 ```
 
-In the example above, the `UserCard` component is used to display user information for two different members of the same apiary. The component is passed the user object and apiary object as props. When the edit icon is clicked, the editing menu is displayed, allowing the user's role to be changed or the user to be deleted.
+In this example, the `UserCard` component is used to display user information for two different members of the same apiary. The component is passed the user object and apiary object as props. When the edit icon is clicked, the editing menu is displayed, allowing the user's role to be changed or the user to be deleted.
 
 # Features
 
 ## Apiary
 
-# `apiary.slice`
+### `apiary.slice`
 
 #### Description
 
-This file contains a Redux slice for managing the state related to Apiaries. The file contains a set of initial states, action creators and their respective reducer cases to handle the apiaries CRUD operations. The file also integrates with the `apiaryService` module to perform the actual API calls.
+This _Redux_ slice file manages the state related to Apiaries. The file contains a set of initial states, action creators and their respective reducer cases to handle the apiaries _CRUD_ operations. The file also integrates with the `apiaryService` module to perform the actual API calls.
 
 #### Initial States
 
-| Name      | Type    | Description                                                                   |
-| --------- | ------- | ----------------------------------------------------------------------------- |
-| apiaries  | Array   | A list of objects representing the user's apiaries.                           |
-| isError   | Boolean | Indicates if an error occurred while processing a request.                    |
-| isSuccess | Boolean | Indicates if a request was processed successfully.                            |
-| isLoading | Boolean | Indicates if a request is in progress.                                        |
-| message   | String  | A message that provides additional information about the status of a request. |
+| Name      | Type      | Description                                                                   |
+| --------- | --------- | ----------------------------------------------------------------------------- |
+| apiaries  | `Array`   | A list of objects representing the user's apiaries.                           |
+| isError   | `Boolean` | Indicates if an error occurred while processing a request.                    |
+| isSuccess | `Boolean` | Indicates if a request was processed successfully.                            |
+| isLoading | `Boolean` | Indicates if a request is in progress.                                        |
+| message   | `String`  | A message that provides additional information about the status of a request. |
 
 #### Actions
 
@@ -1582,75 +1601,48 @@ This file contains a Redux slice for managing the state related to Apiaries. The
 
 #### Reducer Cases
 
-| Case                     | apiaries                      | isError | isSuccess | isLoading | message                       |
-| ------------------------ | ----------------------------- | ------- | --------- | --------- | ----------------------------- |
-| `getApiaries.pending`    | -                             | false   | false     | true      | "Loading"                     |
-| `getApiaries.fulfilled`  | List of apiaries from payload | false   | true      | false     | "Loaded successfully"         |
-| `getApiaries.rejected`   | -                             | true    | false     | false     | "Error while loading"         |
-| `setApiary.pending`      | -                             | false   | false     | true      | "Creating new apiary"         |
-| `setApiary.fulfilled`    | -                             | false   | true      | false     | "Apiary created successfully" |
-| `setApiary.rejected`     | -                             | true    | false     | false     | "Error while creating apiary" |
-| `updateApiary.pending`   | -                             | false   | false     | true      | "Updating apiary"             |
-| `updateApiary.fulfilled` | -                             | false   | true      | false     | "Apiary updated successfully" |
-| `updateApiary.rejected`  | -                             | true    | false     | false     | "Error while updating apiary" |
-| `deleteApiary.pending`   | -                             | false   | false     | true      | "Deleting apiary"             |
-| `deleteApiary.fulfilled` | -                             | false   | true      | false     | "Apiary deleted successfully" |
-| `deleteApiary.rejected`  | -                             | true    | false     | false     | "Error while deleting apiary" |
-| `setDevice.pending`      | -                             | false   | false     | true      | "Creating new device"         |
-| `setDevice.fulfilled`    | -                             | false   | true      | false     | "Device created successfully" |
-| `setDevice.rejected`     | -                             | true    | false     | false     | "Error while creating device" |
-| `updateDevice.pending`   | -                             | false   | false     | true      | "Updating device"             |
-| `updateDevice.fulfilled` | -                             | false   | true      | false     | "Device updated successfully" |
-| `updateDevice.rejected`  | -                             | true    | false     | false     | "Error while updating device" |
-| `deleteDevice.pending`   | -                             | false   | false     | true      | "Deleting device"             |
-| `deleteDevice.fulfilled` | -                             | false   | true      | false     | "Device deleted successfully" |
-| `deleteDevice.rejected`  | -                             | true    | false     | false     | "Error while deleting device" |
+| Case                   | apiaries                  | isError | isSuccess | isLoading | message                       |
+| ---------------------- | ------------------------- | ------- | --------- | --------- | ----------------------------- |
+| getApiaries.pending    | -                         | `false` | `false`   | `true`    | "Loading"                     |
+| getApiaries.fulfilled  | Action payload (apiaries) | `false` | `true`    | `false`   | "Loaded successfully"         |
+| getApiaries.rejected   | -                         | `true`  | `false`   | `false`   | "Error while loading"         |
+| setApiary.pending      | -                         | `false` | `false`   | `true`    | "Creating new apiary"         |
+| setApiary.fulfilled    | -                         | `false` | `true`    | `false`   | "Apiary created successfully" |
+| setApiary.rejected     | -                         | `true`  | `false`   | `false`   | "Error while creating apiary" |
+| updateApiary.pending   | -                         | `false` | `false`   | `true`    | "Updating apiary"             |
+| updateApiary.fulfilled | -                         | `false` | `true`    | `false`   | "Apiary updated successfully" |
+| updateApiary.rejected  | -                         | `true`  | `false`   | `false`   | "Error while updating apiary" |
+| deleteApiary.pending   | -                         | `false` | `false`   | `true`    | "Deleting apiary"             |
+| deleteApiary.fulfilled | -                         | `false` | `true`    | `false`   | "Apiary deleted successfully" |
+| deleteApiary.rejected  | -                         | `true`  | `false`   | `false`   | "Error while deleting apiary" |
+| setDevice.pending      | -                         | `false` | `false`   | `true`    | "Creating new device"         |
+| setDevice.fulfilled    | -                         | `false` | `true`    | `false`   | "Device created successfully" |
+| setDevice.rejected     | -                         | `true`  | `false`   | `false`   | "Error while creating device" |
+| updateDevice.pending   | -                         | `false` | `false`   | `true`    | "Updating device"             |
+| updateDevice.fulfilled | -                         | `false` | `true`    | `false`   | "Device updated successfully" |
+| updateDevice.rejected  | -                         | `true`  | `false`   | `false`   | "Error while updating device" |
+| deleteDevice.pending   | -                         | `false` | `false`   | `true`    | "Deleting device"             |
+| deleteDevice.fulfilled | -                         | `false` | `true`    | `false`   | "Device deleted successfully" |
+| deleteDevice.rejected  | -                         | `true`  | `false`   | `false`   | "Error while deleting device" |
 
 ### `apiary.service`
 
-This module contains a set of functions that interact with the server-side API to manage Apiaries, Devices, and Members of Apiaries. These functions use the axios library to perform HTTP requests to the server.
+This _Redux_ service file contains a set of functions that perform the actual API calls to the backend. The file also contains a set of functions that handle the response of the API calls and dispatch the appropriate actions to update the state of the `apiary.slice` file.
 
 #### Functions
 
-##### getApiaries(token)
-
-This function retrieves the list of Apiaries associated with the authenticated user's token.
-
-##### setApiary(apiaryData, token)
-
-This function creates a new Apiary with the given data and token.
-
-##### updateApiary(apiaryData, token)
-
-This function updates an existing Apiary with the given data and token.
-
-##### deleteApiary(apiaryData, token)
-
-This function deletes an Apiary with the given data and token.
-
-##### setDevice(apiaryData, token)
-
-This function sets a new device for an existing Apiary with the given data and token.
-
-##### updateDevice(apiaryData, token)
-
-This function updates an existing device for an existing Apiary with the given data and token.
-
-##### deleteDevice(apiaryData, token)
-
-This function deletes an existing device for an existing Apiary with the given data and token.
-
-##### setMember(userData, token)
-
-This function sets a new member for an existing Apiary with the given data and token.
-
-##### updateMember(userData, token)
-
-This function updates an existing member for an existing Apiary with the given data and token.
-
-##### deleteMember(userData, token)
-
-This function deletes an existing member for an existing Apiary with the given data and token.
+| Function     | Parameters            | Description                                                                      |
+| ------------ | --------------------- | -------------------------------------------------------------------------------- |
+| getApiaries  | `token`               | Retrieves the list of Apiaries associated with the authenticated user's token.   |
+| setApiary    | `apiaryData`, `token` | Creates a new Apiary with the given data and token.                              |
+| updateApiary | `apiaryData`, `token` | Updates an existing Apiary with the given data and token.                        |
+| deleteApiary | `apiaryData`, `token` | Deletes an Apiary with the given data and token.                                 |
+| setDevice    | `apiaryData`, `token` | Sets a new device for an existing Apiary with the given data and token.          |
+| updateDevice | `apiaryData`, `token` | Updates an existing device for an existing Apiary with the given data and token. |
+| deleteDevice | `apiaryData`, `token` | Deletes an existing device for an existing Apiary with the given data and token. |
+| setMember    | `userData`, `token`   | Sets a new member for an existing Apiary with the given data and token.          |
+| updateMember | `userData`, `token`   | Updates an existing member for an existing Apiary with the given data and token. |
+| deleteMember | `userData`, `token`   | Deletes an existing member for an existing Apiary with the given data and token. |
 
 ## Auth
 
@@ -1658,17 +1650,17 @@ This function deletes an existing member for an existing Apiary with the given d
 
 #### Description
 
-This is a Redux slice file that defines the `auth` slice for managing authentication-related state. It uses the `createSlice` and `createAsyncThunk` functions from the `@reduxjs/toolkit` package to define the initial state, actions, and reducer cases.
+This _Redux_ slice file defines the `auth` slice for managing authentication-related state. It uses the `createSlice` and `createAsyncThunk` functions from the `@reduxjs/toolkit` package to define the initial state, actions, and reducer cases.
 
 #### Initial State
 
-| Name      | Type           | Description                                                             |
-| --------- | -------------- | ----------------------------------------------------------------------- |
-| user      | Object or null | The currently logged in user, retrieved from local storage.             |
-| isError   | Boolean        | Indicates whether an error occurred during an async operation.          |
-| isSuccess | Boolean        | Indicates whether an async operation was successful.                    |
-| isLoading | Boolean        | Indicates whether an async operation is currently in progress.          |
-| message   | String         | An error message or success message associated with an async operation. |
+| Name      | Type               | Description                                                             |
+| --------- | ------------------ | ----------------------------------------------------------------------- |
+| user      | `Object` or `Null` | The currently logged in user, retrieved from local storage.             |
+| isError   | `Boolean`          | Indicates whether an error occurred during an async operation.          |
+| isSuccess | `Boolean`          | Indicates whether an async operation was successful.                    |
+| isLoading | `Boolean`          | Indicates whether an async operation is currently in progress.          |
+| message   | `String`           | An error message or success message associated with an async operation. |
 
 #### Actions
 
@@ -1681,23 +1673,242 @@ This is a Redux slice file that defines the `auth` slice for managing authentica
 
 #### Reducer Cases
 
-| Case                 | User                  | Error                          | Success | Loading | Message                        |
-| -------------------- | --------------------- | ------------------------------ | ------- | ------- | ------------------------------ |
-| `register.pending`   | -                     | -                              | -       | `true`  | -                              |
-| `register.fulfilled` | Action payload (user) | -                              | `true`  | `false` | -                              |
-| `register.rejected`  | -                     | Action payload (error message) | -       | `false` | Action payload (error message) |
-| `login.pending`      | -                     | -                              | -       | `true`  | -                              |
-| `login.fulfilled`    | Action payload (user) | -                              | `true`  | `false` | -                              |
-| `login.rejected`     | -                     | Action payload (error message) | -       | `false` | Action payload (error message) |
-| `logout.fulfilled`   | -                     | -                              | -       | -       | -                              |
+| Case               | User                  | Error                          | Success | Loading | Message                        |
+| ------------------ | --------------------- | ------------------------------ | ------- | ------- | ------------------------------ |
+| register.pending   | -                     | -                              | -       | `true`  | -                              |
+| register.fulfilled | Action payload (user) | -                              | `true`  | `false` | -                              |
+| register.rejected  | -                     | Action payload (error message) | -       | `false` | Action payload (error message) |
+| login.pending      | -                     | -                              | -       | `true`  | -                              |
+| login.fulfilled    | Action payload (user) | -                              | `true`  | `false` | -                              |
+| login.rejected     | -                     | Action payload (error message) | -       | `false` | Action payload (error message) |
+| logout.fulfilled   | -                     | -                              | -       | -       | -                              |
 
 Note: In the reducer cases table, the `Action payload` column refers to the value returned by the corresponding async action.
 
+### `auth.service`
+
+#### Description
+
+This _Redux_ service file contains a set of functions that perform the actual API calls to the backend. The file also contains a set of functions that handle the response of the API calls and dispatch the appropriate actions to update the state of the `auth.slice` file.
+
+#### Functions
+
+| Function | Parameters | Description                                                                                                                                                                                                                                                                                   |
+| -------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| register | `userData` | Registers a new user with the provided user data. The `userData` parameter should be an object that includes the user's email, username, and password. If the registration is successful, the user's information will be saved to local storage. Returns the response data from the server.   |
+| login    | `userData` | Authenticates a user with the provided user data. The `userData` parameter should be an object that includes the user's email and password. If the user has selected the "Remember Me" checkbox, their information will be saved to local storage. Returns the response data from the server. |
+| logout   | -          | Removes the user's information from local storage, effectively logging them out.                                                                                                                                                                                                              |
+
 # Pages
 
-## `Manage` React Page
+## `About` React Page
 
-The `Manage` component is a React component that renders an About page with information about the project and its mission. The component imports several dependencies from MUI library and Redux, and it also imports a child component called `AboutCard`.
+### Description
+
+The `About` Page displays information about the project and the team behind it.
+
+### Props
+
+The `About` component does not receive any props.
+
+### State
+
+The `About` component does not have any state.
+
+### Methods
+
+The `About` component does not define any methods.
+
+### Handlers
+
+The `About` component does not define any handlers.
+
+### Child Components
+
+| Component Name   | Package                   | Description                                                                                                                                                        |
+| ---------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| AboutCard        | `../components/AboutCard` | A custom component that displays a statement and its description in a card format.                                                                                 |
+| Avatar           | `@mui/material`           | A circular component that represents a user or object. It can display an image, icon, or text.                                                                     |
+| Backdrop         | `@mui/material`           | A component that provides a dark overlay behind other components. It is often used to indicate that a process is running in the background.                        |
+| Box              | `@mui/material`           | A container component that can contain other MUI components or HTML elements. It provides various layout options such as flexbox and grid.                         |
+| Fade             | `@mui/material`           | A transition component that animates the appearance of an element by gradually fading it in or out.                                                                |
+| Grid             | `@mui/material`           | A responsive grid container that can hold other MUI components or HTML elements. It allows for customization of column and row spacing for different screen sizes. |
+| Grow             | `@mui/material`           | A transition component that animates the appearance of an element by gradually increasing its size.                                                                |
+| InfoOutlinedIcon | `@mui/material`           | An MUI icon component that displays an "info" icon.                                                                                                                |
+| Typography       | `@mui/material`           | A component for displaying text. It supports various typography styles such as headings, body text, and captions.                                                  |
+| useDispatch      | `react-redux`             | A hook that provides access to the dispatch function of the Redux store. It can be used to dispatch actions to update the state.                                   |
+| useEffect        | `react`                   | A hook that runs a side effect after rendering. It is used to perform actions such as updating the state or making API requests.                                   |
+| useNavigate      | `react-router-dom`        | A hook that provides access to the navigation object. It can be used to navigate to different pages in the application.                                            |
+| useSelector      | `react-redux`             | A hook that provides access to the state of the Redux store. It can be used to retrieve data from the store.                                                       |
+| useTheme         | `@mui/material`           | A hook that provides access to the current theme object. It can be used to customize the styling of MUI components.                                                |
+| tokens           | `../theme`                | An object that provides color values based on the current theme. It is used to customize the styling of non-MUI components.                                        |
+
+### Usage Example
+
+```jsx
+import About from "../pages/About";
+
+const App = () => {
+  return (
+    <div>
+      <About />
+    </div>
+  );
+};
+```
+
+In this example, the renders the `About` component which displays information about the project and the team behind it.
+
+## Component Documentation: Dashboard
+
+The `Dashboard` component is a React functional component that renders a dashboard with multiple sections. It displays data related to an `apiary` and a `device` selected from the user's account. The component uses various hooks such as `useSelector`, `useDispatch`, `useTheme`, and `useState` to retrieve data and manage the component's state.
+
+### Props
+
+The `Dashboard` component does not have any props.
+
+### State
+
+The `Dashboard` component has the following state variables:
+
+| Name   | Type     | Description                                  |
+| ------ | -------- | -------------------------------------------- |
+| apiary | `String` | Stores the currently selected `apiary` name. |
+| device | `String` | Stores the currently selected `device` name. |
+
+### Methods
+
+The `Dashboard` component does not define any methods.
+
+### Handlers
+
+The `Dashboard` component does not define any handlers.
+
+### Child Components
+
+The `Dashboard` component renders the following child components:
+
+| Name         | Package               | Description                                                                                            |
+| ------------ | --------------------- | ------------------------------------------------------------------------------------------------------ |
+| SelectApiary | `./Dashboard`         | A custom select component that allows the user to choose an `apiary` and `device` to display data for. |
+| Graph        | `../components/Graph` | A custom component that displays a graph of data for the selected `device`.                            |
+
+### Usage Example
+
+```jsx
+import Dashboard from "./Dashboard";
+
+function App() {
+  return (
+    <div>
+      <Dashboard />
+    </div>
+  );
+}
+```
+
+The `Dashboard` component can be used within any other React component, and will display the dashboard with the default styling and data. The user can select an `apiary` and `device` from the `SelectApiary` component to display relevant data for the selected items. The `Graph` component displays data related to the selected `device`.
+
+## `FAQ` React Page
+
+### Description
+
+The `FAQ` page renders a frequently asked questions page. It displays a list of FAQ cards, each with a questions and their corresponding answer.
+
+### Props
+
+The `FAQ` page does not receive any props.
+
+### State
+
+The `FAQ` page does not have any state.
+
+### Methods
+
+The `FAQ` page does not define any methods.
+
+### Handlers
+
+The `FAQ` page does not define any handlers.
+
+### Child Components
+
+| Name                    | Package                 | Description                                                                |
+| ----------------------- | ----------------------- | -------------------------------------------------------------------------- |
+| Box                     | `@mui/material`         | A container component used for grouping and spacing elements               |
+| Grid                    | `@mui/material`         | A responsive layout component used for aligning and distributing elements  |
+| Typography              | `@mui/material`         | A component for displaying text with customizable typography               |
+| Avatar                  | `@mui/material`         | A component for displaying user avatars or icons                           |
+| useTheme                | `@mui/material`         | A hook that provides access to the MUI theme object                        |
+| HiveOutlinedIcon        | `@mui/icons-material`   | An icon component for displaying a hive outline                            |
+| tokens                  | `../theme`              | A module that exports a function returning theme tokens                    |
+| Loading                 | `../components/Loading` | A component for displaying a loading animation                             |
+| useDispatch             | `react-redux`           | A hook that returns the Redux store's dispatch method                      |
+| useSelector             | `react-redux`           | A hook that returns selected state from the Redux store                    |
+| useEffect               | `react`                 | A hook that allows performing side effects in function components          |
+| useNavigate             | `react-router-dom`      | A hook that returns a navigate function to use for programmatic navigation |
+| HelpOutlineOutlinedIcon | `@mui/icons-material`   | An icon component for displaying a help outline                            |
+| FAQCard                 | `../components/FAQCard` | A component that displays a question and answer card                       |
+| toast                   | `react-toastify`        | A module for displaying toast notifications                                |
+| Grow                    | `@mui/material`         | A component for animating element growth                                   |
+| Fade                    | `@mui/material`         | A component for animating element opacity                                  |
+| Backdrop                | `@mui/material`         | A component for displaying a translucent background overlay                |
+
+## `Login` React Page
+
+### Description
+
+The `Login` page allows users to log into an application. The component receives user inputs of `email`, `password`, and `isChecked`. It dispatches a login action with the input data to authenticate users via the `auth.slice.js` module. It also displays a loading spinner while the authentication is in progress.
+
+### Props
+
+The `Login` component does not accept any props.
+
+### State
+
+| Name       | Type      | Description                                                                                         |
+| ---------- | --------- | --------------------------------------------------------------------------------------------------- |
+| `trans`    | `Boolean` | A state variable that determines whether to transition to another view.                             |
+| `formData` | `Object`  | A state variable that stores the user's input data, including `email`, `password`, and `isChecked`. |
+
+### Methods
+
+The `Login` page does not define any methods.
+
+### Handlers
+
+| Name        | Parameters   | Description                                                                                          |
+| ----------- | ------------ | ---------------------------------------------------------------------------------------------------- |
+| handleTrans | -            | A function that toggles the `trans` state to transition to another view.                             |
+| onChange    | `e`: `Event` | A function that updates the `formData` state with the new user input data.                           |
+| onSubmit    | `e`: `Event` | A function that dispatches the login action with the `formData` state data to authenticate the user. |
+
+### Child Components
+
+| Name    | Package         | Description                                                      |
+| ------- | --------------- | ---------------------------------------------------------------- |
+| Loading | `../components` | A spinner that displays while the authentication is in progress. |
+
+### Usage Example
+
+```jsx
+import React from "react";
+import Login from "./Login";
+
+const App = () => {
+  return <Login />;
+};
+
+export default App;
+```
+
+In this example, we import the `Login` component and render it in the `App` component. This will display the login form to the user.
+
+## `Manage` Component
+
+### Description
+
+The `Manage` page allows users to manage their apiaries. It displays a list of existing apiaries that the user has access to, and allows the user to create new apiaries, edit existing apiaries, and delete apiaries. Within each apiary card, the user can view the apiary's devices/members, add new devices/members, edit existing devices/members, and delete devices/members.
 
 ### Props
 
@@ -1717,138 +1928,94 @@ The `Manage` component does not define any handlers.
 
 ### Child Components
 
-| Component Name   | Package                   | Description                                                                                                                                                        |
-| ---------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Box              | "@mui/material"           | A container component that can contain other MUI components or HTML elements. It provides various layout options such as flexbox and grid.                         |
-| Grid             | "@mui/material"           | A responsive grid container that can hold other MUI components or HTML elements. It allows for customization of column and row spacing for different screen sizes. |
-| Typography       | "@mui/material"           | A component for displaying text. It supports various typography styles such as headings, body text, and captions.                                                  |
-| Avatar           | "@mui/material"           | A circular component that represents a user or object. It can display an image, icon, or text.                                                                     |
-| useTheme         | "@mui/material"           | A hook that provides access to the current theme object. It can be used to customize the styling of MUI components.                                                |
-| tokens           | "../theme"                | An object that provides color values based on the current theme. It is used to customize the styling of non-MUI components.                                        |
-| useDispatch      | "react-redux"             | A hook that provides access to the dispatch function of the Redux store. It can be used to dispatch actions to update the state.                                   |
-| useSelector      | "react-redux"             | A hook that provides access to the state of the Redux store. It can be used to retrieve data from the store.                                                       |
-| useEffect        | "react"                   | A hook that runs a side effect after rendering. It is used to perform actions such as updating the state or making API requests.                                   |
-| useNavigate      | "react-router-dom"        | A hook that provides access to the navigation object. It can be used to navigate to different pages in the application.                                            |
-| InfoOutlinedIcon | "@mui/icons-material"     | An MUI icon component that displays an "info" icon.                                                                                                                |
-| AboutCard        | "../components/AboutCard" | A custom component that displays a statement and its description in a card format.                                                                                 |
-| Grow             | "@mui/material"           | A transition component that animates the appearance of an element by gradually increasing its size.                                                                |
-| Fade             | "@mui/material"           | A transition component that animates the appearance of an element by gradually fading it in or out.                                                                |
-| Backdrop         | "@mui/material"           | A component that provides a dark overlay behind other components. It is often used to indicate that a process is running in the background.                        |
+| Name          | Package                       | Description                                                             |
+| ------------- | ----------------------------- | ----------------------------------------------------------------------- |
+| Loading       | `../components/Loading`       | Displays a loading spinner while data is being fetched from the server. |
+| UserCard      | `../components/UserCard`      | Displays information about the user.                                    |
+| DeviceCard    | `../components/DeviceCard`    | Displays information about a device.                                    |
+| ApiaryCard    | `../components/ApiaryCard`    | Displays information about an apiary.                                   |
+| AddApiaryCard | `../components/AddApiaryCard` | Displays a form for adding a new apiary.                                |
 
 ### Usage
-
-The `Manage` component can be used as follows:
 
 ```jsx
 import Manage from "./Manage";
 
-const App = () => {
+function MyComponent() {
   return (
     <div>
       <Manage />
     </div>
   );
-};
-
-export default App;
+}
 ```
 
-In this example, the `Manage` component is imported and rendered inside a parent component called `App`. The `Manage` component does not receive any props and displays an About page with information about the project and its mission.
+In this example, the `Manage` component will display a list of existing apiaries, along with a form for adding a new apiary. If the user is not logged in, they will be redirected to the login page. If there is an error fetching data from the server, an error message will be displayed. If data is being fetched from the server, a loading spinner will be displayed.
 
-## `FAQ` React Page
-
-This is a React component that renders a frequently asked questions page. It displays a list of FAQs with their corresponding answers.
-
-### Props
-
-This component does not accept any props.
-
-### State
-
-This component does not have any state.
-
-### Methods
-
-This component does not have any methods.
-
-### Handlers
-
-This component does not have any handlers.
-
-### Child Components
-
-| Name                    | Package               | Description                                                                |
-| ----------------------- | --------------------- | -------------------------------------------------------------------------- |
-| Box                     | @mui/material         | A container component used for grouping and spacing elements               |
-| Grid                    | @mui/material         | A responsive layout component used for aligning and distributing elements  |
-| Typography              | @mui/material         | A component for displaying text with customizable typography               |
-| Avatar                  | @mui/material         | A component for displaying user avatars or icons                           |
-| useTheme                | @mui/material         | A hook that provides access to the MUI theme object                        |
-| HiveOutlinedIcon        | @mui/icons-material   | An icon component for displaying a hive outline                            |
-| tokens                  | ../theme              | A module that exports a function returning theme tokens                    |
-| Loading                 | ../components/Loading | A component for displaying a loading animation                             |
-| useDispatch             | react-redux           | A hook that returns the Redux store's dispatch method                      |
-| useSelector             | react-redux           | A hook that returns selected state from the Redux store                    |
-| useEffect               | react                 | A hook that allows performing side effects in function components          |
-| useNavigate             | react-router-dom      | A hook that returns a navigate function to use for programmatic navigation |
-| HelpOutlineOutlinedIcon | @mui/icons-material   | An icon component for displaying a help outline                            |
-| FAQCard                 | ../components/FAQCard | A component that displays a question and answer card                       |
-| toast                   | react-toastify        | A module for displaying toast notifications                                |
-| Grow                    | @mui/material         | A component for animating element growth                                   |
-| Fade                    | @mui/material         | A component for animating element opacity                                  |
-| Backdrop                | @mui/material         | A component for displaying a translucent background overlay                |
-
-## `Login` React Page
+## `Register` Page
 
 ### Description
 
-`Login` is a component that allows users to log into an application. The component receives user inputs of `email`, `password`, and `isChecked`. It dispatches a login action with the input data to authenticate users via the `auth.slice.js` module. It also displays a loading spinner while the authentication is in progress.
+The `Register` component is a form that allows users to register for a new account. This component is built using React and various components from the Material UI library. It relies on the Redux store to handle user authentication and makes use of React Router DOM to handle navigation.
 
 ### Props
 
-The `Login` component does not accept any props.
+The `Register` component does not accept any props.
 
 ### State
 
-| Name       | Type      | Description                                                                                         |
-| ---------- | --------- | --------------------------------------------------------------------------------------------------- |
-| `trans`    | `Boolean` | A state variable that determines whether to transition to another view.                             |
-| `formData` | `Object`  | A state variable that stores the user's input data, including `email`, `password`, and `isChecked`. |
+| Name     | Type      | Description                                                                     |
+| -------- | --------- | ------------------------------------------------------------------------------- |
+| formData | `Object`  | An object containing the form data for registration                             |
+| trans    | `Boolean` | A boolean value indicating whether the component should be displayed or hidden. |
 
 ### Methods
 
-| Name          | Parameters  | Description                                                                                          |
-| ------------- | ----------- | ---------------------------------------------------------------------------------------------------- |
-| `handleTrans` | `none`      | A function that toggles the `trans` state to transition to another view.                             |
-| `onChange`    | `e: object` | A function that updates the `formData` state with the new user input data.                           |
-| `onSubmit`    | `e: object` | A function that dispatches the login action with the `formData` state data to authenticate the user. |
+| Name     | Parameters   | Description                                                           |
+| -------- | ------------ | --------------------------------------------------------------------- |
+| onChange | `e`: `Event` | A callback function that updates the state with the new form data.    |
+| onSubmit | `e`: `Event` | A callback function that submits the registration form to the server. |
 
 ### Handlers
 
-| Name   | Parameters | Description                     |
-| ------ | ---------- | ------------------------------- |
-| `none` | `none`     | This component has no handlers. |
+The `Register` component does not define any handlers.
 
 ### Child Components
 
-| Name      | Package         | Description                                                      |
-| --------- | --------------- | ---------------------------------------------------------------- |
-| `Loading` | `../components` | A spinner that displays while the authentication is in progress. |
+| Name             | Package               | Description                                                                          |
+| ---------------- | --------------------- | ------------------------------------------------------------------------------------ |
+| Avatar           | `@mui/material`       | A Material UI component used to display an avatar icon.                              |
+| Backdrop         | `@mui/material`       | A Material UI component used to create a backdrop.                                   |
+| Box              | `@mui/material`       | A Material UI component used to create a layout container.                           |
+| Button           | `@mui/material`       | A Material UI component used to render the "Sign Up" button.                         |
+| Container        | `@mui/material`       | A Material UI component used to create a responsive container.                       |
+| CssBaseline      | `@mui/material`       | A Material UI component used to reset the CSS styles to a consistent baseline.       |
+| Fade             | `@mui/material`       | A Material UI component used to create a fade transition.                            |
+| FilledInput      | `@mui/material`       | A Material UI component used to create an input with filled background.              |
+| Grid             | `@mui/material`       | A Material UI component used to create a responsive grid.                            |
+| Grow             | `@mui/material`       | A Material UI component used to create a grow transition.                            |
+| Link             | `@mui/material`       | A Material UI component used to render a link to the login page.                     |
+| LockOutlinedIcon | `@mui/icons-material` | A Material UI component used to display a lock icon.                                 |
+| Loading          | `../components`       | A component that displays a loading spinner when the registration form is submitted. |
+| TextField        | `@mui/material`       | A Material UI component used to display and handle text input.                       |
+| ThemeProvider    | `@mui/material`       | A Material UI component used to provide a theme to the application.                  |
+| toast            | `react-toastify`      | A third-party library used to display toast notifications.                           |
+| Typography       | `@mui/material`       | A Material UI component used to display text.                                        |
 
-### Usage Example
+### Usage
 
 ```jsx
 import React from "react";
-import Login from "./Login";
+import Register from "./components/Register";
 
 const App = () => {
-  return <Login />;
+  return <Register />;
 };
 
 export default App;
 ```
 
-In this example, we import the `Login` component and render it in the `App` component. This will display the login form to the user.
+In this example, the `Register` component is imported and rendered in the main `App` component. When the user navigates to the "/register" route, the `Register` component will be displayed, allowing them to create a new account.
 
 # Deployment (Jonathan)
 
@@ -1864,7 +2031,7 @@ Property of Santa Clara University under SCU's Senior Design Program
 
 # Acknowledgments
 
-Special thanks to Kian Nizkad, Wendy Mather, and Gerhard and Lisa Eschelbeck for their continued support on this project's details and design direction.
+Special thanks to Kian Nizkad, Wendy Mather, and Gerhard and Lisa Eschelbeck for their continued support on this project's creative direction and design decisions.
 
 # Appendix
 
@@ -1879,10 +2046,10 @@ Include any additional information or resources, such as troubleshooting tips or
 
 # Video Demo
 
-- Upload final video from
+- Upload final video demo
 
 # Contact
 
-- Any questions regarding the web application, please contact cpaiz@scu.edu or paizcollin@gmail.com
-- Any questions regarding deployment, please contact jstock@scu.edu
-- Any questions regarding hardware, please contact ewrysinski@scu.edu and dblanc@scu.edu
+- Any questions regarding the web application, please contact **cpaiz@scu.edu** or **paizcollin@gmail.com**
+- Any questions regarding deployment, please contact **jstock@scu.edu**
+- Any questions regarding hardware, please contact **ewrysinski@scu.edu** and **dblanc@scu.edu**
