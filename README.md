@@ -20,254 +20,61 @@ This project aims to rely solely on _open-source_ technologies to ensure its rel
 - [Config](#config)
   - [Overview](#overview-1)
   - [`db.js`](#-dbjs-)
-    - [Description](#description)
-    - [Usage Example](#usage-example)
 - [Server](#server)
   - [Overview](#overview-2)
   - [`server.js`](#-serverjs-)
-    - [Description](#description-1)
-    - [Usage Example](#usage-example-1)
 - [Middleware](#middleware)
   - [Overview](#overview-3)
   - [`auth.middleware.js`](#-authmiddlewarejs-)
-    - [Description](#description-2)
-    - [Usage](#usage-1)
-    - [Function Parameters](#function-parameters)
-    - [Function Flow](#function-flow)
   - [`errorHandler.middleware.js`](#-errorhandlermiddlewarejs-)
-    - [Description](#description-3)
-    - [Usage Example](#usage-example-2)
-    - [Function Flow](#function-flow-1)
-    - [Error Handling](#error-handling)
 - [Models](#models)
   - [Overview](#overview-4)
   - [`user.model.js`](#-usermodeljs-)
-    - [Description](#description-4)
-    - [Schema Definition](#schema-definition)
-    - [Example Document](#example-document)
   - [`apiary.model.js`](#-apiarymodeljs-)
-    - [Description](#description-5)
-      - [`geoSchema`](#-geoschema-)
-      - [`memberSchema`](#-memberschema-)
-      - [`deviceSchema`](#-deviceschema-)
-      - [`apiarySchema`](#-apiaryschema-)
-    - [Example Document](#example-document-1)
   - [`data.model.js`](#-datamodeljs-)
-    - [Description](#description-6)
-    - [`dataPointSchema` Description](#-datapointschema--description)
-    - [`dataSchema` Description](#-dataschema--description)
-    - [Example document](#example-document)
 - [Routes](#routes)
   - [Overview](#overview-5)
   - [`user.routes.js`](#-userroutesjs-)
-    - [Description](#description-7)
-    - [Route Endpoints](#route-endpoints)
   - [`apiary.routes`](#-apiaryroutes-)
-    - [Description](#description-8)
-    - [Route Endpoints](#route-endpoints-1)
   - [`data.routes`](#-dataroutes-)
-    - [Description](#description-9)
-    - [Controllers](#controllers)
-    - [Route Endpoints](#route-endpoints-2)
 - [Controllers](#controllers-1)
-  - [`user.controller`](#-usercontroller-)
-    - [Functions](#functions)
   - [`apiary.controller`](#-apiarycontroller-)
-    - [Description](#description-10)
-    - [Functions](#functions-1)
   - [`data.controller`](#-datacontroller-)
-    - [Description](#description-11)
-    - [Functions](#functions-2)
 - [Frontend](#frontend)
   - [Overview](#overview-6)
 - [`App.js`](#-appjs-)
-  - [Description](#description-12)
 - [`index.js`](#-indexjs-)
-  - [Description](#description-13)
 - [`index.css`](#-indexcss-)
-  - [Description](#description-14)
-  - [Fonts](#fonts)
-  - [Height, Width and Font](#height--width-and-font)
-  - [App Display and Position](#app-display-and-position)
-  - [Scrollbar Styling](#scrollbar-styling)
-  - [Fieldset Styling](#fieldset-styling)
 - [`theme.js`](#-themejs-)
-  - [Description](#description-15)
-  - [`tokens`](#-tokens-)
-    - [Example Usage](#example-usage)
-  - [`themeSettings`](#-themesettings-)
-    - [Example Usage](#example-usage-1)
 - [`store.js`](#-storejs-)
-  - [Description](#description-16)
 - [Components](#components)
   - [`AboutCard` React Component](#-aboutcard--react-component)
-    - [Description](#description-17)
-    - [Props](#props)
-    - [State](#state)
-    - [Methods](#methods)
-    - [Handlers](#handlers)
-    - [Child Components](#child-components)
-    - [Usage Example](#usage-example-3)
   - [`AddApiaryCard` React Component](#-addapiarycard--react-component)
-    - [Description](#description-18)
-    - [Props](#props-1)
-    - [State](#state-1)
-    - [Methods](#methods-1)
-    - [Handlers](#handlers-1)
-    - [Child Components](#child-components-1)
-    - [Usage Example](#usage-example-4)
   - [`AddDeviceCard` React Component](#-adddevicecard--react-component)
-    - [Description](#description-19)
-    - [Props](#props-2)
-    - [State](#state-2)
-    - [Methods](#methods-2)
-    - [Handlers](#handlers-2)
-    - [Child Components](#child-components-2)
-    - [Usage Example](#usage-example-5)
   - [`AddUserCard` React Component](#-addusercard--react-component)
-    - [Description](#description-20)
-    - [Props](#props-3)
-    - [State](#state-3)
-    - [Methods](#methods-3)
-    - [Handlers](#handlers-3)
-    - [Child Components](#child-components-3)
-    - [Usage Example](#usage-example-6)
   - [`ApiaryCard` React Component](#-apiarycard--react-component)
-    - [Description](#description-21)
-    - [Props](#props-4)
-    - [State](#state-4)
-    - [Methods](#methods-4)
-    - [Handlers](#handlers-4)
-    - [Child Components](#child-components-4)
-    - [Usage](#usage-2)
   - [`AutocompleteMaps` Typescript Component](#-autocompletemaps--typescript-component)
-    - [Description](#description-22)
-    - [Props](#props-5)
-    - [State](#state-5)
-    - [Methods](#methods-5)
-    - [Handlers](#handlers-5)
-    - [Interfaces](#interfaces)
-    - [Child Components](#child-components-5)
-    - [Usage Example](#usage-example-7)
   - [`DeviceCard` React Component](#-devicecard--react-component)
-    - [Description](#description-23)
-    - [Props](#props-6)
-    - [State](#state-6)
-    - [Methods](#methods-6)
-    - [Handlers](#handlers-6)
-    - [Child Components](#child-components-6)
-    - [Usage Example](#usage-example-8)
   - [`FAQCard` React Component](#-faqcard--react-component)
-    - [Description](#description-24)
-    - [Props](#props-7)
-    - [State](#state-7)
-    - [Methods](#methods-7)
-    - [Handlers](#handlers-7)
-    - [Child Components](#child-components-7)
-    - [Usage Example](#usage-example-9)
   - [`Graph` React Component](#-graph--react-component)
-    - [Description](#description-25)
-    - [Props](#props-8)
-    - [State](#state-8)
-    - [Methods](#methods-8)
-    - [Handlers](#handlers-8)
-    - [Child Components](#child-components-8)
-    - [Usage](#usage-3)
   - [`Loading` React Component](#-loading--react-component)
-    - [Description](#description-26)
-    - [Props](#props-9)
-    - [State](#state-9)
-    - [Methods](#methods-9)
-    - [Child Components](#child-components-9)
-    - [Usage Example](#usage-example-10)
   - [`Sidebar` React Component](#-sidebar--react-component)
-    - [Description](#description-27)
-    - [Props](#props-10)
-    - [State](#state-10)
-    - [Methods](#methods-10)
-    - [Handlers](#handlers-9)
-    - [Child Components](#child-components-10)
-    - [Usage Example](#usage-example-11)
   - [`Topbar` React Component](#-topbar--react-component)
-    - [Description](#description-28)
-    - [Props](#props-11)
-    - [State](#state-11)
-    - [Methods](#methods-11)
-    - [Handlers](#handlers-10)
-    - [Child Components](#child-components-11)
-    - [Usage](#usage-4)
   - [`UserCard` React Component](#-usercard--react-component)
-    - [Description](#description-29)
-    - [Props](#props-12)
-    - [State](#state-12)
-    - [Methods](#methods-12)
-    - [Child Components](#child-components-12)
-    - [Usage Example](#usage-example-12)
 - [Features](#features)
   - [Apiary](#apiary)
     - [`apiary.slice`](#-apiaryslice-)
-      - [Description](#description-30)
-      - [Initial States](#initial-states)
-      - [Actions](#actions)
-      - [Reducer Cases](#reducer-cases)
     - [`apiary.service`](#-apiaryservice-)
-      - [Functions](#functions-3)
   - [Auth](#auth)
     - [`auth.slice`](#-authslice-)
-      - [Description](#description-31)
-      - [Initial State](#initial-state)
-      - [Actions](#actions-1)
-      - [Reducer Cases](#reducer-cases-1)
     - [`auth.service`](#-authservice-)
-      - [Description](#description-32)
-      - [Functions](#functions-4)
 - [Pages](#pages)
   - [`About` React Page](#-about--react-page)
-    - [Description](#description-33)
-    - [Props](#props-13)
-    - [State](#state-13)
-    - [Methods](#methods-13)
-    - [Handlers](#handlers-11)
-    - [Child Components](#child-components-13)
-    - [Usage Example](#usage-example-13)
-  - [Component Documentation: Dashboard](#component-documentation--dashboard)
-    - [Props](#props-14)
-    - [State](#state-14)
-    - [Methods](#methods-14)
-    - [Handlers](#handlers-12)
-    - [Child Components](#child-components-14)
-    - [Usage Example](#usage-example-14)
+  - [`Dasboard` React Page](#-dashboard--react-page)
   - [`FAQ` React Page](#-faq--react-page)
-    - [Description](#description-34)
-    - [Props](#props-15)
-    - [State](#state-15)
-    - [Methods](#methods-15)
-    - [Handlers](#handlers-13)
-    - [Child Components](#child-components-15)
   - [`Login` React Page](#-login--react-page)
-    - [Description](#description-35)
-    - [Props](#props-16)
-    - [State](#state-16)
-    - [Methods](#methods-16)
-    - [Handlers](#handlers-14)
-    - [Child Components](#child-components-16)
-    - [Usage Example](#usage-example-15)
   - [`Manage` Component](#-manage--component)
-    - [Description](#description-36)
-    - [Props](#props-17)
-    - [State](#state-17)
-    - [Methods](#methods-17)
-    - [Handlers](#handlers-15)
-    - [Child Components](#child-components-17)
-    - [Usage](#usage-5)
   - [`Register` Page](#-register--page)
-    - [Description](#description-37)
-    - [Props](#props-18)
-    - [State](#state-18)
-    - [Methods](#methods-18)
-    - [Handlers](#handlers-16)
-    - [Child Components](#child-components-18)
-    - [Usage](#usage-6)
 - [Deployment (Jonathan)](#deployment--jonathan-)
 - [Testing (TBD)](#testing--tbd-)
 - [License](#license)
@@ -500,7 +307,7 @@ The three models used in the application are the `User`, `Apiary`, and `Data` mo
 
 This is a schema definition for the `user` model in a _Node.js/Express_ application using _Mongoose_. The `userSchema` defines the structure and validation rules for user documents that will be stored in a _MongoDB_ database.
 
-### Schema Definition
+### `userSchema`
 
 | Field     | Type     | Required | Unique | Example Value          | Description                                      |
 | --------- | -------- | -------- | ------ | ---------------------- | ------------------------------------------------ |
@@ -533,7 +340,7 @@ Note that the password field is encrypted using _bcrypt_, so the value shown is 
 
 This is a schema definition for the `apiary.model` in a _Node.js/Express_ application using _Mongoose_. The `apiarySchema` defines the structure and validation rules for apiary documents that will be stored in a MongoDB database. This model consists of a `geoSchema` which defines a location, a `memberSchema` which defines a list of users, a `deviceSchema` which defines a list of devices, and an `apiarySchema` which defines an apiary.
 
-#### `geoSchema`
+### `geoSchema`
 
 | Field            | Type              | Required | Unique | Example Value                 | Description                                                                                                           |
 | ---------------- | ----------------- | -------- | ------ | ----------------------------- | --------------------------------------------------------------------------------------------------------------------- |
@@ -542,14 +349,14 @@ This is a schema definition for the `apiary.model` in a _Node.js/Express_ applic
 | formattedAddress | `String`          | No       | No     | "123 Main St, New York, NY"   | The formatted address of the location.                                                                                |
 | placeID          | `String`          | No       | No     | "ChIJd8BlQ2BZwokRAFUEcm_qrcA" | The place ID of the location.                                                                                         |
 
-#### `memberSchema`
+### `memberSchema`
 
 | Field | Type       | Required | Unique | Example Value              | Description                                                          |
 | ----- | ---------- | -------- | ------ | -------------------------- | -------------------------------------------------------------------- |
 | user  | `ObjectId` | Yes      | No     | "61579f9a53e7e8f2916d47b1" | References a user object associated with the member                  |
 | role  | `String`   | No       | No     | "USER"                     | The role of the member, must be one of "USER", "ADMIN", or "CREATOR" |
 
-#### `deviceSchema`
+### `deviceSchema`
 
 | Field     | Type       | Required | Unique | Example Value              | Description                                          |
 | --------- | ---------- | -------- | ------ | -------------------------- | ---------------------------------------------------- |
@@ -560,7 +367,7 @@ This is a schema definition for the `apiary.model` in a _Node.js/Express_ applic
 | createdAt | `Date`     | No       | No     | "2022-01-01T00:00:00.000Z" | The date and time when the device was created        |
 | updatedAt | `Date`     | No       | No     | "2022-01-02T00:00:00.000Z" | The date and time when the device was last updated   |
 
-#### `apiarySchema`
+### `apiarySchema`
 
 | Field     | Type                                    | Required | Unique | Example Value      | Description                                    |
 | --------- | --------------------------------------- | -------- | ------ | ------------------ | ---------------------------------------------- |
@@ -626,7 +433,7 @@ This is a schema definition for the `apiary.model` in a _Node.js/Express_ applic
 
 This is a schema definition for a `data.model` in a _Node.js/Express_ application using _Mongoose_. The `dataSchema` defines the structure and validation rules for data documents that will be stored in a _MongoDB_ database. This model consists of a `dataPointSchema` which defines the structure of an individual data point, and a `dataSchema` which defines a list of datapoints.
 
-### `dataPointSchema` Description
+### `dataPointSchema`
 
 The `dataPointSchema` defines the schema for an individual data point. It consists of the following fields:
 
@@ -642,7 +449,7 @@ The `dataPointSchema` defines the schema for an individual data point. It consis
 | prediction_activity.y     | `Number` | Yes      | No     | 1.5           | The y coordinate of the predicted activity data                                    |
 | last_prediction_deviation | `Number` | No       | No     | 0.7           | The deviation between the raw and predicted activity data at the time of recording |
 
-### `dataSchema` Description
+### `dataSchema`
 
 The `dataSchema` defines the schema for a collection of data points. It consists of the following fields:
 
@@ -1590,6 +1397,10 @@ The `Loading` component does not use any internal state.
 
 The `Loading` component does not define any methods.
 
+### Handlers
+
+The `Loading` component does not define any handlers.
+
 ### Child Components
 
 The `Loading` component does not have any child components.
@@ -1707,10 +1518,10 @@ The `Topbar` component does not define any methods.
 
 ### Handlers
 
-| Name      | Parameters | Description                                           |
-| --------- | ---------- | ----------------------------------------------------- |
-| onLogout  | None       | Logs out the current user and redirects to login page |
-| colorMode | None       | Toggles the color mode between light and dark mode    |
+| Name      | Parameters   | Description                                           |
+| --------- | ------------ | ----------------------------------------------------- |
+| onLogout  | `e`: `Event` | Logs out the current user and redirects to login page |
+| colorMode | `e`: `Event` | Toggles the color mode between light and dark mode    |
 
 ### Child Components
 
@@ -1774,6 +1585,10 @@ The `UserCard` component is a card component that displays user information and 
 | formData | `Object`  | A state variable that holds the user's data to be edited.               |
 
 ### Methods
+
+The `UserCard` component does not define any methods.
+
+### Handlers
 
 | Name     | Parameters   | Description                                                         |
 | -------- | ------------ | ------------------------------------------------------------------- |
@@ -2032,7 +1847,7 @@ const App = () => {
 
 In this example, the renders the `About` component which displays information about the project and the team behind it.
 
-## Component Documentation: Dashboard
+## `Dashboard` React Page
 
 The `Dashboard` component is a React functional component that renders a dashboard with multiple sections. It displays data related to an `apiary` and a `device` selected from the user's account. The component uses various hooks such as `useSelector`, `useDispatch`, `useTheme`, and `useState` to retrieve data and manage the component's state.
 
