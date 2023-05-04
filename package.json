@@ -11,7 +11,7 @@
     "frontend": "npm install --prefix frontend",
     "yayaya": "concurrently \"npm install\" \"npm run frontend\"",
     "preinstall": "npx npm-force-resolutions",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm --legacy-peer-deps install --prefix frontend && npm run build --prefix frontend"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
   "author": "Collin Paiz",
   "license": "ISC",
