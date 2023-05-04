@@ -10,7 +10,8 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "frontend": "npm install --prefix frontend",
     "yayaya": "concurrently \"npm install\" \"npm run frontend\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
+    "preinstall": "npx npm-force-resolutions",
+    "heroku-postbuild": "npm install"
   },
   "author": "Collin Paiz",
   "license": "ISC",
