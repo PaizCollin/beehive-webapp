@@ -23,6 +23,11 @@ const getData = asyncHandler(async (req, res) => {
 
   const data = await Data.findOne({ serial: req.params.serial });
 
+  if (limit > data.datapoints.length()) {
+    res.status(204);
+    return;
+  }
+
   const points = data.datapoints.slice(-limit);
 
   res.status(200).json(points);
