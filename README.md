@@ -589,9 +589,9 @@ This file handles data-related routes and requests. It includes uploading data p
 
 ### Functions
 
-| Function | Route                                  | Access                                     | Description                           |
-| -------- | -------------------------------------- | ------------------------------------------ | ------------------------------------- |
-| putData  | `POST /api/data/:apiary_id/:device_id` | Needs protection (ML team authorized only) | Uploads a data point to the database. |
+| Function | Route                           | Access                                     | Description                                                               |
+| -------- | ------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------- |
+| putData  | `POST /api/data/serial/:serial` | Needs protection (ML team authorized only) | Uploads a data point to the database based on the provided serial number. |
 
 # Frontend
 
@@ -2139,5 +2139,5 @@ Include any additional information or resources, such as troubleshooting tips or
 # Contact
 
 - Any questions regarding the web application, please contact **cpaiz@scu.edu** or **paizcollin@gmail.com**
-- Any questions regarding deployment, please contact **jstock@scu.edu**
+- Any questions regarding deployment, please contact **cpaiz@scu.edu** or **paizcollin@gmail.com** or **jstock@scu.edu**
 - Any questions regarding hardware, please contact **ewrysinski@scu.edu** and **dblanc@scu.edu**

@@ -2,9 +2,35 @@ const asyncHandler = require("express-async-handler");
 const Apiary = require("../models/apiary.model.js");
 const Data = require("../models/data.model.js");
 
-// @status  WIP
+// get n last data points from array
+const getData = asyncHandler(async (req, res) => {
+  const { limit } = req.query;
+
+  // Check if device exists
+  const deviceExists = await Apiary.findOne({
+    devices: {
+      $elemMatch: {
+        serial: req.body.serial,
+      },
+    },
+  });
+
+  // If !deviceExists, error
+  if (!deviceExists) {
+    res.status(400);
+    throw new Error("Device does not exist");
+  }
+
+  const data = await Data.findOne({ serial: req.params.serial });
+
+  const points = data.datapoints.slice(-limit);
+
+  res.status(200).json(points);
+});
+
+// @status  DONE
 // @desc    Upload data point
-// @route   POST /api/data/:apiary_id/:device_id/
+// @route   POST /api/data/serial/:serial
 // @access  NEEDS PROTECTION (ML TEAM AUTHORIZED ONLY)
 const putData = asyncHandler(async (req, res) => {
   const {
@@ -52,5 +78,6 @@ const putData = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
+  getData,
   putData,
 };

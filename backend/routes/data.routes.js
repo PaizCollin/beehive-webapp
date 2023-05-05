@@ -1,6 +1,7 @@
 const router = require("express").Router();
-const { putData } = require("../controllers/data.controller.js");
+const { getData, putData } = require("../controllers/data.controller.js");
 
+router.get("/serial/:serial", getData);
 router.put("/serial/:serial", putData);
 
 module.exports = router;
