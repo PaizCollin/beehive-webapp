@@ -52,7 +52,7 @@ The `models` module is responsible for setting up the Mongoose models for the ap
 
 ## Deployment (Jonathan)
 
-Explain how to deploy the application, including any server requirements and deployment steps.
+The web application has been deployed on Heroku and can be accessed at https://beehive-webapp.herokuapp.com/. This link will lead to the main login page where the user can enter their username and password to access their account and view their dashboard.
 
 ## Testing (TBD)
 
@@ -79,10 +79,10 @@ Include any additional information or resources, such as troubleshooting tips or
 
 ## Video Demo
 
-- Upload final video from
+- Upload final video from YouTube
 
 ## Contact
 
 Any questions regarding the web application, please contact cpaiz@scu.edu or paizcollin@gmail.com
-Any questions regarding deployment, please contact jstock@scu.edu
+Any questions regarding deployment, please contact jstock@scu.edu or jonathanhstock@gmail.com
 Any questions regarding hardware, please contact ewrysinski@scu.edu and dblanc@scu.edu
