@@ -4,7 +4,7 @@ const Data = require("../models/data.model.js");
 
 // get n last data points from array
 const getData = asyncHandler(async (req, res) => {
-  const { limit } = req.query;
+  const limit = req.query.limit === undefined ? 100 : req.query.limit;
 
   // Check if device exists
   const deviceExists = await Apiary.findOne({
@@ -24,7 +24,7 @@ const getData = asyncHandler(async (req, res) => {
   const data = await Data.findOne({ serial: req.params.serial });
 
   if (limit > data.datapoints.length) {
-    res.status(204);
+    res.status(204).send();
     return;
   }
 
