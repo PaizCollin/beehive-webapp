@@ -38,13 +38,15 @@ const getData = asyncHandler(async (req, res) => {
 // @route   POST /api/data/serial/:serial
 // @access  NEEDS PROTECTION (ML TEAM AUTHORIZED ONLY)
 const putData = asyncHandler(async (req, res) => {
-  const {
+  let {
     time,
     raw_activity,
     weather,
     prediction_activity,
     last_prediction_deviation,
   } = req.body;
+
+  last_prediction_deviation ??= 0;
 
   // Check if device exists
   const deviceExists = await Apiary.findOne({
