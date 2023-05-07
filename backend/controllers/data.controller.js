@@ -10,7 +10,7 @@ const getData = asyncHandler(async (req, res) => {
   const deviceExists = await Apiary.findOne({
     devices: {
       $elemMatch: {
-        serial: req.body.serial,
+        serial: req.params.serial,
       },
     },
   });
@@ -23,7 +23,7 @@ const getData = asyncHandler(async (req, res) => {
 
   const data = await Data.findOne({ serial: req.params.serial });
 
-  if (limit > data.datapoints.length()) {
+  if (limit > data.datapoints.length) {
     res.status(204);
     return;
   }
@@ -52,7 +52,7 @@ const putData = asyncHandler(async (req, res) => {
   const deviceExists = await Apiary.findOne({
     devices: {
       $elemMatch: {
-        serial: req.body.serial,
+        serial: req.params.serial,
       },
     },
   });
