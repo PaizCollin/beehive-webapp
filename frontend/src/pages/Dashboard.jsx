@@ -33,6 +33,7 @@ import {
 import { parseISO, format } from "date-fns";
 import { toast } from "react-toastify";
 import Graph from "../components/Graph";
+import Overview from "../components/Overview";
 
 const SelectApiary = ({ apiaries, apiary, device, setApiary, setDevice }) => {
   const theme = useTheme();
@@ -146,7 +147,7 @@ const Dashboard = () => {
               <Graph device={device} />
             </Box>
           </Grid>
-          <Grid item xs={12} lg={4}>
+          {/* <Grid item xs={12} lg={4}>
             <Box
               sx={{
                 display: "flex",
@@ -159,7 +160,7 @@ const Dashboard = () => {
             >
               video feed
             </Box>
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} lg={4}>
             <Box
               sx={{
@@ -168,13 +169,14 @@ const Dashboard = () => {
                 align: "center",
                 bgcolor: "primary.dark",
                 borderRadius: `24px`,
-                height: "360px",
+                height: "440px",
+                p: 4,
               }}
             >
-              apiary status, devices online
+              <Overview device={device} />
             </Box>
           </Grid>
-          <Grid item xs={12} lg={4}>
+          {/* <Grid item xs={12} lg={4}>
             <Box
               sx={{
                 display: "flex",
@@ -187,8 +189,8 @@ const Dashboard = () => {
             >
               daily count so far (up or down from yesterday)
             </Box>
-          </Grid>
-          <Grid item xs={12} lg={4}>
+          </Grid> */}
+          {/* <Grid item xs={12} lg={4}>
             <Box
               sx={{
                 display: "flex",
@@ -201,7 +203,7 @@ const Dashboard = () => {
             >
               weather at this location
             </Box>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Box>
     </>

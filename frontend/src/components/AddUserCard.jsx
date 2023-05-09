@@ -142,7 +142,7 @@ const AddUserCard = ({ apiary, userRole }) => {
               }}
               disabled={userRole === "USER"}
             >
-              Create Device
+              Add Member
             </Button>
           </Box>
         </Box>
