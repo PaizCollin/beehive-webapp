@@ -14,6 +14,7 @@ import { tokens } from "../theme";
 import { useState } from "react";
 
 const filterOptions = [
+  { label: "1 hour", value: 1 / 24 },
   { label: "1 day", value: 1 },
   { label: "1 week", value: 7 },
   { label: "1 month", value: 30 },
@@ -25,10 +26,12 @@ const filterOptions = [
 ];
 
 function filterData(datapoints, filterValue) {
+  const now = Date.now();
+  const filterDate = new Date(now - filterValue * 24 * 60 * 60 * 1000);
   const filteredData = datapoints.filter((datapoint) => {
-    const diffTime = Date.now() - new Date(datapoint.time).getTime();
-    const diffDays = diffTime / (1000 * 60 * 60 * 24);
-    return diffDays <= filterValue;
+    const datapointDate = new Date(datapoint.time);
+    const diffTime = filterDate.getTime() - datapointDate.getTime();
+    return diffTime <= 0;
   });
   return filteredData;
 }
@@ -89,8 +92,6 @@ const Graph = ({ device }) => {
       </Typography>
     );
   } else {
-    const filteredData = filterData(device?.data.datapoints, selectedFilter);
-
     const time = device?.data.datapoints.map((dataPoint) => dataPoint.time); // extract time value from each data point
 
     const temp = device?.data.datapoints
@@ -124,10 +125,12 @@ const Graph = ({ device }) => {
       };
     });
 
+    const filteredData = filterData(result, selectedFilter);
+
     return (
       <>
         <ResponsiveContainer width="100%" height={360}>
-          <AreaChart data={result}>
+          <AreaChart data={filteredData}>
             <defs>
               <linearGradient id="tempColor" x1="0" y1="0" x2="0" y2="1">
                 <stop
@@ -295,11 +298,6 @@ const Graph = ({ device }) => {
               {label}
             </Button>
           ))}
-          <ul>
-            {filteredData.map((datapoint) => (
-              <li key={datapoint.time}>{JSON.stringify(datapoint)}</li>
-            ))}
-          </ul>
         </div>
       </>
     );
