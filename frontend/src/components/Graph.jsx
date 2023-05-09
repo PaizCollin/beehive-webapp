@@ -26,6 +26,10 @@ const filterOptions = [
 ];
 
 function filterData(datapoints, filterValue) {
+  if (filterValue === Infinity) {
+    return datapoints;
+  }
+
   const now = Date.now();
   const filterDate = new Date(now - filterValue * 24 * 60 * 60 * 1000);
   const filteredData = datapoints.filter((datapoint) => {
@@ -146,6 +150,34 @@ const Graph = ({ device }) => {
               </linearGradient>
             </defs>
             <defs>
+              <linearGradient id="humidityColor" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="0%"
+                  stopColor={colors.tealAccent[500]}
+                  stopOpacity={0.5}
+                />
+                <stop
+                  offset="75%"
+                  stopColor={colors.tealAccent[500]}
+                  stopOpacity={0.06}
+                />
+              </linearGradient>
+            </defs>
+            <defs>
+              <linearGradient id="windspeedColor" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="0%"
+                  stopColor={colors.grey[500]}
+                  stopOpacity={0.5}
+                />
+                <stop
+                  offset="75%"
+                  stopColor={colors.grey[100]}
+                  stopOpacity={0.06}
+                />
+              </linearGradient>
+            </defs>
+            <defs>
               <linearGradient id="xColor" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="0%"
@@ -203,8 +235,8 @@ const Graph = ({ device }) => {
             <Area
               dataKey="humidity"
               yAxisId="humidity"
-              stroke={colors.orangeAccent[500]}
-              fill="url(#tempColor)"
+              stroke={colors.tealAccent[500]}
+              fill="url(#humidityColor)"
               name="Humidity"
               hide={visible["humidity"] === false}
               unit={"%"}
@@ -212,11 +244,11 @@ const Graph = ({ device }) => {
             <Area
               dataKey="windspeed"
               yAxisId="windspeed"
-              stroke={colors.orangeAccent[500]}
-              fill="url(#tempColor)"
+              stroke={colors.grey[100]}
+              fill="url(#windspeedColor)"
               name="Wind Speed"
               hide={visible["windspeed"] === false}
-              unit={"kmh"}
+              unit={"km/h"}
             />
 
             <YAxis
@@ -246,7 +278,7 @@ const Graph = ({ device }) => {
               axisLine={false}
               tickLine={false}
               tickCount={5}
-              tickFormatter={(number) => `${number}kmh`}
+              tickFormatter={(number) => `${number}km/h`}
             />
 
             <YAxis

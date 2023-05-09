@@ -105,19 +105,114 @@ const Overview = ({ device }) => {
               maxWidth: "1000px",
             }}
           >
-            <Avatar
+            <Card
               sx={{
-                width: 36,
-                height: 36,
-                color: "onSecondary.main",
-                bgcolor: "secondary.main",
-                alignSelf: "center",
-                mb: 1,
+                textAlign: "center",
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                bgcolor: "primary.dark",
+                mt: 2,
+                borderRadius: `24px`,
               }}
             >
-              <CheckCircleOutlineOutlinedIcon />
-            </Avatar>
-            <Typography variant="h6">Online</Typography>
+              <CardHeader
+                sx={{
+                  display: "flex",
+                  flex: "1",
+                }}
+                avatar={
+                  <Avatar
+                    sx={{
+                      width: 36,
+                      height: 36,
+                      m: 1,
+                      color: "onSecondary.main",
+                      bgcolor: "secondary.main",
+                    }}
+                  >
+                    <CheckCircleOutlineOutlinedIcon />
+                  </Avatar>
+                }
+                title={
+                  <Typography variant="h5">
+                    Offline for {formatOfflineTime(offlineTime)}
+                  </Typography>
+                }
+              />
+            </Card>
+            <Card
+              sx={{
+                textAlign: "center",
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                bgcolor: "primary.dark",
+                mt: 2,
+                borderRadius: `24px`,
+              }}
+            >
+              <CardHeader
+                sx={{
+                  display: "flex",
+                  flex: "1",
+                }}
+                avatar={
+                  <Avatar
+                    sx={{
+                      width: 36,
+                      height: 36,
+                      m: 1,
+                      color: "onSecondary.main",
+                      bgcolor: "secondary.main",
+                    }}
+                  >
+                    <AddCircleOutlineOutlinedIcon />
+                  </Avatar>
+                }
+                title={
+                  <Typography variant="h5">
+                    {x} bees entered the hive in the last 24 hours
+                  </Typography>
+                }
+              />
+            </Card>
+            <Card
+              sx={{
+                textAlign: "center",
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                bgcolor: "primary.dark",
+                mt: 2,
+                borderRadius: `24px`,
+              }}
+            >
+              <CardHeader
+                sx={{
+                  display: "flex",
+                  flex: "1",
+                }}
+                avatar={
+                  <Avatar
+                    sx={{
+                      width: 36,
+                      height: 36,
+                      m: 1,
+                      color: "onSecondary.main",
+                      bgcolor: "secondary.main",
+                    }}
+                  >
+                    <RemoveCircleOutlineOutlinedIcon />
+                  </Avatar>
+                }
+                title={
+                  <Typography variant="h5">
+                    {y} bees exited the hive in the last 24 hours
+                  </Typography>
+                }
+              />
+            </Card>
           </Box>
         ) : (
           <Box
@@ -154,7 +249,7 @@ const Overview = ({ device }) => {
                       height: 36,
                       m: 1,
                       color: "onSecondary.main",
-                      bgcolor: "secondary.main",
+                      bgcolor: "err.main",
                     }}
                   >
                     <CancelOutlinedIcon />

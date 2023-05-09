@@ -135,7 +135,8 @@ const Dashboard = () => {
                 align: "center",
                 bgcolor: "primary.dark",
                 borderRadius: `24px`,
-                height: "440px",
+                minHeight: "25vh",
+                p: 4,
               }}
             >
               <Typography
@@ -169,7 +170,7 @@ const Dashboard = () => {
                 align: "center",
                 bgcolor: "primary.dark",
                 borderRadius: `24px`,
-                height: "440px",
+                minHeight: "25vh",
                 p: 4,
               }}
             >
