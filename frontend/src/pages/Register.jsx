@@ -81,7 +81,7 @@ const Register = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if (password.length() < 8) {
+    if (password.length < 8) {
       toast.error("Password must be at least 8 characters", {
         toastID: "lengthError",
         hideProgressBar: true,

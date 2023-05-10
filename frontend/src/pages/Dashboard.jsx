@@ -33,6 +33,7 @@ import {
 import { parseISO, format } from "date-fns";
 import { toast } from "react-toastify";
 import Graph from "../components/Graph";
+import Overview from "../components/Overview";
 
 const SelectApiary = ({ apiaries, apiary, device, setApiary, setDevice }) => {
   const theme = useTheme();
@@ -117,6 +118,7 @@ const Dashboard = () => {
         setApiary={setApiary}
         setDevice={setDevice}
       />
+
       <Box sx={{ width: "100%", px: 4, pt: 2 }}>
         <Grid
           container
@@ -134,7 +136,9 @@ const Dashboard = () => {
                 align: "center",
                 bgcolor: "primary.dark",
                 borderRadius: `24px`,
-                height: "440px",
+                minHeight: "25vh",
+                p: 4,
+                height: "100%",
               }}
             >
               <Typography
@@ -154,52 +158,12 @@ const Dashboard = () => {
                 align: "center",
                 bgcolor: "primary.dark",
                 borderRadius: `24px`,
-                height: "440px",
+                minHeight: "25vh",
+                p: 4,
+                height: "100%",
               }}
             >
-              video feed
-            </Box>
-          </Grid>
-          <Grid item xs={12} lg={4}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                align: "center",
-                bgcolor: "primary.dark",
-                borderRadius: `24px`,
-                height: "360px",
-              }}
-            >
-              apiary status, devices online
-            </Box>
-          </Grid>
-          <Grid item xs={12} lg={4}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                align: "center",
-                bgcolor: "primary.dark",
-                borderRadius: `24px`,
-                height: "360px",
-              }}
-            >
-              daily count so far (up or down from yesterday)
-            </Box>
-          </Grid>
-          <Grid item xs={12} lg={4}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                align: "center",
-                bgcolor: "primary.dark",
-                borderRadius: `24px`,
-                height: "360px",
-              }}
-            >
-              weather at this location
+              <Overview device={device} />
             </Box>
           </Grid>
         </Grid>
