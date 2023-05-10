@@ -15,7 +15,7 @@ import {
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import DeviceHubOutlinedIcon from "@mui/icons-material/DeviceHubOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { tokens } from "../theme";
 import { deleteApiary, updateApiary } from "../features/apiary/apiary.slice";
 import { useDispatch, useSelector } from "react-redux";
@@ -52,7 +52,15 @@ const ApiaryCard = ({ apiary }) => {
 
   const { name, location } = formData;
 
-  const userRole = checkUser(apiary, user);
+  const getUserRole = async () => {
+    const role = await checkUser(apiary, user);
+    setUserRole(role);
+  };
+
+  const [userRole, setUserRole] = useState("");
+  useEffect(() => {
+    getUserRole();
+  }, []);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -199,7 +207,7 @@ const ApiaryCard = ({ apiary }) => {
                   color: "err.main",
                 },
               }}
-              disabled={userRole === "CREATOR"}
+              disabled={userRole !== "CREATOR"}
             >
               Delete Apiary
             </Button>

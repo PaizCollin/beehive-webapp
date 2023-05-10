@@ -118,6 +118,7 @@ const Dashboard = () => {
         setApiary={setApiary}
         setDevice={setDevice}
       />
+
       <Box sx={{ width: "100%", px: 4, pt: 2 }}>
         <Grid
           container
@@ -137,6 +138,7 @@ const Dashboard = () => {
                 borderRadius: `24px`,
                 minHeight: "25vh",
                 p: 4,
+                height: "100%",
               }}
             >
               <Typography
@@ -148,20 +150,6 @@ const Dashboard = () => {
               <Graph device={device} />
             </Box>
           </Grid>
-          {/* <Grid item xs={12} lg={4}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                align: "center",
-                bgcolor: "primary.dark",
-                borderRadius: `24px`,
-                height: "440px",
-              }}
-            >
-              video feed
-            </Box>
-          </Grid> */}
           <Grid item xs={12} lg={4}>
             <Box
               sx={{
@@ -172,39 +160,12 @@ const Dashboard = () => {
                 borderRadius: `24px`,
                 minHeight: "25vh",
                 p: 4,
+                height: "100%",
               }}
             >
               <Overview device={device} />
             </Box>
           </Grid>
-          {/* <Grid item xs={12} lg={4}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                align: "center",
-                bgcolor: "primary.dark",
-                borderRadius: `24px`,
-                height: "360px",
-              }}
-            >
-              daily count so far (up or down from yesterday)
-            </Box>
-          </Grid> */}
-          {/* <Grid item xs={12} lg={4}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                align: "center",
-                bgcolor: "primary.dark",
-                borderRadius: `24px`,
-                height: "360px",
-              }}
-            >
-              weather at this location
-            </Box>
-          </Grid> */}
         </Grid>
       </Box>
     </>

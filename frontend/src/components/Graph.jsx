@@ -14,7 +14,6 @@ import { tokens } from "../theme";
 import { useState } from "react";
 
 const filterOptions = [
-  { label: "1 hour", value: 1 / 24 },
   { label: "1 day", value: 1 },
   { label: "1 week", value: 7 },
   { label: "1 month", value: 30 },

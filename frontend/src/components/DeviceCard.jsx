@@ -164,7 +164,7 @@ const DeviceCard = ({ device, apiary, userRole }) => {
               autoFocus
               onChange={onChange}
               variant={"filled"}
-              disabled
+              disabled={userRole !== "CREATOR"}
             />
             <TextField
               margin="normal"
@@ -209,7 +209,7 @@ const DeviceCard = ({ device, apiary, userRole }) => {
                   color: "err.main",
                 },
               }}
-              disabled={userRole === "USER"}
+              disabled={userRole !== "CREATOR"}
             >
               Delete Device
             </Button>

@@ -9,7 +9,7 @@ import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOut
 
 const getAccumulatedActivity = (device) => {
   const twentyFourHoursAgo = new Date();
-  twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24);
+  twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours());
 
   const relevantDataPoints = device?.data?.datapoints?.filter((datapoint) => {
     const datapointTime = new Date(datapoint.time);
@@ -103,6 +103,8 @@ const Overview = ({ device }) => {
               p: 4,
               borderRadius: `24px`,
               maxWidth: "1000px",
+              marginTop: "auto",
+              marginBottom: "auto",
             }}
           >
             <Card
@@ -128,17 +130,13 @@ const Overview = ({ device }) => {
                       height: 36,
                       m: 1,
                       color: "onSecondary.main",
-                      bgcolor: "secondary.main",
+                      bgcolor: colors.greenAccent[500],
                     }}
                   >
                     <CheckCircleOutlineOutlinedIcon />
                   </Avatar>
                 }
-                title={
-                  <Typography variant="h5">
-                    Offline for {formatOfflineTime(offlineTime)}
-                  </Typography>
-                }
+                title={<Typography variant="h5">Online</Typography>}
               />
             </Card>
             <Card
