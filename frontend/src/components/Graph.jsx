@@ -9,35 +9,18 @@ import {
   Legend,
 } from "recharts";
 import { parseISO, parse, format } from "date-fns";
-import { Box, Typography, useTheme, Button } from "@mui/material";
+import {
+  Box,
+  Typography,
+  useTheme,
+  Button,
+  Fade,
+  Backdrop,
+} from "@mui/material";
 import { tokens } from "../theme";
 import { useState } from "react";
-
-const filterOptions = [
-  { label: "1 day", value: 1 },
-  { label: "1 week", value: 7 },
-  { label: "1 month", value: 30 },
-  { label: "3 months", value: 90 },
-  { label: "6 months", value: 180 },
-  { label: "1 year", value: 365 },
-  { label: "2 years", value: 730 },
-  { label: "All time", value: Infinity },
-];
-
-function filterData(datapoints, filterValue) {
-  if (filterValue === Infinity) {
-    return datapoints;
-  }
-
-  const now = Date.now();
-  const filterDate = new Date(now - filterValue * 24 * 60 * 60 * 1000);
-  const filteredData = datapoints.filter((datapoint) => {
-    const datapointDate = new Date(datapoint.time);
-    const diffTime = filterDate.getTime() - datapointDate.getTime();
-    return diffTime <= 0;
-  });
-  return filteredData;
-}
+import { useSelector } from "react-redux";
+import Loading from "./Loading";
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
@@ -64,9 +47,18 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-const Graph = ({ device }) => {
+const Graph = ({
+  device,
+  selectedFilter,
+  setSelectedFilter,
+  filterOptions,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const { apiaries, isLoading, isError, message } = useSelector(
+    (state) => state.apiary
+  );
 
   const [visible, setVisible] = useState({
     x: true,
@@ -86,8 +78,6 @@ const Graph = ({ device }) => {
 
   const [displayedDates, setDisplayedDates] = useState([]);
 
-  const [selectedFilter, setSelectedFilter] = useState(filterOptions[0].value);
-
   if (!device) {
     return (
       <Typography variant="h6" sx={{ color: "text.secondary" }}>
@@ -95,25 +85,35 @@ const Graph = ({ device }) => {
       </Typography>
     );
   } else {
-    const time = device?.data.datapoints.map((dataPoint) => dataPoint.time); // extract time value from each data point
+    console.log(device);
 
-    const temp = device?.data.datapoints
+    let dp = [];
+
+    if (device?.data?.datapoints?.length > 0) {
+      dp = device.data.datapoints;
+    }
+
+    console.log(dp);
+
+    const time = dp.map((dataPoint) => dataPoint.time); // extract time value from each data point
+
+    const temp = dp
       .map((dataPoint) => Math.round(dataPoint.weather.temp * 100) / 100) // round temp value to the hundredths place
       .filter((temp) => typeof temp === "number"); // remove any non-number temp values
 
-    const humidity = device?.data.datapoints
+    const humidity = dp
       .map((dataPoint) => dataPoint.weather.humidity) // extract humidity value from each data point
       .filter((humidity) => typeof humidity === "number"); // remove any non-number humidity values
 
-    const windspeed = device?.data.datapoints
+    const windspeed = dp
       .map((dataPoint) => dataPoint.weather.windspeed) // extract windspeed value from each data point
       .filter((windspeed) => typeof windspeed === "number"); // remove any non-number windspeed values
 
-    const x = device?.data.datapoints
+    const x = dp
       .map((dp) => dp.raw_activity.x)
       .filter((x) => typeof x === "number"); // remove any non-number x values;
 
-    const y = device?.data.datapoints
+    const y = dp
       .map((dp) => dp.raw_activity.y)
       .filter((y) => typeof y === "number"); // remove any non-number y values;
 
@@ -128,12 +128,10 @@ const Graph = ({ device }) => {
       };
     });
 
-    const filteredData = filterData(result, selectedFilter);
-
     return (
       <>
         <ResponsiveContainer width="100%" height={360}>
-          <AreaChart data={filteredData}>
+          <AreaChart data={result}>
             <defs>
               <linearGradient id="tempColor" x1="0" y1="0" x2="0" y2="1">
                 <stop
@@ -320,11 +318,11 @@ const Graph = ({ device }) => {
           </AreaChart>
         </ResponsiveContainer>
         <div>
-          {filterOptions.map(({ label, value }) => (
+          {filterOptions.map(({ label, code, value }) => (
             <Button
               key={value}
               variant={selectedFilter === value ? "contained" : "outlined"}
-              onClick={() => setSelectedFilter(value)}
+              onClick={() => setSelectedFilter({ label, code, value })}
             >
               {label}
             </Button>
@@ -334,4 +332,5 @@ const Graph = ({ device }) => {
     );
   }
 };
+
 export default Graph;

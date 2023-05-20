@@ -64,54 +64,54 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
-const DeviceItem = ({ device, to, selected, setSelected }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+// const DeviceItem = ({ device, to, selected, setSelected }) => {
+//   const theme = useTheme();
+//   const colors = tokens(theme.palette.mode);
 
-  return (
-    <MenuItem
-      active={selected === device.name}
-      sx={{
-        color: "primary.light",
-      }}
-      onClick={() => setSelected(device.name)}
-    >
-      <Typography color="primary.light">{device.name}</Typography>
-      <Link to={to} />
-    </MenuItem>
-  );
-};
+//   return (
+//     <MenuItem
+//       active={selected === device.name}
+//       sx={{
+//         color: "primary.light",
+//       }}
+//       onClick={() => setSelected(device.name)}
+//     >
+//       <Typography color="primary.light">{device.name}</Typography>
+//       <Link to={to} />
+//     </MenuItem>
+//   );
+// };
 
-const ApiaryMenu = ({ apiary, selected, setSelected }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+// const ApiaryMenu = ({ apiary, selected, setSelected }) => {
+//   const theme = useTheme();
+//   const colors = tokens(theme.palette.mode);
 
-  return (
-    <SubMenu
-      sx={{
-        color: "primary.light",
-        backgroundColor: "primary.dark",
-      }}
-      title={<Typography color="primary.light">{apiary.name}</Typography>}
-    >
-      {apiary.devices.length > 0 ? (
-        <div className="devices">
-          {apiary.devices.map((device) => (
-            <DeviceItem
-              key={device._id}
-              device={device}
-              selected={selected}
-              setSelected={setSelected}
-              to="/"
-            />
-          ))}
-        </div>
-      ) : (
-        <Typography color="primary.light">Please add a device</Typography>
-      )}
-    </SubMenu>
-  );
-};
+//   return (
+//     <SubMenu
+//       sx={{
+//         color: "primary.light",
+//         backgroundColor: "primary.dark",
+//       }}
+//       title={<Typography color="primary.light">{apiary.name}</Typography>}
+//     >
+//       {apiary.devices.length > 0 ? (
+//         <div className="devices">
+//           {apiary.devices.map((device) => (
+//             <DeviceItem
+//               key={device._id}
+//               device={device}
+//               selected={selected}
+//               setSelected={setSelected}
+//               to="/"
+//             />
+//           ))}
+//         </div>
+//       ) : (
+//         <Typography color="primary.light">Please add a device</Typography>
+//       )}
+//     </SubMenu>
+//   );
+// };
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -122,27 +122,27 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [selected, setSelected] = useState("Home");
 
-  const { user } = useSelector((state) => state.auth);
-  const { apiaries, isLoading, isError, message } = useSelector(
-    (state) => state.apiary
-  );
+  // const { user } = useSelector((state) => state.auth);
+  // const { apiaries, isLoading, isError, message } = useSelector(
+  //   (state) => state.apiary
+  // );
 
-  useEffect(() => {
-    if (isError) {
-      console.log(message);
-    }
+  // useEffect(() => {
+  //   if (isError) {
+  //     console.log(message);
+  //   }
 
-    if (!user) {
-      navigate("/login");
-    }
+  //   if (!user) {
+  //     navigate("/login");
+  //   }
 
-    dispatch(getApiaries());
+  //   dispatch(getApiaries());
 
-    return () => {
-      dispatch(apiaryReset());
-      //navigate("/");
-    };
-  }, [user, navigate, isError, message, dispatch]);
+  //   return () => {
+  //     dispatch(apiaryReset());
+  //     //navigate("/");
+  //   };
+  // }, [user, navigate, isError, message, dispatch]);
 
   if (!isCollapsed) {
     <Backdrop
@@ -232,7 +232,7 @@ const Sidebar = () => {
                 selected={selected}
                 setSelected={setSelected}
               />
-              <SubMenu
+              {/* <SubMenu
                 sx={{
                   backgroundColor: "primary.dark",
                 }}
@@ -271,7 +271,7 @@ const Sidebar = () => {
                     Please create an apiary
                   </Typography>
                 )}
-              </SubMenu>
+              </SubMenu> */}
               <Item
                 title="Manage"
                 to="/manage"

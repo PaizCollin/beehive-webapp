@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   getApiaries,
+  getApiariesWithDeviceData,
   reset as apiaryReset,
 } from "../features/apiary/apiary.slice";
 import UserCard from "../components/UserCard";

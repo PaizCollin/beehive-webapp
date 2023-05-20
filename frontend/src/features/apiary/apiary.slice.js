@@ -30,6 +30,27 @@ export const getApiaries = createAsyncThunk(
   }
 );
 
+// Get user apiaries GOOD
+export const getApiariesWithDeviceData = createAsyncThunk(
+  "apiary/getApiariesWithDeviceData",
+  async (data, thunkAPI) => {
+    if (!thunkAPI.getState().auth.user) return;
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      if (!token) return;
+      return await apiaryService.getApiariesWithDeviceData(data, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 // Set new apiary GOOD
 export const setApiary = createAsyncThunk(
   "apiary/setApiary",
@@ -229,6 +250,21 @@ export const apiarySlice = createSlice({
         state.apiaries = action.payload;
       })
       .addCase(getApiaries.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+
+      .addCase(getApiariesWithDeviceData.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+      })
+      .addCase(getApiariesWithDeviceData.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.apiaries = action.payload;
+      })
+      .addCase(getApiariesWithDeviceData.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
