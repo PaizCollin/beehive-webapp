@@ -17,33 +17,6 @@ import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOut
 import { useSelector } from "react-redux";
 import Loading from "./Loading";
 
-// gets the accumulated activity of the device in the last 24 hours
-const getAccumulatedActivity = (device) => {
-  const twentyFourHoursAgo = new Date();
-  twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24);
-
-  const relevantDataPoints = device?.data?.datapoints?.filter((datapoint) => {
-    const datapointTime = new Date(datapoint.time);
-    datapointTime.setHours(datapointTime.getHours() + 7); // UTC to PST
-
-    return datapointTime >= twentyFourHoursAgo;
-  });
-
-  if (!relevantDataPoints || relevantDataPoints.length === 0) {
-    return { x: 0, y: 0 };
-  }
-
-  const accumulatedActivity = relevantDataPoints.reduce(
-    (acc, datapoint) => {
-      const { x, y } = datapoint.raw_activity;
-      return { x: acc.x + x, y: acc.y + y };
-    },
-    { x: 0, y: 0 }
-  );
-
-  return accumulatedActivity;
-};
-
 const Overview = ({ device }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -54,6 +27,33 @@ const Overview = ({ device }) => {
 
   const [isOnline, setIsOnline] = useState(false);
   const [offlineTime, setOfflineTime] = useState(null);
+
+  // gets the accumulated activity of the device in the last 24 hours
+  const getAccumulatedActivity = (device) => {
+    const twentyFourHoursAgo = new Date();
+    twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24);
+
+    const relevantDataPoints = device?.data?.datapoints?.filter((datapoint) => {
+      const datapointTime = new Date(datapoint.time);
+      datapointTime.setHours(datapointTime.getHours() + 7); // UTC to PST
+
+      return datapointTime >= twentyFourHoursAgo;
+    });
+
+    if (!relevantDataPoints || relevantDataPoints.length === 0) {
+      return { x: 0, y: 0 };
+    }
+
+    const accumulatedActivity = relevantDataPoints.reduce(
+      (acc, datapoint) => {
+        const { x, y } = datapoint.raw_activity;
+        return { x: acc.x + x, y: acc.y + y };
+      },
+      { x: 0, y: 0 }
+    );
+
+    return accumulatedActivity;
+  };
 
   const { x, y } = getAccumulatedActivity(device);
 

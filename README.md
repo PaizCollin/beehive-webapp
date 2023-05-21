@@ -54,10 +54,13 @@ This project aims to rely solely on _open-source_ technologies to ensure its rel
   - [`AddUserCard` React Component](#-addusercard--react-component)
   - [`ApiaryCard` React Component](#-apiarycard--react-component)
   - [`AutocompleteMaps` Typescript Component](#-autocompletemaps--typescript-component)
+  - [`CustomTooltip` React Component](#-customtooltip--react-component)
   - [`DeviceCard` React Component](#-devicecard--react-component)
   - [`FAQCard` React Component](#-faqcard--react-component)
   - [`Graph` React Component](#-graph--react-component)
   - [`Loading` React Component](#-loading--react-component)
+  - [`Overview` React Component](#-overview--react-component)
+  - [`SelectApiary` React Component](#-selectapiary--react-component)
   - [`Sidebar` React Component](#-sidebar--react-component)
   - [`Topbar` React Component](#-topbar--react-component)
   - [`UserCard` React Component](#-usercard--react-component)
@@ -73,14 +76,20 @@ This project aims to rely solely on _open-source_ technologies to ensure its rel
   - [`Dasboard` React Page](#-dashboard--react-page)
   - [`FAQ` React Page](#-faq--react-page)
   - [`Login` React Page](#-login--react-page)
-  - [`Manage` Component](#-manage--component)
-  - [`Register` Page](#-register--page)
-- [Deployment (Jonathan)](#deployment--jonathan-)
-- [Testing (TBD)](#testing--tbd-)
+  - [`Manage` React Page](#-manage--react-page)
+  - [`Register` React Page](#-register--react-page)
+- [Deployment](#deployment)
+- [Testing](#testing)
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
 - [Appendix](#appendix)
 - [Screenshots](#screenshots)
+  - [Sign Up Page](#sign-up-page)
+  - [Sign In Page](#sign-in-page)
+  - [Dashboard Page](#dashboard-page)
+  - [Manage Page](#manage-page)
+  - [About Page](#about-page)
+  - [FAQ Page](#faq-page)
 - [Video Demo](#video-demo)
 - [Contact](#contact)
 
@@ -1504,7 +1513,89 @@ export default MyComponent;
 
 In this example, the `Loading` component is used to display a loading spinner.
 
-## SelectApiary Component
+## `Overview` ReactComponent
+
+The `Overview` component displays an overview of a selected device's information, such as its online status and activity within the last 24 hours. It receives the `device` prop to determine which device to display the overview for. Online status is determined by seeing if the device has sent a data point within the last 3 hours. The `Overview` component also displays the time duration that the device has been offline, if applicable.
+
+### Props
+
+| Name   | Type     | Required | Description                                          |
+| ------ | -------- | -------- | ---------------------------------------------------- |
+| device | `Object` | Yes      | The device object for which to display the overview. |
+
+### State
+
+| Name        | Type      | Description                                                                   |
+| ----------- | --------- | ----------------------------------------------------------------------------- |
+| isOnline    | `Boolean` | Represents whether the device is currently online.                            |
+| offlineTime | `Number`  | The time duration in seconds that the device has been offline, if applicable. |
+
+### Methods
+
+| Name                   | Parameters    | Description                                                                                     |
+| ---------------------- | ------------- | ----------------------------------------------------------------------------------------------- |
+| getAccumulatedActivity | `device`      | Retrieves the accumulated activity of the device in the last 24 hours based on its data points. |
+| formatOfflineTime      | `offlineTime` | Formats the offline time duration into a readable format (e.g., "2 days, 3 hours, 15 minutes"). |
+
+### Child Components
+
+| Name                            | Package                                           | Description                                                                 |
+| ------------------------------- | ------------------------------------------------- | --------------------------------------------------------------------------- |
+| Typography                      | `@mui/material`                                   | A component for displaying text in various styles and variants.             |
+| Avatar                          | `@mui/material`                                   | A component for displaying images or icons representing a user or object.   |
+| Box                             | `@mui/material`                                   | A component for creating layout containers and boxes with custom styles.    |
+| Card                            | `@mui/material`                                   | A component for displaying cards with various content and styles.           |
+| CardHeader                      | `@mui/material`                                   | A component for displaying headers within a card with customizable content. |
+| Fade                            | `@mui/material`                                   | A component for animating the entering and exiting of elements.             |
+| Backdrop                        | `@mui/material`                                   | A component that provides a backdrop overlay for other components.          |
+| CheckCircleOutlineOutlinedIcon  | `@mui/icons-material/CheckCircleOutlineOutlined`  | An icon component for displaying a checkmark circle outline.                |
+| CancelOutlinedIcon              | `@mui/icons-material/CancelOutlined`              | An icon component for displaying a cancel symbol.                           |
+| AddCircleOutlineOutlinedIcon    | `@mui/icons-material/AddCircleOutlineOutlined`    | An icon component for displaying a plus circle outline.                     |
+| RemoveCircleOutlineOutlinedIcon | `@mui/icons-material/RemoveCircleOutlineOutlined` | An icon component for displaying a minus circle outline.                    |
+| useSelector                     | `react-redux`                                     | A React Redux hook for accessing the Redux store's state.                   |
+| Loading                         | Custom component                                  | A custom component for displaying a loading animation.                      |
+
+### Usage Example
+
+```jsx
+import React, { useEffect, useState } from "react";
+import Overview from "./Overview";
+
+const Dashboard = () => {
+  const [selectedDevice, setSelectedDevice] = useState(null);
+
+  // Simulated data fetching and selection
+  useEffect(() => {
+    const fetchDevices = async () => {
+      // Fetch the list of devices from an API
+      const devices = await fetchDevicesFromAPI();
+
+      // Select the first device by default
+      if (devices.length > 0) {
+        setSelectedDevice(devices[0]);
+      }
+    };
+
+    fetchDevices();
+  }, []);
+
+  return (
+    <div>
+      {/* Render device selection UI */}
+      <DeviceSelection devices={devices} onSelect={setSelectedDevice} />
+
+      {/* Render Overview component */}
+      <Overview device={selectedDevice} />
+    </div>
+  );
+};
+
+export default Dashboard;
+```
+
+In this example, the `Dashboard` component fetches a list of devices from an API and renders a UI for device selection. The `Overview` component is then rendered with the selected device passed as the `device` prop. The `Overview` component displays the overview information for the selected device, including its online status and activity within the last 24 hours.
+
+## `SelectApiary` React Component
 
 The `SelectApiary` component is used for selecting an `apiary` and `device`. It receives several props and renders two select dropdowns for choosing an `apiary` and `device`.
 
@@ -2005,7 +2096,7 @@ const App = () => {
 
 In this example, the renders the `About` component which displays information about the project and the team behind it.
 
-## `Dashboard` React Component
+## `Dashboard` React Page
 
 The `Dashboard` component represents a dashboard page that displays various data visualizations and overviews. It utilizes several child components and props to provide a comprehensive view of the user's data for each of their devices. Using the `SelectApiary` component, the user can select an `apiary` and a corresponding `device` to then populate the dashboard (Recharts graph and overview) with the data from that device. The `Dashboard` component also provides a filtering component that allows the user to filter the data by date range, as well as select which metrics to populate the graph with.
 
@@ -2119,7 +2210,7 @@ The `FAQ` page does not define any handlers.
 
 ### Description
 
-The `Login` page allows users to log into an application. The component receives user inputs of `email`, `password`, and `isChecked`. It dispatches a login action with the input data to authenticate users via the `auth.slice.js` module. It also displays a loading spinner while the authentication is in progress.
+The `Login` page allows users to log into an application. The component receives user inputs of `email`, `password`, and `isChecked`. It dispatches a login action with the input data to authenticate users via the `auth.slice.js` module. It also displays a loading spinner while the authentication is in progress. If the authentication fails, it displays an error message. The user is prompted to enter their email and password. The user can also select the `Remember me` checkbox to save their login credentials.
 
 ### Props
 
@@ -2165,7 +2256,7 @@ export default App;
 
 In this example, we import the `Login` component and render it in the `App` component. This will display the login form to the user.
 
-## `Manage` Component
+## `Manage` React Page
 
 ### Description
 
@@ -2213,11 +2304,11 @@ function MyComponent() {
 
 In this example, the `Manage` component will display a list of existing apiaries, along with a form for adding a new apiary. If the user is not logged in, they will be redirected to the login page. If there is an error fetching data from the server, an error message will be displayed. If data is being fetched from the server, a loading spinner will be displayed.
 
-## `Register` Page
+## `Register` React Page
 
 ### Description
 
-The `Register` component is a form that allows users to register for a new account. This component is built using React and various components from the Material UI library. It relies on the Redux store to handle user authentication and makes use of React Router DOM to handle navigation.
+The `Register` component is a form that allows users to register for a new account. This component is built using React and various components from the Material UI library. It relies on the Redux store to handle user authentication and makes use of React Router DOM to handle navigation. The user is prompted to enter their name, email, password, and confirm password.The user can then submit the form to register for a new account. If the registration is successful, the user is redirected to the dashboard. If the registration fails, an error message is displayed.
 
 ### Props
 
@@ -2318,7 +2409,7 @@ $ heroku config:set NODE_MODULES_CACHE=false
   },
 ```
 
-# Testing (TBD)
+# Testing
 
 Testing has been manual. Consider implementing a testing framework using Jest and Enzyme.
 
@@ -2336,25 +2427,33 @@ Include any additional information or resources, such as troubleshooting tips or
 
 # Screenshots
 
-## Dashboard
+## Sign Up Page
 
-![Dashboard](/frontend/public/1.PNG)
+![Sign Up](/frontend/public/signup-ss.PNG)
 
-## Manage
+## Sign In Page
 
-![Manage](/frontend/public/2.PNG)
+![Sign In](/frontend/public/signin-ss.PNG)
 
-## About
+## Dashboard Page
 
-![About](/frontend/public/3.PNG)
+![Dashboard](/frontend/public/db-ss.PNG)
 
-## FAQ
+## Manage Page
 
-![FAQ](/frontend/public/4.PNG)
+![Manage](/frontend/public/manage-ss.PNG)
+
+## About Page
+
+![About](/frontend/public/about-ss.PNG)
+
+## FAQ Page
+
+![FAQ](/frontend/public/faq-ss.PNG)
 
 # Video Demo
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/zT9ShMXCmIA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+[![Video Demo on YouTube](https://img.youtube.com/vi/zT9ShMXCmIA/0.jpg)](https://www.youtube.com/watch?v=zT9ShMXCmIA)
 
 # Contact
 
