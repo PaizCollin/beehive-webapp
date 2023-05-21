@@ -515,18 +515,19 @@ This file defines the routes for the apiary related endpoints. The routes are pr
 
 ### Route Endpoints
 
-| Endpoint                                                                        | Request Type | Authentication | Description                                                                                   |
-| ------------------------------------------------------------------------------- | ------------ | -------------- | --------------------------------------------------------------------------------------------- |
-| `/api/apiaries`                                                                 | `GET`        | `Protect`      | Returns all apiaries associated with the authenticated user.                                  |
-| `/api/apiaries`                                                                 | `POST`       | `Protect`      | Creates a new apiary associated with the authenticated user.                                  |
-| `/api/apiaries/apiary/:apiary_id`                                               | `PUT`        | `Protect`      | Updates the specified apiary associated with the authenticated user.                          |
-| `/api/apiaries/apiary/:apiary_id`                                               | `DELETE`     | `Protect`      | Deletes the specified apiary associated with the authenticated user.                          |
-| `/api/apiaries/apiary/:apiary_id/setdevice`                                     | `PUT`        | `Protect`      | Sets a new device for the specified apiary associated with the authenticated user.            |
-| `/api/apiaries/apiary/:apiary_id/device/:device_id/updatedevice`                | `PUT`        | `Protect`      | Updates the specified device for the specified apiary associated with the authenticated user. |
-| `/api/apiaries/apiary/:apiary_id/device/:device_id/serial/:serial/deletedevice` | `PUT`        | `Protect`      | Deletes the specified device for the specified apiary associated with the authenticated user. |
-| `/api/apiaries/apiary/:apiary_id/setmember`                                     | `PUT`        | `Protect`      | Sets a new member for the specified apiary associated with the authenticated user.            |
-| `/api/apiaries/apiary/:apiary_id/user/:user_id/updatemember`                    | `PUT`        | `Protect`      | Updates the specified member for the specified apiary associated with the authenticated user. |
-| `/api/apiaries/apiary/:apiary_id/user/:user_id/deletemember`                    | `PUT`        | `Protect`      | Deletes the specified member for the specified apiary associated with the authenticated user. |
+| Endpoint                                                                        | Request Type | Authentication | Description                                                                                                                                                   |
+| ------------------------------------------------------------------------------- | ------------ | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/api/apiaries`                                                                 | `GET`        | `Protect`      | Returns all apiaries associated with the authenticated user. (no data)                                                                                        |
+| `/api/apiaries/filter/:filterid`                                                | `GET`        | `Protect`      | Returns all apiaries associated with the authenticated user. (includes device data filtered by time range; limited to 1000 datapoints for request efficiency) |
+| `/api/apiaries`                                                                 | `POST`       | `Protect`      | Creates a new apiary associated with the authenticated user.                                                                                                  |
+| `/api/apiaries/apiary/:apiary_id`                                               | `PUT`        | `Protect`      | Updates the specified apiary associated with the authenticated user.                                                                                          |
+| `/api/apiaries/apiary/:apiary_id`                                               | `DELETE`     | `Protect`      | Deletes the specified apiary associated with the authenticated user.                                                                                          |
+| `/api/apiaries/apiary/:apiary_id/setdevice`                                     | `PUT`        | `Protect`      | Sets a new device for the specified apiary associated with the authenticated user.                                                                            |
+| `/api/apiaries/apiary/:apiary_id/device/:device_id/updatedevice`                | `PUT`        | `Protect`      | Updates the specified device for the specified apiary associated with the authenticated user.                                                                 |
+| `/api/apiaries/apiary/:apiary_id/device/:device_id/serial/:serial/deletedevice` | `PUT`        | `Protect`      | Deletes the specified device for the specified apiary associated with the authenticated user.                                                                 |
+| `/api/apiaries/apiary/:apiary_id/setmember`                                     | `PUT`        | `Protect`      | Sets a new member for the specified apiary associated with the authenticated user.                                                                            |
+| `/api/apiaries/apiary/:apiary_id/user/:user_id/updatemember`                    | `PUT`        | `Protect`      | Updates the specified member for the specified apiary associated with the authenticated user.                                                                 |
+| `/api/apiaries/apiary/:apiary_id/user/:user_id/deletemember`                    | `PUT`        | `Protect`      | Deletes the specified member for the specified apiary associated with the authenticated user.                                                                 |
 
 ## `data.routes`
 
@@ -567,19 +568,22 @@ This file handles apiary-related routes and requests, including creating, updati
 
 ### Functions
 
-| Function          | Route                                                                               | Access                  | Description                                                                                |
-| ----------------- | ----------------------------------------------------------------------------------- | ----------------------- | ------------------------------------------------------------------------------------------ |
-| checkUserToApiary | -                                                                                   | Private; apiary admins  | Checks if the logged-in user is a member of the specified apiary and has admin privileges. |
-| getApiaries       | `GET /api/apiaries`                                                                 | Private; all users      | Retrieves all apiaries associated with the currently logged-in user.                       |
-| setApiary         | `POST /api/apiaries`                                                                | Private; all users      | Creates a new apiary.                                                                      |
-| updateApiary      | `PUT /api/apiaries/apiary/:apiary_id`                                               | Private; apiary admins  | Updates the specified apiary's name and location.                                          |
-| deleteApiary      | `DELETE /api/apiaries/apiary/:apiary_id`                                            | Private; apiary creator | Deletes the specified apiary and all associated data.                                      |
-| setDevice         | `PUT /api/apiaries/apiary/:apiary_id/setdevice`                                     | Private; apiary admins  | Sets a new device to an apiary.                                                            |
-| updateDevice      | `PUT /api/apiaries/apiary/:apiary_id/device/:device_id/updatedevice`                | Private; apiary admins  | Updates an existing device in an apiary.                                                   |
-| deleteDevice      | `PUT /api/apiaries/apiary/:apiary_id/device/:device_id/serial/:serial/deletedevice` | Private; apiary admins  | Deletes an existing device from an apiary.                                                 |
-| setMember         | `PUT /api/apiaries/apiary/:apiary_id/setmember`                                     | Private; apiary admins  | Updates the user's role in the apiary to Editor.                                           |
-| updateMember      | `PUT /api/apiaries/apiary/:apiary_id/user/:user_id/updatemember`                    | Private; apiary admins  | Updates the user's role in the apiary to Owner.                                            |
-| deleteMember      | `PUT /api/apiaries/apiary/:apiary_id/user/:user_id/deletemember`                    | Private; apiary admins  | Deletes the specified user from the apiary.                                                |
+Here is the updated table with the new GET request:
+
+| Function                | Route                                                                               | Access                  | Description                                                                                                                          |
+| ----------------------- | ----------------------------------------------------------------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| checkUserToApiary       | -                                                                                   | Private; apiary admins  | Checks if the logged-in user is a member of the specified apiary and has admin privileges.                                           |
+| getApiaries             | `GET /api/apiaries`                                                                 | Private; all users      | Retrieves all apiaries associated with the currently logged-in user.                                                                 |
+| getApiaryWithDeviceData | `GET /api/apiaries/filter/:filter`                                                  | Private; all users      | Retrieves apiaries with device data based on the specified date filter. Data is limited to 1000 datapoints for speed and efficiency. |
+| setApiary               | `POST /api/apiaries`                                                                | Private; all users      | Creates a new apiary.                                                                                                                |
+| updateApiary            | `PUT /api/apiaries/apiary/:apiary_id`                                               | Private; apiary admins  | Updates the specified apiary's name and location.                                                                                    |
+| deleteApiary            | `DELETE /api/apiaries/apiary/:apiary_id`                                            | Private; apiary creator | Deletes the specified apiary and all associated data.                                                                                |
+| setDevice               | `PUT /api/apiaries/apiary/:apiary_id/setdevice`                                     | Private; apiary admins  | Sets a new device to an apiary.                                                                                                      |
+| updateDevice            | `PUT /api/apiaries/apiary/:apiary_id/device/:device_id/updatedevice`                | Private; apiary admins  | Updates an existing device in an apiary.                                                                                             |
+| deleteDevice            | `PUT /api/apiaries/apiary/:apiary_id/device/:device_id/serial/:serial/deletedevice` | Private; apiary admins  | Deletes an existing device from an apiary.                                                                                           |
+| setMember               | `PUT /api/apiaries/apiary/:apiary_id/setmember`                                     | Private; apiary admins  | Updates the user's role in the apiary to Editor.                                                                                     |
+| updateMember            | `PUT /api/apiaries/apiary/:apiary_id/user/:user_id/updatemember`                    | Private; apiary admins  | Updates the user's role in the apiary to Owner.                                                                                      |
+| deleteMember            | `PUT /api/apiaries/apiary/:apiary_id/user/:user_id/deletemember`                    | Private; apiary admins  | Deletes the specified user from the apiary.                                                                                          |
 
 ## `data.controller`
 
@@ -772,7 +776,7 @@ The `AboutCard` component does not define any handlers.
 | IconButton                | `@mui/material`       | A button component that displays an icon                        |
 | InfoOutlinedIcon          | `@mui/icons-material` | An icon component that represents an information icon           |
 | Typography                | `@mui/material`       | A component that displays text content                          |
-| tokens`                   | Custom function       | A function that returns color tokens based on the current theme |
+| tokens                    | Custom function       | A function that returns color tokens based on the current theme |
 | useTheme                  | `@mui/material`       | A hook that provides access to the current theme                |
 | useState                  | `react`               | A hook that adds state to a functional component                |
 
@@ -1168,6 +1172,59 @@ In this example, the `value` prop is the currently selected place, and the `setV
 
 Note that you'll need to obtain a _Google Maps API_ key and enable the _Places API_ in order to use this component. You can do this by following the instructions in the [Google Maps JavaScript API documentation](https://developers.google.com/maps/gmp-get-started).
 
+## `CustomTooltip` React Component
+
+The `CustomTooltip` component is a custom tooltip component used for displaying additional information when hovering over a Rechart element. It receives `active`, `payload`, and `label` as props and renders the tooltip content accordingly, based on what metrics the Recharts graph is currently populated with.
+
+### Props
+
+| Name    | Type      | Required | Description                                                   |
+| ------- | --------- | -------- | ------------------------------------------------------------- |
+| active  | `Boolean` | Yes      | Determines whether the tooltip should be displayed or not.    |
+| payload | `Array`   | Yes      | An array of data points representing the values of the chart. |
+| label   | `String`  | Yes      | The label of the current data point being hovered.            |
+
+### State
+
+The `CustomTooltip` component does not define any state.
+
+### Methods
+
+The `CustomTooltip` component does not define any methods.
+
+### Handlers
+
+The `CustomTooltip` component does not define any handlers.
+
+### Child Components
+
+| Name       | Package         | Description                            |
+| ---------- | --------------- | -------------------------------------- |
+| Box        | `@mui/material` | A layout component for creating boxes. |
+| Typography | `@mui/material` | A component for displaying text.       |
+
+### Usage Example
+
+```jsx
+import CustomTooltip from "./CustomTooltip";
+
+const Chart = () => {
+  // Chart component logic
+
+  return (
+    <div>
+      {/* Chart components */}
+      <CustomTooltip active={true} payload={data} label={dateLabel} />
+      {/* Other components */}
+    </div>
+  );
+};
+
+export default Chart;
+```
+
+In this example, the `CustomTooltip` component is imported and rendered within a `Chart` component. The `CustomTooltip` component is given the `active`, `payload`, and `label` props, which represent the tooltip's visibility, data points, and label information, respectively. The `CustomTooltip` component will be displayed when `active` is `true` and there are valid `payload` and `label` values. This component can be used within a chart component to provide customized tooltip functionality.
+
 ## `DeviceCard` React Component
 
 ### Description
@@ -1324,21 +1381,25 @@ const App = () => {
 
 In this example, we pass a list of FAQs to the `FAQCard` component as a prop. The component renders a `Card` for each FAQ, displaying the question as the title and an expand/collapse button. When the button is clicked, the answer is displayed in the `Collapse` component.
 
-## `Graph` React Component
+## Graph Component
 
-### Description
-
-The `Graph` component built with _React_ and _Recharts_ displays data from a device in an area chart.
+The `Graph` component displays a _Recharts_ graph with data visualization. It utilizes the _Recharts_ library for rendering the chart and includes various customization options for visualizing different data points. The component receives props to determine the data to be displayed and allows toggling the visibility of different data series.
 
 ### Props
 
-| Name   | Type     | Required | Description                                |
-| ------ | -------- | -------- | ------------------------------------------ |
-| device | `Object` | No       | An object that contains device data points |
+| Name              | Type       | Required | Description                                                          |
+| ----------------- | ---------- | -------- | -------------------------------------------------------------------- |
+| device            | `Object`   | Yes      | The device object containing the data to be displayed on the graph.  |
+| selectedFilter    | `Object`   | Yes      | The selected filter options for the graph.                           |
+| setSelectedFilter | `Function` | Yes      | A function to update the selected filter options.                    |
+| filterOptions     | `Array`    | Yes      | An array of filter options to be displayed as buttons for the graph. |
 
 ### State
 
-The `Graph` component does not have any state.
+| Name           | Type     | Description                                                                                      |
+| -------------- | -------- | ------------------------------------------------------------------------------------------------ |
+| visible        | `Object` | An object representing the visibility state of different data series on the graph.               |
+| displayedDates | `Array`  | An array of dates that have been displayed on the X-axis of the graph. Used for date formatting. |
 
 ### Methods
 
@@ -1346,38 +1407,56 @@ The `Graph` component does not define any methods.
 
 ### Handlers
 
-The `Graph` component does not define any handlers.
+| Name             | Parameters     | Description                                           |
+| ---------------- | -------------- | ----------------------------------------------------- |
+| toggleVisibility | `e`: (`Event`) | Toggles the visibility of a data series on the graph. |
 
 ### Child Components
 
-| Name                | Package         | Description                                                                                   |
-| ------------------- | --------------- | --------------------------------------------------------------------------------------------- |
-| Area                | `recharts`      | An area component from Recharts that renders the area fill of the chart.                      |
-| AreaChart           | `recharts`      | An area chart from Recharts that displays data points in an area format.                      |
-| Box                 | `@mui/material` | A box component from Material-UI that wraps the tooltip content.                              |
-| CartesianGrid       | `recharts`      | A cartesian grid component from Recharts that displays grid lines on the chart.               |
-| Legend              | `recharts`      | A legend component from Recharts that displays a legend for the chart.                        |
-| ResponsiveContainer | `recharts`      | A container element from Recharts that sets the chart size to be responsive to its container. |
-| Tooltip             | `recharts`      | A tooltip component from Recharts that displays a tooltip when hovering over a data point.    |
-| Typography          | `@mui/material` | A typography component from Material-UI that renders the date and data values in the tooltip. |
-| XAxis               | `recharts`      | An x-axis component from Recharts that renders the horizontal axis of the chart.              |
-| YAxis               | `recharts`      | A y-axis component from Recharts that renders the vertical axis of the chart.                 |
+| Name          | Package           | Description                                                       |
+| ------------- | ----------------- | ----------------------------------------------------------------- |
+| CustomTooltip | `./CustomTooltip` | A custom tooltip component for displaying additional information. |
 
-### Usage
+### Usage Example
 
 ```jsx
-import Graph from "./Graph";
+import { Graph } from "./components/Graph";
 
-function MyComponent() {
+const App = () => {
   const device = {
-    /* data for chart */
+    // ... device data object
   };
 
-  return <Graph device={device} />;
-}
+  const selectedFilter = {
+    // ... selected filter options object
+  };
+
+  const filterOptions = [
+    // ... array of filter options
+  ];
+
+  const setSelectedFilter = (filter) => {
+    // ... function to update selected filter options
+  };
+
+  return (
+    <div>
+      {/* ... */}
+      <Graph
+        device={device}
+        selectedFilter={selectedFilter}
+        setSelectedFilter={setSelectedFilter}
+        filterOptions={filterOptions}
+      />
+      {/* ... */}
+    </div>
+  );
+};
+
+export default App;
 ```
 
-In this example, the `Graph` component is passed a `device` object as a prop. The `device` object contains the data for the chart.
+In this example, the Graph component is imported and rendered within the App component. The necessary props, such as `device`, `selectedFilter`, `setSelectedFilter`, and `filterOptions`, are passed to the Graph component to determine the data and options for the graph.
 
 ## `Loading` React Component
 
@@ -1424,6 +1503,80 @@ export default MyComponent;
 ```
 
 In this example, the `Loading` component is used to display a loading spinner.
+
+## SelectApiary Component
+
+The `SelectApiary` component is used for selecting an `apiary` and `device`. It receives several props and renders two select dropdowns for choosing an `apiary` and `device`.
+
+### Props
+
+| Name              | Type       | Required | Description                                           |
+| ----------------- | ---------- | -------- | ----------------------------------------------------- |
+| apiaries          | `Array`    | Yes      | An array of apiaries from which the user can choose.  |
+| apiary            | `Object`   | Yes      | The currently selected apiary.                        |
+| device            | `Object`   | Yes      | The currently selected device.                        |
+| setApiary         | `Function` | Yes      | A callback function for updating the selected apiary. |
+| setDevice         | `Function` | Yes      | A callback function for updating the selected device. |
+| setSelectedFilter | `Function` | Yes      | A callback function for updating the selected filter. |
+| selectedFilter    | `Object`   | Yes      | The currently selected filter.                        |
+| filterOptions     | `Array`    | Yes      | An array of options for the filter dropdown.          |
+
+### State
+
+The `SelectApiary` component does not have any internal state.
+
+### Methods
+
+| Name      | Parameters   | Description                                                      |
+| --------- | ------------ | ---------------------------------------------------------------- |
+| onChange  | `e`: `Event` | A function called when the apiary select dropdown value changes. |
+| onChange2 | `e`: `Event` | A function called when the device select dropdown value changes. |
+
+### Handlers
+
+The `SelectApiary` component does not define any handlers.
+
+### Child Components
+
+| Name        | Package         | Description                                              |
+| ----------- | --------------- | -------------------------------------------------------- |
+| Box         | `@mui/material` | A layout component for creating boxes.                   |
+| useTheme    | `@mui/material` | A hook for accessing the MUI theme.                      |
+| Select      | `@mui/material` | A component for selecting options from a dropdown.       |
+| FormControl | `@mui/material` | A component for wrapping form controls.                  |
+| InputLabel  | `@mui/material` | A component for displaying labels for form controls.     |
+| MenuItem    | `@mui/material` | A component representing an item within a dropdown menu. |
+
+### Usage Example
+
+```jsx
+import SelectApiary from "./SelectApiary";
+
+const Dashboard = () => {
+  // Dashboard component logic
+
+  return (
+    <div>
+      {/* Other components */}
+      <SelectApiary
+        apiaries={apiaries}
+        apiary={selectedApiary}
+        device={selectedDevice}
+        setApiary={setSelectedApiary}
+        setDevice={setSelectedDevice}
+        setSelectedFilter={setSelectedFilter}
+        selectedFilter={selectedFilter}
+        filterOptions={filterOptions}
+      />
+      {/* Other components */}
+    </div>
+  );
+};
+
+export default Dashboard;
+```
+
+In this example, the `SelectApiary` component is imported and rendered within a `Dashboard` component. The `SelectApiary` component is provided with the necessary props to manage the selection of an apiary and device. This component can be used within a larger dashboard interface to allow users to select an apiary and device for further data visualization and analysis.
 
 ## `Sidebar` React Component
 
@@ -1675,43 +1828,47 @@ This _Redux_ slice file manages the state related to Apiaries. The file contains
 
 #### Actions
 
-| Name         | Description                                                                           |
-| ------------ | ------------------------------------------------------------------------------------- |
-| getApiaries  | This action creator dispatches an API call to retrieve a list of user apiaries.       |
-| setApiary    | This action creator dispatches an API call to create a new apiary for the user.       |
-| updateApiary | This action creator dispatches an API call to update an existing apiary.              |
-| deleteApiary | This action creator dispatches an API call to delete an existing apiary.              |
-| setDevice    | This action creator dispatches an API call to create a new device for an apiary.      |
-| updateDevice | This action creator dispatches an API call to update an existing device of an apiary. |
-| deleteDevice | This action creator dispatches an API call to delete an existing device of an apiary. |
-| setMember    | This action creator dispatches an API call to create a new member for an apiary.      |
-| updateMember | This action creator dispatches an API call to update an existing member of an apiary. |
+| Name                      | Description                                                                                                         |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| getApiaries               | This action creator dispatches an API call to retrieve a list of user apiaries without populating the devices' data |
+| getApiariesWithDeviceData | This action creator dispatches an API call to retrieve a list of user apiaries with populating the devices' data    |
+| setApiary                 | This action creator dispatches an API call to create a new apiary for the user.                                     |
+| updateApiary              | This action creator dispatches an API call to update an existing apiary.                                            |
+| deleteApiary              | This action creator dispatches an API call to delete an existing apiary.                                            |
+| setDevice                 | This action creator dispatches an API call to create a new device for an apiary.                                    |
+| updateDevice              | This action creator dispatches an API call to update an existing device of an apiary.                               |
+| deleteDevice              | This action creator dispatches an API call to delete an existing device of an apiary.                               |
+| setMember                 | This action creator dispatches an API call to create a new member for an apiary.                                    |
+| updateMember              | This action creator dispatches an API call to update an existing member of an apiary.                               |
 
 #### Reducer Cases
 
-| Case                   | apiaries                  | isError | isSuccess | isLoading | message                       |
-| ---------------------- | ------------------------- | ------- | --------- | --------- | ----------------------------- |
-| getApiaries.pending    | -                         | `false` | `false`   | `true`    | "Loading"                     |
-| getApiaries.fulfilled  | Action payload (apiaries) | `false` | `true`    | `false`   | "Loaded successfully"         |
-| getApiaries.rejected   | -                         | `true`  | `false`   | `false`   | "Error while loading"         |
-| setApiary.pending      | -                         | `false` | `false`   | `true`    | "Creating new apiary"         |
-| setApiary.fulfilled    | -                         | `false` | `true`    | `false`   | "Apiary created successfully" |
-| setApiary.rejected     | -                         | `true`  | `false`   | `false`   | "Error while creating apiary" |
-| updateApiary.pending   | -                         | `false` | `false`   | `true`    | "Updating apiary"             |
-| updateApiary.fulfilled | -                         | `false` | `true`    | `false`   | "Apiary updated successfully" |
-| updateApiary.rejected  | -                         | `true`  | `false`   | `false`   | "Error while updating apiary" |
-| deleteApiary.pending   | -                         | `false` | `false`   | `true`    | "Deleting apiary"             |
-| deleteApiary.fulfilled | -                         | `false` | `true`    | `false`   | "Apiary deleted successfully" |
-| deleteApiary.rejected  | -                         | `true`  | `false`   | `false`   | "Error while deleting apiary" |
-| setDevice.pending      | -                         | `false` | `false`   | `true`    | "Creating new device"         |
-| setDevice.fulfilled    | -                         | `false` | `true`    | `false`   | "Device created successfully" |
-| setDevice.rejected     | -                         | `true`  | `false`   | `false`   | "Error while creating device" |
-| updateDevice.pending   | -                         | `false` | `false`   | `true`    | "Updating device"             |
-| updateDevice.fulfilled | -                         | `false` | `true`    | `false`   | "Device updated successfully" |
-| updateDevice.rejected  | -                         | `true`  | `false`   | `false`   | "Error while updating device" |
-| deleteDevice.pending   | -                         | `false` | `false`   | `true`    | "Deleting device"             |
-| deleteDevice.fulfilled | -                         | `false` | `true`    | `false`   | "Device deleted successfully" |
-| deleteDevice.rejected  | -                         | `true`  | `false`   | `false`   | "Error while deleting device" |
+| Case                                | apiaries                  | isError | isSuccess | isLoading | message                       |
+| ----------------------------------- | ------------------------- | ------- | --------- | --------- | ----------------------------- |
+| getApiaries.pending                 | -                         | `false` | `false`   | `true`    | "Loading"                     |
+| getApiaries.fulfilled               | Action payload (apiaries) | `false` | `true`    | `false`   | "Loaded successfully"         |
+| getApiaries.rejected                | -                         | `true`  | `false`   | `false`   | "Error while loading"         |
+| getApiariesWithDeviceData.pending   | -                         | `false` | `false`   | `true`    | "Loading"                     |
+| getApiariesWithDeviceData.fulfilled | Action payload (apiaries) | `false` | `true`    | `false`   | "Loaded successfully"         |
+| getApiariesWithDeviceData.rejected  | -                         | `true`  | `false`   | `false`   | "Error while loading"         |
+| setApiary.pending                   | -                         | `false` | `false`   | `true`    | "Creating new apiary"         |
+| setApiary.fulfilled                 | -                         | `false` | `true`    | `false`   | "Apiary created successfully" |
+| setApiary.rejected                  | -                         | `true`  | `false`   | `false`   | "Error while creating apiary" |
+| updateApiary.pending                | -                         | `false` | `false`   | `true`    | "Updating apiary"             |
+| updateApiary.fulfilled              | -                         | `false` | `true`    | `false`   | "Apiary updated successfully" |
+| updateApiary.rejected               | -                         | `true`  | `false`   | `false`   | "Error while updating apiary" |
+| deleteApiary.pending                | -                         | `false` | `false`   | `true`    | "Deleting apiary"             |
+| deleteApiary.fulfilled              | -                         | `false` | `true`    | `false`   | "Apiary deleted successfully" |
+| deleteApiary.rejected               | -                         | `true`  | `false`   | `false`   | "Error while deleting apiary" |
+| setDevice.pending                   | -                         | `false` | `false`   | `true`    | "Creating new device"         |
+| setDevice.fulfilled                 | -                         | `false` | `true`    | `false`   | "Device created successfully" |
+| setDevice.rejected                  | -                         | `true`  | `false`   | `false`   | "Error while creating device" |
+| updateDevice.pending                | -                         | `false` | `false`   | `true`    | "Updating device"             |
+| updateDevice.fulfilled              | -                         | `false` | `true`    | `false`   | "Device updated successfully" |
+| updateDevice.rejected               | -                         | `true`  | `false`   | `false`   | "Error while updating device" |
+| deleteDevice.pending                | -                         | `false` | `false`   | `true`    | "Deleting device"             |
+| deleteDevice.fulfilled              | -                         | `false` | `true`    | `false`   | "Device deleted successfully" |
+| deleteDevice.rejected               | -                         | `true`  | `false`   | `false`   | "Error while deleting device" |
 
 ### `apiary.service`
 
@@ -1719,18 +1876,19 @@ This _Redux_ service file contains a set of functions that perform the actual AP
 
 #### Functions
 
-| Function     | Parameters            | Description                                                                      |
-| ------------ | --------------------- | -------------------------------------------------------------------------------- |
-| getApiaries  | `token`               | Retrieves the list of Apiaries associated with the authenticated user's token.   |
-| setApiary    | `apiaryData`, `token` | Creates a new Apiary with the given data and token.                              |
-| updateApiary | `apiaryData`, `token` | Updates an existing Apiary with the given data and token.                        |
-| deleteApiary | `apiaryData`, `token` | Deletes an Apiary with the given data and token.                                 |
-| setDevice    | `apiaryData`, `token` | Sets a new device for an existing Apiary with the given data and token.          |
-| updateDevice | `apiaryData`, `token` | Updates an existing device for an existing Apiary with the given data and token. |
-| deleteDevice | `apiaryData`, `token` | Deletes an existing device for an existing Apiary with the given data and token. |
-| setMember    | `userData`, `token`   | Sets a new member for an existing Apiary with the given data and token.          |
-| updateMember | `userData`, `token`   | Updates an existing member for an existing Apiary with the given data and token. |
-| deleteMember | `userData`, `token`   | Deletes an existing member for an existing Apiary with the given data and token. |
+| Function                  | Parameters            | Description                                                                                                           |
+| ------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| getApiaries               | `token`               | Retrieves the list of Apiaries (without populating the devices' data) associated with the authenticated user's token. |
+| getApiariesWithDeviceData | `data`, `token`       | Retrieves the list of Apiaries (with populating the devices' data) associated with the authenticated user's token.    |
+| setApiary                 | `apiaryData`, `token` | Creates a new Apiary with the given data and token.                                                                   |
+| updateApiary              | `apiaryData`, `token` | Updates an existing Apiary with the given data and token.                                                             |
+| deleteApiary              | `apiaryData`, `token` | Deletes an Apiary with the given data and token.                                                                      |
+| setDevice                 | `apiaryData`, `token` | Sets a new device for an existing Apiary with the given data and token.                                               |
+| updateDevice              | `apiaryData`, `token` | Updates an existing device for an existing Apiary with the given data and token.                                      |
+| deleteDevice              | `apiaryData`, `token` | Deletes an existing device for an existing Apiary with the given data and token.                                      |
+| setMember                 | `userData`, `token`   | Sets a new member for an existing Apiary with the given data and token.                                               |
+| updateMember              | `userData`, `token`   | Updates an existing member for an existing Apiary with the given data and token.                                      |
+| deleteMember              | `userData`, `token`   | Deletes an existing member for an existing Apiary with the given data and token.                                      |
 
 ## Auth
 
@@ -1847,55 +2005,70 @@ const App = () => {
 
 In this example, the renders the `About` component which displays information about the project and the team behind it.
 
-## `Dashboard` React Page
+## `Dashboard` React Component
 
-The `Dashboard` component is a React functional component that renders a dashboard with multiple sections. It displays data related to an `apiary` and a `device` selected from the user's account. The component uses various hooks such as `useSelector`, `useDispatch`, `useTheme`, and `useState` to retrieve data and manage the component's state.
+The `Dashboard` component represents a dashboard page that displays various data visualizations and overviews. It utilizes several child components and props to provide a comprehensive view of the user's data for each of their devices. Using the `SelectApiary` component, the user can select an `apiary` and a corresponding `device` to then populate the dashboard (Recharts graph and overview) with the data from that device. The `Dashboard` component also provides a filtering component that allows the user to filter the data by date range, as well as select which metrics to populate the graph with.
 
 ### Props
 
-The `Dashboard` component does not have any props.
+The `Dashboard` component does not receive any props.
 
-### State
+## State
 
-The `Dashboard` component has the following state variables:
+| Name           | Type     | Description                        |
+| -------------- | -------- | ---------------------------------- |
+| apiary         | `String` | Stores the selected apiary.        |
+| device         | `String` | Stores the selected device.        |
+| ovDevice       | `String` | Stores the overview device.        |
+| selectedFilter | `Object` | Stores the selected filter option. |
 
-| Name   | Type     | Description                                  |
-| ------ | -------- | -------------------------------------------- |
-| apiary | `String` | Stores the currently selected `apiary` name. |
-| device | `String` | Stores the currently selected `device` name. |
-
-### Methods
+## Methods
 
 The `Dashboard` component does not define any methods.
 
-### Handlers
+## Handlers
 
 The `Dashboard` component does not define any handlers.
 
-### Child Components
+## Child Components
 
-The `Dashboard` component renders the following child components:
+| Name                      | Package                           | Description                                                 |
+| ------------------------- | --------------------------------- | ----------------------------------------------------------- |
+| Box                       | `@mui/material`                   | A layout component for creating boxes.                      |
+| Typography                | `@mui/material`                   | A component for displaying text.                            |
+| useTheme                  | `@mui/material`                   | A hook for accessing the theme object.                      |
+| Grid                      | `@mui/material`                   | A component for creating a responsive grid layout.          |
+| useDispatch               | `react-redux`                     | A hook for accessing the Redux dispatch function.           |
+| useSelector               | `react-redux`                     | A hook for accessing the Redux store state.                 |
+| useState                  | `react`                           | A hook for managing component state.                        |
+| useEffect                 | `react`                           | A hook for handling side effects in functional components.  |
+| useNavigate               | `react-router-dom`                | A hook for accessing the navigation object in React Router. |
+| getApiariesWithDeviceData | `../features/apiary/apiary.slice` | A Redux action for fetching apiaries with device data.      |
+| reset                     | `../features/apiary/apiary.slice` | A Redux action for resetting apiary data.                   |
+| toast                     | `react-toastify`                  | A function for displaying toast notifications.              |
+| Graph                     | `../components/Graph`             | A custom graph component.                                   |
+| Overview                  | `../components/Overview`          | A custom overview component.                                |
+| SelectApiary              | `../components/SelectApiary`      | A component for selecting an apiary.                        |
 
-| Name         | Package               | Description                                                                                            |
-| ------------ | --------------------- | ------------------------------------------------------------------------------------------------------ |
-| SelectApiary | `./Dashboard`         | A custom select component that allows the user to choose an `apiary` and `device` to display data for. |
-| Graph        | `../components/Graph` | A custom component that displays a graph of data for the selected `device`.                            |
-
-### Usage Example
+## Usage Example
 
 ```jsx
 import Dashboard from "./Dashboard";
 
-function App() {
+const App = () => {
   return (
     <div>
+      {/* Other components */}
       <Dashboard />
+      {/* Other components */}
     </div>
   );
-}
+};
+
+export default App;
 ```
 
-The `Dashboard` component can be used within any other React component, and will display the dashboard with the default styling and data. The user can select an `apiary` and `device` from the `SelectApiary` component to display relevant data for the selected items. The `Graph` component displays data related to the selected `device`.
+In the example above, the `Dashboard` component is imported and rendered within the `App` component. This allows the `Dashboard` to be displayed as a part of the larger application. Other components can be added before and after the `Dashboard` to create a complete user interface.
 
 ## `FAQ` React Page
 
@@ -2105,13 +2278,49 @@ export default App;
 
 In this example, the `Register` component is imported and rendered in the main `App` component. When the user navigates to the "/register" route, the `Register` component will be displayed, allowing them to create a new account.
 
-# Deployment (Jonathan)
+# Deployment
 
-Explain how to deploy the application, including any server requirements and deployment steps.
+## Prerequisites
+
+- Heroku CLI
+
+## Instructions
+
+1. Install the Heroku CLI
+2. Login to Heroku
+3. Create a new Heroku app
+4. Set up the environment variables in the Heroku app
+5. Add the Heroku remote to the local git repository
+6. Push the local git repository to the Heroku remote
+
+## Troubleshooting
+
+If you encounter errors when deploying to Heroku, try running the following:
+
+1. Clear the Heroku build cache
+
+```bash
+$ heroku config:set NODE_MODULES_CACHE=false
+```
+
+2. Ensure the `scripts` section of the `package.json` file contains the following: (Note: the `--legacy-peer-deps` flag is required for Heroku to install the dependencies correctly)
+
+```json
+"scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "frontend": "npm install --prefix frontend",
+    "yayaya": "concurrently \"npm install\" \"npm run frontend\"",
+    "preinstall": "npx npm-force-resolutions",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend --legacy-peer-deps && npm run build --prefix frontend --legacy-peer-deps"
+  },
+```
 
 # Testing (TBD)
 
-Testing has been manual. Outline how to test the application, including any testing frameworks or methodologies used.
+Testing has been manual. Consider implementing a testing framework using Jest and Enzyme.
 
 # License
 
@@ -2119,7 +2328,7 @@ Property of Santa Clara University under SCU's Senior Design Program
 
 # Acknowledgments
 
-Special thanks to Kian Nizkad, Wendy Mather, and Gerhard and Lisa Eschelbeck for their continued support on this project's creative direction and design decisions.
+Special thanks to Kian Nikzad, Wendy Mather, and Gerhard and Lisa Eschelbeck for their continued support on this project's creative direction and design decisions.
 
 # Appendix
 
@@ -2127,14 +2336,25 @@ Include any additional information or resources, such as troubleshooting tips or
 
 # Screenshots
 
-- Manage
-- Dashboard
-- Manage opened
-- FAQ
+## Dashboard
+
+![Dashboard](/frontend/public/1.PNG)
+
+## Manage
+
+![Manage](/frontend/public/2.PNG)
+
+## About
+
+![About](/frontend/public/3.PNG)
+
+## FAQ
+
+![FAQ](/frontend/public/4.PNG)
 
 # Video Demo
 
-- Upload final video demo
+<iframe width="560" height="315" src="https://www.youtube.com/embed/zT9ShMXCmIA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 # Contact
 

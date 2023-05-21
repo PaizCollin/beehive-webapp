@@ -1,96 +1,16 @@
-import Topbar from "../components/Topbar";
-import {
-  Box,
-  IconButton,
-  Typography,
-  useTheme,
-  createTheme,
-  Grid,
-  Checkbox,
-  Select,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Fade,
-  Backdrop,
-} from "@mui/material";
+import { Box, Typography, useTheme, Grid } from "@mui/material";
 import { tokens } from "../theme";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   getApiariesWithDeviceData,
-  getApiaries,
   reset as apiaryReset,
 } from "../features/apiary/apiary.slice";
-import {
-  ResponsiveContainer,
-  AreaChart,
-  XAxis,
-  YAxis,
-  Area,
-  Tooltip,
-  CartesianGrid,
-  Legend,
-} from "recharts";
-import { parseISO, format } from "date-fns";
 import { toast } from "react-toastify";
 import Graph from "../components/Graph";
 import Overview from "../components/Overview";
-import Loading from "../components/Loading";
-
-const SelectApiary = ({
-  apiaries,
-  apiary,
-  device,
-  setApiary,
-  setDevice,
-  setSelectedFilter,
-  selectedFilter,
-  filterOptions,
-}) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-
-  const onChange = (e) => {
-    setApiary(e.target.value);
-  };
-
-  const onChange2 = (e) => {
-    setDevice(e.target.value);
-    setSelectedFilter(filterOptions[0]);
-  };
-
-  return (
-    <Box sx={{ px: 4, pt: 4 }}>
-      <FormControl variant="filled" sx={{ pr: 2, width: 300 }}>
-        <InputLabel id="apiary-label">Apiary</InputLabel>
-        <Select labelId="apiary-label" value={apiary} onChange={onChange}>
-          {apiaries?.map((apiary) => (
-            <MenuItem key={apiary._id} value={apiary}>
-              {apiary.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <FormControl variant="filled" sx={{ width: 300 }}>
-        <InputLabel id="device-label">Device</InputLabel>
-        <Select labelId="device-label" value={device} onChange={onChange2}>
-          {apiary.devices?.map((device) => {
-            return (
-              <MenuItem key={device._id} value={device}>
-                {device.name}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
-    </Box>
-  );
-};
+import SelectApiary from "../components/SelectApiary";
 
 const Dashboard = () => {
   const navigate = useNavigate();

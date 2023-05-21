@@ -56,6 +56,10 @@ const getApiaries = asyncHandler(async (req, res) => {
   res.status(200).json(apiaries);
 });
 
+// @status  WORKING
+// @desc    Get apiaries (with device data)
+// @route   GET /api/apiaries/filter/:filter
+// @access  Private; all users
 const getApiaryWithDeviceData = asyncHandler(async (req, res) => {
   const filter = req.params.filter; // Assuming the filter parameter is passed as a query parameter
 

@@ -8,44 +8,11 @@ import {
   CartesianGrid,
   Legend,
 } from "recharts";
-import { parseISO, parse, format } from "date-fns";
-import {
-  Box,
-  Typography,
-  useTheme,
-  Button,
-  Fade,
-  Backdrop,
-} from "@mui/material";
+import { parseISO, format } from "date-fns";
+import { Typography, useTheme, Button } from "@mui/material";
 import { tokens } from "../theme";
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import Loading from "./Loading";
-
-const CustomTooltip = ({ active, payload, label }) => {
-  if (active && payload && payload.length) {
-    return (
-      <Box
-        sx={{
-          bgcolor: "background.default",
-          color: "primary.light",
-          p: 1,
-        }}
-      >
-        <Typography variant="h6">
-          {format(parseISO(label), "eeee, d MMM yyyy")}
-        </Typography>
-        {payload.map((p) => (
-          <Typography variant="body2" color={p.color}>
-            {p.name}: {p.value} {p.unit}
-          </Typography>
-        ))}
-      </Box>
-    );
-  }
-
-  return null;
-};
+import CustomTooltip from "./CustomTooltip";
 
 const Graph = ({
   device,
@@ -55,10 +22,6 @@ const Graph = ({
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
-  const { apiaries, isLoading, isError, message } = useSelector(
-    (state) => state.apiary
-  );
 
   const [visible, setVisible] = useState({
     x: true,
