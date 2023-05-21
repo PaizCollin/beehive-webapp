@@ -48,7 +48,7 @@ This project aims to rely solely on _open-source_ technologies to ensure its rel
 - [`theme.js`](#-themejs-)
 - [`store.js`](#-storejs-)
 - [Components](#components)
-  - [`AboutCard` React Component](#-`aboutcard`-react-component)
+  - [`AboutCard` React Component](#-aboutcard-react-component)
   - [`AddApiaryCard` React Component](#-addapiarycard--react-component)
   - [`AddDeviceCard` React Component](#-adddevicecard--react-component)
   - [`AddUserCard` React Component](#-addusercard--react-component)
