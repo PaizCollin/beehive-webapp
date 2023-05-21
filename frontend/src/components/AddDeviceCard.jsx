@@ -12,9 +12,8 @@ import {
 } from "@mui/material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { tokens } from "../theme";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setDevice } from "../features/apiary/apiary.slice";
 
 const AddDeviceCard = ({ apiary, userRole }) => {

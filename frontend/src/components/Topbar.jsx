@@ -1,11 +1,4 @@
-import {
-  Box,
-  IconButton,
-  useTheme,
-  Typography,
-  Avatar,
-  Grid,
-} from "@mui/material";
+import { Box, IconButton, useTheme, Typography, Avatar } from "@mui/material";
 import { useContext } from "react";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
@@ -14,7 +7,7 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { ColorModeContext, tokens } from "../theme";
 import { logout, reset } from "../features/auth/auth.slice.js";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 const Topbar = ({ title }) => {
