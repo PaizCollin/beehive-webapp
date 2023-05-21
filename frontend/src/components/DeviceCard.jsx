@@ -15,8 +15,7 @@ import {
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { useState } from "react";
 import { tokens } from "../theme";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateDevice, deleteDevice } from "../features/apiary/apiary.slice";
 
 const DeviceCard = ({ device, apiary, userRole }) => {
@@ -24,8 +23,6 @@ const DeviceCard = ({ device, apiary, userRole }) => {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
-  const { user } = useSelector((state) => state.auth);
 
   const [expand, setExpand] = useState();
 

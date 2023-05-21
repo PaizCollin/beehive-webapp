@@ -1062,7 +1062,6 @@ The `ApiaryCard` component does not define any methods.
 | TextField             | `@mui/material`       | A component for displaying a text field that can be used for user input.  |
 | Typography            | `@mui/material`       | A component for displaying text.                                          |
 | useDispatch           | `react-redux`         | A hook that returns the Redux store's `dispatch` function.                |
-| useSelector           | `react-redux`         | A hook that returns a selected value from the Redux store's state.        |
 | useState              | `react`               | A hook that allows functional components to use component-level state.    |
 
 ### Usage
@@ -1284,8 +1283,6 @@ The `DeviceCard` component does not define any methods.
 | TextField        | `@mui/material`       | A component for getting user input from the keyboard.                                                         |
 | Typography       | `@mui/material`       | A component for displaying text.                                                                              |
 | useDispatch      | `react-redux`         | A hook that returns a reference to the dispatch function that allows you to dispatch actions to the store.    |
-| useSelector      | `react-redux`         | A hook that allows you to extract data from the Redux store state.                                            |
-| useNavigate      | `react-router-dom`    | A hook that returns a navigation object that allows you to navigate to a different URL.                       |
 | useState         | `react`               | A hook that adds state to functional components.                                                              |
 | useTheme         | `@mui/material`       | A hook that returns the current theme used by the application.                                                |
 
@@ -1771,25 +1768,23 @@ The `Topbar` component does not define any methods.
 
 | Name                      | Package                          | Description                                                                                              |
 | ------------------------- | -------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| Box                       | `@mui/material`                  | A basic layout component that provides a flexible container for grouping and arranging other components. |
-| IconButton                | `@mui/material`                  | A button component that displays an icon.                                                                |
-| useTheme                  | `@mui/material`                  | A hook that returns the current theme object.                                                            |
-| Typography                | `@mui/material`                  | A component that renders text in various styles and sizes.                                               |
 | Avatar                    | `@mui/material`                  | A component that displays a user's profile picture or initials.                                          |
-| Grid                      | `@mui/material`                  | A component that provides a responsive grid layout for arranging components.                             |
-| LightModeOutlinedIcon     | `@mui/material`                  | An icon component that displays an outline of a light bulb for switching to light mode.                  |
-| DarkModeOutlinedIcon      | `@mui/material`                  | An icon component that displays an outline of a light bulb for switching to dark mode.                   |
-| NotificationsOutlinedIcon | `@mui/material`                  | An icon component that displays a bell icon for showing notifications.                                   |
-| SettingsOutlinedIcon      | `@mui/material`                  | An icon component that displays a gear icon for opening the settings.                                    |
-| LogoutOutlinedIcon        | `@mui/material`                  | An icon component that displays a door with an arrow icon for logging out.                               |
-| useContext                | `react`                          | A hook that provides access to a context object.                                                         |
+| Box                       | `@mui/material`                  | A basic layout component that provides a flexible container for grouping and arranging other components. |
 | ColorModeContext          | `../theme`                       | A context object that provides the current color mode and a method to toggle the color mode.             |
+| DarkModeOutlinedIcon      | `@mui/material`                  | An icon component that displays an outline of a light bulb for switching to dark mode.                   |
+| IconButton                | `@mui/material`                  | A button component that displays an icon.                                                                |
+| LightModeOutlinedIcon     | `@mui/material`                  | An icon component that displays an outline of a light bulb for switching to light mode.                  |
 | logout                    | `../features/auth/auth.slice.js` | An action creator that dispatches an action to log out the user.                                         |
+| LogoutOutlinedIcon        | `@mui/material`                  | An icon component that displays a door with an arrow icon for logging out.                               |
+| NotificationsOutlinedIcon | `@mui/material`                  | An icon component that displays a bell icon for showing notifications.                                   |
 | reset                     | `../features/auth/auth.slice.js` | An action creator that dispatches an action to reset the auth state.                                     |
-| Link                      | `react-router-dom`               | A component that provides a declarative way to navigate to a different page.                             |
-| useNavigate               | `react-router-dom`               | A hook that returns a navigate function for programmatic navigation.                                     |
-| useSelector               | `react-redux`                    | A hook that returns selected parts of the state from the Redux store.                                    |
+| useContext                | `react`                          | A hook that provides access to a context object.                                                         |
 | useDispatch               | `react-redux`                    | A hook that returns a reference to the dispatch function from the Redux store.                           |
+| useSelector               | `react-redux`                    | A hook that returns selected parts of the state from the Redux store.                                    |
+| SettingsOutlinedIcon      | `@mui/material`                  | An icon component that displays a gear icon for opening the settings.                                    |
+| Typography                | `@mui/material`                  | A component that renders text in various styles and sizes.                                               |
+| useNavigate               | `react-router-dom`               | A hook that returns a navigate function for programmatic navigation.                                     |
+| useTheme                  | `@mui/material`                  | A hook that returns the current theme object.                                                            |
 
 ### Usage
 
@@ -2072,13 +2067,13 @@ The `About` component does not define any handlers.
 | Grid             | `@mui/material`           | A responsive grid container that can hold other MUI components or HTML elements. It allows for customization of column and row spacing for different screen sizes. |
 | Grow             | `@mui/material`           | A transition component that animates the appearance of an element by gradually increasing its size.                                                                |
 | InfoOutlinedIcon | `@mui/material`           | An MUI icon component that displays an "info" icon.                                                                                                                |
+| tokens           | `../theme`                | An object that provides color values based on the current theme. It is used to customize the styling of non-MUI components.                                        |
 | Typography       | `@mui/material`           | A component for displaying text. It supports various typography styles such as headings, body text, and captions.                                                  |
 | useDispatch      | `react-redux`             | A hook that provides access to the dispatch function of the Redux store. It can be used to dispatch actions to update the state.                                   |
 | useEffect        | `react`                   | A hook that runs a side effect after rendering. It is used to perform actions such as updating the state or making API requests.                                   |
 | useNavigate      | `react-router-dom`        | A hook that provides access to the navigation object. It can be used to navigate to different pages in the application.                                            |
 | useSelector      | `react-redux`             | A hook that provides access to the state of the Redux store. It can be used to retrieve data from the store.                                                       |
 | useTheme         | `@mui/material`           | A hook that provides access to the current theme object. It can be used to customize the styling of MUI components.                                                |
-| tokens           | `../theme`                | An object that provides color values based on the current theme. It is used to customize the styling of non-MUI components.                                        |
 
 ### Usage Example
 
@@ -2159,7 +2154,7 @@ const App = () => {
 export default App;
 ```
 
-In the example above, the `Dashboard` component is imported and rendered within the `App` component. This allows the `Dashboard` to be displayed as a part of the larger application. Other components can be added before and after the `Dashboard` to create a complete user interface.
+In this example bove, the `Dashboard` component is imported and rendered within the `App` component. This allows the `Dashboard` to be displayed as a part of the larger application. Other components can be added before and after the `Dashboard` to create a complete user interface.
 
 ## `FAQ` React Page
 

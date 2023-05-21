@@ -9,10 +9,7 @@ import {
   Button,
   TextField,
   Box,
-  Autocomplete,
 } from "@mui/material";
-import parse from "autosuggest-highlight/parse";
-import debounce from "lodash";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { useState } from "react";
 import { tokens } from "../theme";
