@@ -15,6 +15,19 @@ const getApiaries = async (token) => {
   return response.data;
 };
 
+// Get user's apiaries
+const getApiariesWithDeviceData = async (data, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get(API_URL + "filter/" + data.filter, config);
+
+  return response.data;
+};
+
 // Create new apiary
 const setApiary = async (apiaryData, token) => {
   const config = {
@@ -196,6 +209,7 @@ const deleteMember = async (userData, token) => {
 const apiaryService = {
   setApiary,
   getApiaries,
+  getApiariesWithDeviceData,
   updateApiary,
   deleteApiary,
   setDevice,

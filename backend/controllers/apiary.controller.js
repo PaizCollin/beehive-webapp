@@ -40,22 +40,143 @@ async function checkUserToApiary(req, res) {
 }
 
 // @status  WORKING
-// @desc    Get apiaries
+// @desc    Get apiaries (no device data)
 // @route   GET /api/apiaries
 // @access  Private; all users
 const getApiaries = asyncHandler(async (req, res) => {
-  //Find apiaries where current user (from protect) is a member
+  // Find apiaries where current user (from protect) is a member
   const apiaries = await Apiary.find({
     members: {
       $elemMatch: {
         user: req.user.id,
       },
     },
-  })
-    .populate("members.user")
-    .populate("devices.data");
+  }).populate("members.user");
 
   res.status(200).json(apiaries);
+});
+
+// @status  WORKING
+// @desc    Get apiaries (with device data)
+// @route   GET /api/apiaries/filter/:filter
+// @access  Private; all users
+const getApiaryWithDeviceData = asyncHandler(async (req, res) => {
+  const filter = req.params.filter; // Assuming the filter parameter is passed as a query parameter
+
+  // console.log(filter);
+
+  let fromDate;
+  switch (filter) {
+    case "init":
+      fromDate = new Date(Date.now()); // Unix epoch (oldest date)
+      break;
+    case "1day":
+      fromDate = new Date(Date.now() - 24 * 60 * 60 * 1000); // One day ago
+      break;
+    case "1week":
+      fromDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000); // One week ago
+      break;
+    case "1month":
+      fromDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000); // One month ago
+      break;
+    case "3month":
+      fromDate = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000); // Three months ago
+      break;
+    case "6month":
+      fromDate = new Date(Date.now() - 180 * 24 * 60 * 60 * 1000); // Six months ago
+      break;
+    case "1year":
+      fromDate = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000); // One year ago
+      break;
+    case "2year":
+      fromDate = new Date(Date.now() - 730 * 24 * 60 * 60 * 1000); // Two years ago
+      break;
+    default:
+      // No filter or invalid filter, fetch all-time data
+      fromDate = new Date(0); // Unix epoch (oldest date)
+      break;
+  }
+
+  const apiaries = await Apiary.find({
+    members: { $elemMatch: { user: req.user.id } },
+  }).populate("members.user");
+
+  const updatedApiaries = await Promise.all(
+    apiaries.map(async (apiary) => {
+      const devices = apiary.devices;
+
+      const updatedDevices = await Promise.all(
+        devices.map(async (device) => {
+          const data = await Data.aggregate([
+            { $match: { _id: device.data } },
+            {
+              $project: {
+                _id: 0,
+                datapoints: {
+                  $filter: {
+                    input: "$datapoints",
+                    as: "point",
+                    cond: { $gte: ["$$point.time", fromDate] },
+                  },
+                },
+              },
+            },
+            {
+              $addFields: {
+                dataSize: { $size: "$datapoints" },
+                interval: {
+                  $max: [
+                    1,
+                    { $ceil: { $divide: [{ $size: "$datapoints" }, 1000] } },
+                  ],
+                },
+              },
+            },
+            {
+              $project: {
+                selectedData: {
+                  $reduce: {
+                    input: { $range: [0, "$dataSize", "$interval"] },
+                    initialValue: [],
+                    in: {
+                      $concatArrays: [
+                        "$$value",
+                        [
+                          {
+                            $arrayElemAt: ["$datapoints", "$$this"],
+                          },
+                        ],
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+          ]);
+
+          return {
+            _id: device._id,
+            serial: device.serial,
+            name: device.name,
+            remote: device.remote,
+            data: {
+              datapoints: data.length > 0 ? data[0].selectedData : [],
+            },
+          };
+        })
+      );
+
+      return {
+        _id: apiary._id,
+        name: apiary.name,
+        location: apiary.location,
+        members: apiary.members,
+        devices: updatedDevices,
+      };
+    })
+  );
+
+  res.status(200).json(updatedApiaries);
 });
 
 // @status  WORKING
@@ -460,6 +581,7 @@ const deleteMember = asyncHandler(async (req, res) => {
 
 module.exports = {
   getApiaries,
+  getApiaryWithDeviceData,
   setApiary,
   updateApiary,
   deleteApiary,

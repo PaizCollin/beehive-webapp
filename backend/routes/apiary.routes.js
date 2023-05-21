@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const {
   getApiaries,
+  getApiaryWithDeviceData,
   setApiary,
   updateApiary,
   deleteApiary,
@@ -16,6 +17,7 @@ const { protect } = require("../middleware/auth.middleware");
 
 // apiary requests
 router.get("/", protect, getApiaries);
+router.get("/filter/:filter", protect, getApiaryWithDeviceData);
 router.post("/", protect, setApiary);
 router.put("/apiary/:apiary_id", protect, updateApiary);
 router.delete("/apiary/:apiary_id", protect, deleteApiary);
