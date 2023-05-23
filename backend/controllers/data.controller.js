@@ -21,16 +21,14 @@ const getData = asyncHandler(async (req, res) => {
     throw new Error("Device does not exist");
   }
 
-  const data = await Data.findOne({ serial: req.params.serial });
+  const data = await Data.findOne({ serial: req.params.serial }, {datapoints: { $slice: -limit }});
 
   if (limit > data.datapoints.length) {
     res.status(204).send();
     return;
   }
 
-  const points = data.datapoints.slice(-limit);
-
-  res.status(200).json(points);
+  res.status(200).json(data.datapoints);
 });
 
 // @status  DONE
