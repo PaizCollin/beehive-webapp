@@ -61,7 +61,7 @@ const putData = asyncHandler(async (req, res) => {
     throw new Error("Device does not exist");
   }
 
-  const updatedData = await Data.findOneAndUpdate(
+  const updatedReport = await Data.updateOne(
     { serial: req.params.serial },
     {
       $push: {
@@ -79,7 +79,7 @@ const putData = asyncHandler(async (req, res) => {
     }
   );
 
-  res.status(200).json(updatedData);
+  res.status(200).json(updatedReport);
 });
 
 module.exports = {
